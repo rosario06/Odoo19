@@ -13,20 +13,8 @@ services:
       - './custom_addons:/mnt/extra-addons:rw'  # Montar addons desde host
     environment:
       - HOST=db
-      - PORT=5432
       - USER=odoo
       - PASSWORD=${POSTGRES_PASSWORD:-odoo}
-    command: >
-      sh -c "echo 'Esperando PostgreSQL...' &&
-             sleep 5 &&
-             odoo 
-             --db_host=db 
-             --db_port=5432 
-             --db_user=odoo 
-             --db_password=${POSTGRES_PASSWORD:-odoo}
-             --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
-             --init=base
-             --load=web"
     restart: always
 
   db:
