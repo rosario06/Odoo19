@@ -4,24 +4,29 @@ services:
   web:
     build: .
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - '8069:8069'
     volumes:
       - 'odoo-web-data-prod:/var/lib/odoo'
-      - './extra-addons:/mnt/extra-addons'  # Añadido para tus addons personalizados
+      - './custom_addons:/mnt/extra-addons:rw'  # Montar addons desde host
     environment:
       - HOST=db
       - PORT=5432
       - USER=odoo
       - PASSWORD=${POSTGRES_PASSWORD:-odoo}
     command: >
-      sh -c "sleep 10 && 
-             odoo -c /etc/odoo/odoo.conf 
+      sh -c "echo 'Esperando PostgreSQL...' &&
+             sleep 5 &&
+             odoo 
              --db_host=db 
              --db_port=5432 
              --db_user=odoo 
-             --db_password=${POSTGRES_PASSWORD:-odoo}"
+             --db_password=${POSTGRES_PASSWORD:-odoo}
+             --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+             --init=base
+             --load=web"
     restart: always
 
   db:
@@ -33,10 +38,11 @@ services:
     volumes:
       - 'odoo-db-data-prod:/var/lib/postgresql/data'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      test: ["CMD-SHELL", "pg_isready -U odoo -d postgres"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 10s
     restart: always
 
 volumes:
