@@ -27,11 +27,17 @@ RUN pip3 install --no-cache-dir --break-system-packages \
     xmlschema \
     xlsxwriter
 
-# Crear directorio de addons extra (vacío, se montará desde volumen)
-RUN mkdir -p /mnt/extra-addons && chown -R odoo:odoo /mnt/extra-addons
+# Crear directorio de addons extra en una ruta alternativa
+RUN mkdir -p /opt/odoo/custom_addons
 
-# Copiar solo la configuración
-COPY ./config/odoo.conf /etc/odoo/odoo.conf
-RUN chown odoo:odoo /etc/odoo/odoo.conf
+# Copiar addons y configuración dentro de la imagen
+# Usamos un comodín para asegurar que copiamos el contenido
+COPY custom_addons/ /opt/odoo/custom_addons/
+COPY config/odoo.conf /etc/odoo/odoo.conf
+
+# Ajustar permisos explícitamente para el usuario odoo
+RUN chown -R odoo:odoo /opt/odoo/custom_addons && \
+    chmod -R 755 /opt/odoo/custom_addons && \
+    chown odoo:odoo /etc/odoo/odoo.conf
 
 USER odoo
