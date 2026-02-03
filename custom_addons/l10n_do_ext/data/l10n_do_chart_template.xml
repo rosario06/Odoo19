@@ -10,9 +10,13 @@
         <!-- ============================================ -->
         <!-- GRUPOS DE CUENTAS PRINCIPALES               -->
         <!-- Solo se definen si no existen en l10n_do    -->
-        <!-- ============================================ -->
-
+        <!-- 
+             COMENTADO PARA EVITAR ERROR DE SUPERPOSICION CON L10N_DO BASE
+             Odoo 19 ya incluye definiciones de grupos que entran en conflicto 
+             con estas definiciones explicitas.
+        -->
         <!-- ACTIVOS (1) -->
+        <!--
         <record id="account_group_activos" model="account.group">
             <field name="name">1 ACTIVOS</field>
             <field name="code_prefix_start">1</field>
@@ -74,6 +78,8 @@
             <field name="code_prefix_start">6</field>
             <field name="code_prefix_end">6</field>
         </record>
+        -->
+        <!-- -->
 
         <!-- ============================================ -->
         <!-- NOTA IMPORTANTE                             -->
