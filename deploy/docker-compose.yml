@@ -13,7 +13,7 @@ services:
     environment:
       - HOST=db
       - USER=odoo
-      - PASSWORD=odoo
+      - PASSWORD=12345678As
     restart: always
 
   db:
@@ -21,7 +21,7 @@ services:
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD=odoo
-      - POSTGRES_USER=odoo
+      - POSTGRES_USER=12345678As
     volumes:
       - odoo-db-data:/var/lib/postgresql/data
     restart: always
