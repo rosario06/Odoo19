@@ -140,10 +140,12 @@ class L10nDoConfigWizard(models.TransientModel):
             
             # Fallback a búsqueda interna o mensaje si falla
             # (En producción se usaría un scraper más robusto)
-            self.company_name = _("No se pudo obtener el nombre automáticamente. Por favor verifique el RNC.")
+            self.company_name = False
+            raise UserError(_("No se pudo obtener el nombre automáticamente. Por favor ingréselo manualmente."))
             
         except Exception as e:
-            self.company_name = _("Error al conectar con el servicio de DGII. Ingrese el nombre manualmente.")
+            self.company_name = False
+            raise UserError(_("Error de conexión con DGII. Por favor ingrese el nombre manualmente."))
             
         return {
             'type': 'ir.actions.act_window',
@@ -158,12 +160,16 @@ class L10nDoConfigWizard(models.TransientModel):
         self.ensure_one()
         
         # Paso 1: Configurar la empresa
-        self.company_id.write({
+        vals = {
             'l10n_do_rnc': self.rnc.replace('-', '').replace(' ', ''),
             'l10n_do_dgii_tax_payer_type': self.tax_payer_type,
             'l10n_do_ncf_expiration_date': self.ncf_expiration_date,
             'l10n_do_purchase_journal_id': self.purchase_journal_id.id if self.purchase_journal_id else False,
-        })
+        }
+        if self.company_name:
+            vals['name'] = self.company_name
+            
+        self.company_id.write(vals)
         
         # Paso 2: Configurar secuencias NCF (si se proporcionaron rangos)
         if self.configure_ncf_sequences:
@@ -245,6 +251,7 @@ class L10nDoConfigWizard(models.TransientModel):
         """Prellenar datos de la empresa si existen."""
         if self.company_id:
             self.rnc = self.company_id.l10n_do_rnc or ''
+            self.company_name = self.company_id.name or ''
             self.tax_payer_type = self.company_id.l10n_do_dgii_tax_payer_type or 'normal'
             self.ncf_expiration_date = self.company_id.l10n_do_ncf_expiration_date
             self.purchase_journal_id = self.company_id.l10n_do_purchase_journal_id

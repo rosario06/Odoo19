@@ -31,7 +31,7 @@
                                         class="btn-outline-primary btn-sm oe_inline"
                                         icon="fa-search"/>
                             </div>
-                            <field name="company_name" invisible="not company_name" readonly="1"/>
+                            <field name="company_name" placeholder="Nombre Legal de la Empresa"/>
                         </group>
                         <group>
                             <field name="tax_payer_type"/>
