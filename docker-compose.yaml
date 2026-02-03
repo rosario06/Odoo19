@@ -8,8 +8,6 @@ services:
       - "8069:8069"
     volumes:
       - odoo-web-data-prod:/var/lib/odoo
-      - ./config:/etc/odoo
-      - ./custom_addons:/mnt/extra-addons
     environment:
       - HOST=db
       - USER=odoo
