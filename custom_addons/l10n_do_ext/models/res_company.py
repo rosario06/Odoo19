@@ -102,19 +102,13 @@ class ResCompany(models.Model):
         """Valida el formato del RNC."""
         for company in self:
             if company.country_id.code == 'DO' and company.l10n_do_rnc:
-                # Eliminar espacios y guiones
-                rnc = company.l10n_do_rnc.replace('-', '').replace(' ', '')
-                
                 # Validar que solo contenga dígitos
-                if not rnc.isdigit():
+                if not company.l10n_do_rnc.isdigit():
                     raise ValidationError(_("El RNC debe contener solo números."))
                 
                 # Validar longitud (9 dígitos para RNC, 11 para cédula)
-                if len(rnc) not in (9, 11):
+                if len(company.l10n_do_rnc) not in (9, 11):
                     raise ValidationError(_("El RNC debe tener 9 dígitos o 11 dígitos si es una cédula."))
-                
-                # Actualizar el campo sin guiones
-                company.l10n_do_rnc = rnc
 
     def _localization_use_documents(self):
         """Habilita el uso de documentos LATAM para República Dominicana."""
