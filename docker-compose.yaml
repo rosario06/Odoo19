@@ -10,7 +10,6 @@ services:
       - '8069:8069'
     volumes:
       - 'odoo-web-data-prod:/var/lib/odoo'
-      - './custom_addons:/mnt/extra-addons:rw'  # Montar addons desde host
     environment:
       - HOST=db
       - USER=odoo
