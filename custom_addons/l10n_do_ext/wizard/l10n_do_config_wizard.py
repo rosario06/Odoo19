@@ -22,6 +22,11 @@ class L10nDoConfigWizard(models.TransientModel):
         required=True,
         help='Registro Nacional del Contribuyente (9 dígitos)',
     )
+
+    company_name = fields.Char(
+        string='Nombre Encontrado',
+        help='Nombre de la empresa encontrado en la DGII',
+    )
     
     tax_payer_type = fields.Selection(
         [
@@ -94,6 +99,59 @@ class L10nDoConfigWizard(models.TransientModel):
                     raise ValidationError(_("El RNC debe contener solo números."))
                 if len(rnc) not in (9, 11):
                     raise ValidationError(_("El RNC debe tener 9 dígitos (o 11 si es una cédula)."))
+
+    def action_lookup_rnc(self):
+        """Busca el nombre de la empresa en la DGII."""
+        self.ensure_one()
+        if not self.rnc:
+            raise UserError(_("Por favor, ingrese un RNC primero."))
+        
+        rnc = self.rnc.replace('-', '').replace(' ', '')
+        
+        # En una demo, intentamos usar un servicio de consulta
+        # Nota: La DGII oficial requiere manejo de sesiones. 
+        # Aquí usamos una lógica de consulta simplificada.
+        try:
+            import requests
+            import json
+            
+            # Intentar usar un servicio de consulta pública
+            # Para la demo, simulamos la respuesta si el servicio oficial falla
+            # o si no tenemos una API Key de un servicio pagado
+            
+            # Servicio público común para RNC (ejemplo didáctico)
+            url = f"https://api.marcos.do/rnc/{rnc}"
+            response = requests.get(url, timeout=5)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('name'):
+                    self.company_name = data.get('name')
+                    # Prellenar tipo de contribuyente si el servicio lo da
+                    if data.get('taxpayer_type'):
+                        self.tax_payer_type = 'normal' # Mapear si es posible
+                    return {
+                        'type': 'ir.actions.act_window',
+                        'res_model': 'l10n.do.config.wizard',
+                        'res_id': self.id,
+                        'view_mode': 'form',
+                        'target': 'new',
+                    }
+            
+            # Fallback a búsqueda interna o mensaje si falla
+            # (En producción se usaría un scraper más robusto)
+            self.company_name = _("No se pudo obtener el nombre automáticamente. Por favor verifique el RNC.")
+            
+        except Exception as e:
+            self.company_name = _("Error al conectar con el servicio de DGII. Ingrese el nombre manualmente.")
+            
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'l10n.do.config.wizard',
+            'res_id': self.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
 
     def action_configure(self):
         """Aplica la configuración."""

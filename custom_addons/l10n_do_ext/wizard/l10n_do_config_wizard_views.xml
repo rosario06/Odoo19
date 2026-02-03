@@ -8,22 +8,30 @@
             <field name="model">l10n.do.config.wizard</field>
             <field name="arch" type="xml">
                 <form string="Configuración Inicial - Localización Dominicana">
-                    <group string="Bienvenido al Asistente de Configuración">
-                        <div class="alert alert-info" role="alert">
-                            <h3>Configuración de República Dominicana</h3>
-                            <p>
-                                Este asistente le ayudará a configurar rápidamente el módulo de localización 
-                                para República Dominicana. Complete los siguientes pasos para comenzar a 
-                                facturar con NCF.
-                            </p>
-                        </div>
-                    </group>
+                    <!-- Bienvenida -->
+                    <div class="alert alert-info py-3 mb-3" role="alert" style="border-radius: 8px;">
+                        <h3 class="mb-2">Configuración de República Dominicana</h3>
+                        <p class="mb-0">
+                            Este asistente le ayudará a configurar rápidamente el módulo de localización 
+                            para República Dominicana. Complete los siguientes pasos para comenzar a 
+                            facturar con NCF.
+                        </p>
+                    </div>
 
                     <separator string="Paso 1: Información de la Empresa"/>
                     <group>
                         <group>
                             <field name="company_id" readonly="1" groups="base.group_multi_company"/>
-                            <field name="rnc" placeholder="Ejemplo: 123456789"/>
+                            <label for="rnc"/>
+                            <div class="o_row">
+                                <field name="rnc" placeholder="Ejemplo: 101850043" class="oe_inline"/>
+                                <button name="action_lookup_rnc" 
+                                        type="object" 
+                                        string="Consultar DGII" 
+                                        class="btn-outline-primary btn-sm oe_inline"
+                                        icon="fa-search"/>
+                            </div>
+                            <field name="company_name" invisible="not company_name" readonly="1"/>
                         </group>
                         <group>
                             <field name="tax_payer_type"/>
@@ -81,27 +89,37 @@
                         </group>
                     </group>
 
-                    <group string="Resumen">
-                        <div class="alert alert-success" role="alert">
-                            <h4>¿Qué configurará este asistente?</h4>
-                            <ul>
-                                <li>✓ RNC de su empresa</li>
-                                <li>✓ Tipo de contribuyente DGII</li>
-                                <li>✓ Fecha de vencimiento de NCF</li>
-                                <li>✓ Rangos de secuencias NCF (opcional)</li>
-                                <li>✓ Diarios de ventas y compras (opcional)</li>
-                            </ul>
-                            <p>
-                                <strong>Después de la configuración</strong>, podrá:
-                            </p>
-                            <ul>
-                                <li>Emitir facturas con NCF automático</li>
-                                <li>Configurar clientes y proveedores con RNC/Cédula</li>
-                                <li>Generar reportes 606 y 607 para la DGII</li>
-                                <li>Aplicar retenciones ITBIS e ISR</li>
-                            </ul>
+                    <!-- Resumen -->
+                    <div class="alert alert-success py-3" role="alert" style="border-radius: 8px; border-left: 5px solid #28a745;">
+                        <h4 class="alert-heading">¿Qué configurará este asistente?</h4>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><i class="fa fa-check-circle text-success me-2"/> RNC de su empresa</li>
+                                    <li><i class="fa fa-check-circle text-success me-2"/> Tipo de contribuyente DGII</li>
+                                    <li><i class="fa fa-check-circle text-success me-2"/> Fecha de vencimiento de NCF</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><i class="fa fa-check-circle text-success me-2"/> Rangos de secuencias NCF</li>
+                                    <li><i class="fa fa-check-circle text-success me-2"/> Diarios de ventas y compras</li>
+                                </ul>
+                            </div>
                         </div>
-                    </group>
+                        <hr/>
+                        <p class="mb-1"><strong>Después de la configuración</strong>, podrá:</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <small>• Emitir facturas con NCF automático</small><br/>
+                                <small>• Configurar clientes/proveedores con RNC</small>
+                            </div>
+                            <div class="col-md-6">
+                                <small>• Generar reportes 606 y 607</small><br/>
+                                <small>• Aplicar retenciones ITBIS e ISR</small>
+                            </div>
+                        </div>
+                    </div>
                     
                     <footer>
                         <button string="Configurar" 
