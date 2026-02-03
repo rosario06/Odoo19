@@ -9,7 +9,7 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
-      - ../../../../../odoo-19-addons/custom:/mnt/extra-addons
+      - ../custom_addons:/mnt/extra-addons
     environment:
       - HOST=db
       - USER=odoo
