@@ -15,8 +15,8 @@ class L10nDoConfigWizard(models.TransientModel):
         default=lambda self: self.env.company,
     )
 
-    partner_id = fields.Many2one(
-        'res.partner',
+    rnc_lookup_id = fields.Many2one(
+        'l10n_do_ext.rnc.lookup',
         string='Buscar Empresa (Autocompletado)',
         help='Busque por nombre para encontrar los datos de la empresa automáticamente.',
     )
@@ -252,28 +252,14 @@ class L10nDoConfigWizard(models.TransientModel):
         except (ValueError, IndexError):
             raise ValidationError(_("El formato del NCF %s no es válido. Use el formato: B0100000001") % ncf_code)
 
-    @api.onchange('partner_id')
-    def _onchange_partner_id(self):
-        """Prellenar datos desde el contacto seleccionado."""
-        if self.partner_id:
-            if self.partner_id.vat:
-                # Limpiar VAT (RNC)
-                vat = self.partner_id.vat.replace('-', '').replace(' ', '').upper()
-                if vat.startswith('DO'):
-                    vat = vat[2:]
-                self.rnc = vat
-            
-            if self.partner_id.name:
-                self.company_name = self.partner_id.name
-            
-            if hasattr(self.partner_id, 'l10n_do_dgii_tax_payer_type') and self.partner_id.l10n_do_dgii_tax_payer_type:
-                # Intentar mapear tipo de contribuyente si el partner lo tiene
-                mapping = {
-                    'taxpayer': 'normal',
-                    'special': 'special',
-                    'governmental': 'normal', # O el que corresponda
-                }
-                self.tax_payer_type = mapping.get(self.partner_id.l10n_do_dgii_tax_payer_type, 'normal')
+    @api.onchange('rnc_lookup_id')
+    def _onchange_rnc_lookup_id(self):
+        """Prellenar datos desde el resultado de búsqueda externa."""
+        if self.rnc_lookup_id:
+            if self.rnc_lookup_id.vat:
+                self.rnc = self.rnc_lookup_id.vat
+            if self.rnc_lookup_id.name:
+                self.company_name = self.rnc_lookup_id.name
 
     @api.onchange('company_id')
     def _onchange_company_id(self):

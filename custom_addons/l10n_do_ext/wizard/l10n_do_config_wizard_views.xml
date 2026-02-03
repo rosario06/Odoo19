@@ -21,13 +21,13 @@
                     <separator string="Paso 1: Información de la Empresa"/>
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <label for="partner_id" class="fw-bold"/>
-                            <field name="partner_id" 
-                                   placeholder="Escriba el nombre de la empresa para buscar..."
+                            <label for="rnc_lookup_id" class="fw-bold"/>
+                            <field name="rnc_lookup_id" 
+                                   placeholder="Escriba el nombre o RNC para buscar en DGII..."
                                    options="{'no_create': True, 'no_open': True}"/>
                             <div class="form-text text-muted">
                                 <i class="fa fa-info-circle me-1"/> 
-                                Tip: Odoo buscará coincidencias en su base de datos y en servicios externos.
+                                Tip: Este buscador emula el autocompletado oficial sin costo de créditos.
                             </div>
                         </div>
                     </div>
