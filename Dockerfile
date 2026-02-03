@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
 
 # Copiar requirements si existiera un archivo separado, o instalar directo
 # Dependencias extraídas de requirements.txt de l10n_do_ecf
-RUN pip3 install --no-cache-dir \
+# Usamos --break-system-packages porque Odoo 19 usa Python reciente en entorno gestionado
+RUN pip3 install --no-cache-dir --break-system-packages \
     zeep \
     xmlsec \
     cryptography \
