@@ -14,6 +14,7 @@ services:
       - HOST=db
       - USER=odoo
       - PASSWORD=${POSTGRES_PASSWORD:-odoo}
+    command: odoo --config=/etc/odoo/odoo.conf --addons-path=/opt/odoo/custom_addons,/usr/lib/python3/dist-packages/odoo/addons
     restart: always
 
   db:
