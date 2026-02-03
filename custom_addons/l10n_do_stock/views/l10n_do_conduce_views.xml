@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form de Conduce -->
+    <record id="view_l10n_do_conduce_form" model="ir.ui.view">
+        <field name="name">l10n.do.conduce.form</field>
+        <field name="model">l10n.do.conduce</field>
+        <field name="arch" type="xml">
+            <form string="Conduce">
+                <header>
+                    <button name="action_confirm" string="Confirmar" type="object" 
+                            invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_done" string="Entregar" type="object" 
+                            invisible="state != 'confirmed'" class="oe_highlight"/>
+                    <button name="action_cancel" string="Cancelar" type="object" 
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_draft" string="Volver a Borrador" type="object" 
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="partner_id"/>
+                            <field name="picking_id" readonly="1"/>
+                            <field name="ncf_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="total_qty"/>
+                            <field name="total_weight"/>
+                        </group>
+                    </group>
+                    <group string="Origen y Destino">
+                        <group>
+                            <field name="origin_address" nolabel="1" placeholder="Dirección de origen..."/>
+                        </group>
+                        <group>
+                            <field name="destination_address" nolabel="1" placeholder="Dirección de destino..."/>
+                        </group>
+                    </group>
+                    <group string="Información del Transporte">
+                        <group>
+                            <field name="driver_name"/>
+                            <field name="driver_id_number"/>
+                            <field name="driver_license"/>
+                        </group>
+                        <group>
+                            <field name="vehicle_plate"/>
+                            <field name="vehicle_type"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Productos" name="lines">
+                            <field name="line_ids">
+                                <list string="Productos" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="description"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="weight"/>
+                                    <field name="lot_id"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Observaciones" name="notes">
+                            <field name="notes" nolabel="1" placeholder="Observaciones adicionales..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista List de Conduce -->
+    <record id="view_l10n_do_conduce_list" model="ir.ui.view">
+        <field name="name">l10n.do.conduce.list</field>
+        <field name="model">l10n.do.conduce</field>
+        <field name="arch" type="xml">
+            <list string="Conduces">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="driver_name"/>
+                <field name="vehicle_plate"/>
+                <field name="total_qty" sum="Total Cantidad"/>
+                <field name="total_weight" sum="Total Peso (kg)"/>
+                <field name="state" decoration-info="state == 'draft'" 
+                       decoration-warning="state == 'confirmed'"
+                       decoration-success="state == 'done'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_l10n_do_conduce" model="ir.actions.act_window">
+        <field name="name">Conduces</field>
+        <field name="res_model">l10n.do.conduce</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear un nuevo conduce
+            </p>
+            <p>
+                Los conduces son documentos de transporte obligatorios según la DGII
+                para el traslado de mercancías en República Dominicana.
+            </p>
+        </field>
+    </record>
+
+</odoo>
+

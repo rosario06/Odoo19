@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista de Formulario del Wizard de Prueba de Conexión -->
+        <record id="view_ecf_test_connection_wizard_form" model="ir.ui.view">
+            <field name="name">ecf.test.connection.wizard.form</field>
+            <field name="model">ecf.test.connection.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Probar Conexión con DGII">
+                    <field name="state" invisible="1"/>
+                    <group invisible="state == 'done'">
+                        <field name="company_id"/>
+                    </group>
+                    <group invisible="state != 'done'">
+                        <field name="result_message" nolabel="1" widget="text"/>
+                    </group>
+                    <footer>
+                        <button name="action_test" string="Probar Conexión" type="object" 
+                                class="oe_highlight" invisible="state == 'done'"/>
+                        <button string="Cerrar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción del Wizard -->
+        <record id="action_ecf_test_connection_wizard" model="ir.actions.act_window">
+            <field name="name">Probar Conexión DGII</field>
+            <field name="res_model">ecf.test.connection.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Menú en Configuración -->
+        <menuitem id="menu_ecf_test_connection" 
+                  name="Probar Conexión DGII" 
+                  parent="menu_l10n_do_ecf_config" 
+                  action="action_ecf_test_connection_wizard" 
+                  sequence="10"/>
+
+    </data>
+</odoo>
+

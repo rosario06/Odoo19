@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Tipos de Comprobantes Fiscales Electrónicos según DGII -->
+        
+        <!-- Los tipos de e-CF están definidos en el modelo como Selection -->
+        <!-- Aquí solo documentamos la referencia:
+        
+        31 - e-Factura de Crédito Fiscal
+        32 - e-Factura de Consumo
+        33 - e-Nota de Débito
+        34 - e-Nota de Crédito
+        43 - e-Factura de Gastos Menores
+        44 - e-Factura de Regímenes Especiales
+        45 - e-Factura Gubernamental
+        46 - e-Factura de Exportación
+        47 - e-Factura para Pagos al Exterior
+        
+        -->
+
+    </data>
+</odoo>
+

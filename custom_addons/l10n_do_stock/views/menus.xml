@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú Principal: República Dominicana -->
+    <menuitem
+        id="menu_l10n_do_stock_root"
+        name="República Dominicana"
+        parent="stock.menu_stock_root"
+        sequence="100"/>
+
+    <!-- Submenu: Conduces -->
+    <menuitem
+        id="menu_l10n_do_conduce"
+        name="Conduces"
+        parent="menu_l10n_do_stock_root"
+        action="action_l10n_do_conduce"
+        sequence="10"/>
+
+    <!-- Menú: Reportes -->
+    <menuitem
+        id="menu_l10n_do_stock_reports"
+        name="Reportes"
+        parent="menu_l10n_do_stock_root"
+        sequence="50"/>
+
+    <!-- Submenu: Generar Kardex -->
+    <menuitem
+        id="menu_l10n_do_kardex_wizard"
+        name="Generar Kardex"
+        parent="menu_l10n_do_stock_reports"
+        action="action_l10n_do_kardex_wizard"
+        sequence="10"/>
+
+    <!-- Submenu: Reporte de Inventario DGII -->
+    <menuitem
+        id="menu_l10n_do_inventory_report_wizard"
+        name="Reporte de Inventario DGII"
+        parent="menu_l10n_do_stock_reports"
+        action="action_l10n_do_inventory_report_wizard"
+        sequence="20"/>
+
+    <!-- Submenu: Reportes 606/607 -->
+    <menuitem
+        id="menu_l10n_do_606_607_wizard"
+        name="Reportes 606/607 DGII"
+        parent="menu_l10n_do_stock_reports"
+        action="action_l10n_do_606_607_wizard"
+        sequence="30"/>
+
+</odoo>
+

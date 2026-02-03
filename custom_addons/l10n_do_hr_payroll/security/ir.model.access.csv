@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tss_rate_config_user,tss.rate.config.user,model_tss_rate_config,l10n_do_hr_payroll.group_hr_payroll_do_user,1,0,0,0
+access_tss_rate_config_manager,tss.rate.config.manager,model_tss_rate_config,l10n_do_hr_payroll.group_hr_payroll_do_manager,1,1,1,1
+access_tss_salary_ceiling_user,tss.salary.ceiling.user,model_tss_salary_ceiling,l10n_do_hr_payroll.group_hr_payroll_do_user,1,0,0,0
+access_tss_salary_ceiling_manager,tss.salary.ceiling.manager,model_tss_salary_ceiling,l10n_do_hr_payroll.group_hr_payroll_do_manager,1,1,1,1
+access_isr_tax_bracket_user,isr.tax.bracket.user,model_isr_tax_bracket,l10n_do_hr_payroll.group_hr_payroll_do_user,1,0,0,0
+access_isr_tax_bracket_manager,isr.tax.bracket.manager,model_isr_tax_bracket,l10n_do_hr_payroll.group_hr_payroll_do_manager,1,1,1,1
+access_minimum_wage_user,minimum.wage.user,model_minimum_wage,l10n_do_hr_payroll.group_hr_payroll_do_user,1,0,0,0
+access_minimum_wage_manager,minimum.wage.manager,model_minimum_wage,l10n_do_hr_payroll.group_hr_payroll_do_manager,1,1,1,1
+access_tss_contribution_user,tss.contribution.user,model_tss_contribution,l10n_do_hr_payroll.group_hr_payroll_do_user,1,1,1,0
+access_tss_contribution_manager,tss.contribution.manager,model_tss_contribution,l10n_do_hr_payroll.group_hr_payroll_do_manager,1,1,1,1
+access_isr_payroll_user,isr.payroll.user,model_isr_payroll,l10n_do_hr_payroll.group_hr_payroll_do_user,1,1,1,0
+access_isr_payroll_manager,isr.payroll.manager,model_isr_payroll,l10n_do_hr_payroll.group_hr_payroll_do_manager,1,1,1,1
+access_provision_laborales_user,provision.laborales.user,model_provision_laborales,l10n_do_hr_payroll.group_hr_payroll_do_user,1,1,1,0
+access_provision_laborales_manager,provision.laborales.manager,model_provision_laborales,l10n_do_hr_payroll.group_hr_payroll_do_manager,1,1,1,1

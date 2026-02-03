@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="150" viewBox="0 0 800 150">
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#002D62;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#CE1126;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#002D62;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    
+    <!-- Fondo -->
+    <rect width="800" height="150" fill="url(#bgGradient)"/>
+    
+    <!-- Decoración de estrellas -->
+    <g opacity="0.3">
+        <circle cx="100" cy="40" r="15" fill="#fff"/>
+        <circle cx="700" cy="110" r="15" fill="#fff"/>
+        <circle cx="200" cy="120" r="10" fill="#fff"/>
+        <circle cx="600" cy="30" r="10" fill="#fff"/>
+    </g>
+    
+    <!-- Contenido -->
+    <g>
+        <!-- Bandera RD (simplificada) -->
+        <g transform="translate(50, 30)">
+            <rect width="50" height="90" fill="#002D62" opacity="0.8"/>
+            <rect x="25" y="0" width="25" height="45" fill="#CE1126" opacity="0.8"/>
+            <rect x="0" y="45" width="25" height="45" fill="#CE1126" opacity="0.8"/>
+            <rect x="25" y="22.5" width="25" height="45" fill="#fff" opacity="0.9"/>
+            <rect x="0" y="22.5" width="25" height="45" fill="#fff" opacity="0.9"/>
+        </g>
+        
+        <!-- Título -->
+        <text x="50%" y="60" text-anchor="middle" fill="#fff" font-size="38" font-weight="bold" font-family="Arial, sans-serif">
+            República Dominicana
+        </text>
+        <text x="50%" y="95" text-anchor="middle" fill="#fff" font-size="26" font-family="Arial, sans-serif">
+            Contabilidad Extendida
+        </text>
+        <text x="50%" y="125" text-anchor="middle" fill="#FFD700" font-size="20" font-weight="600" font-family="Arial, sans-serif">
+            l10n_do_ext • Odoo 19 • DGII Compatible
+        </text>
+    </g>
+</svg>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión de vista de producto -->
+    <record id="view_product_template_form_l10n_do_stock" model="ir.ui.view">
+        <field name="name">product.template.form.l10n.do.stock</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="República Dominicana" name="l10n_do_stock">
+                    <group>
+                        <group string="Clasificación Fiscal">
+                            <field name="l10n_do_tax_classification"/>
+                            <field name="l10n_do_itbis_percentage"/>
+                            <field name="l10n_do_product_type"/>
+                        </group>
+                        <group string="Información Adicional">
+                            <field name="l10n_do_tariff_code"/>
+                            <field name="l10n_do_requires_serial"/>
+                            <field name="l10n_do_controlled_product"/>
+                        </group>
+                    </group>
+                    <group string="Notas Fiscales">
+                        <field name="l10n_do_notes" nolabel="1"/>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>
+

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ============================================ -->
+        <!-- POSICIONES FISCALES                         -->
+        <!-- Para automatización de impuestos            -->
+        <!-- ============================================ -->
+
+        <!-- ========== VENTAS AL ESTADO (EXENTAS) ========== -->
+        <record id="fiscal_position_ventas_estado" model="account.fiscal.position.template">
+            <field name="name">Ventas al Estado (Exentas de ITBIS)</field>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="note">Aplica automáticamente exención de ITBIS para ventas a entidades gubernamentales</field>
+        </record>
+
+        <!-- Mapeo de impuestos: ITBIS 18% -> ITBIS 0% Estado -->
+        <record id="fiscal_position_tax_ventas_estado_18" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="fiscal_position_ventas_estado"/>
+            <field name="tax_src_id" ref="tax_template_itbis_18_sale"/>
+            <field name="tax_dest_id" ref="tax_template_itbis_exento_estado"/>
+        </record>
+
+        <record id="fiscal_position_tax_ventas_estado_16" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="fiscal_position_ventas_estado"/>
+            <field name="tax_src_id" ref="tax_template_itbis_16_sale"/>
+            <field name="tax_dest_id" ref="tax_template_itbis_exento_estado"/>
+        </record>
+
+        <!-- ========== COMPRAS DE SERVICIOS AL EXTERIOR ========== -->
+        <record id="fiscal_position_servicios_exterior" model="account.fiscal.position.template">
+            <field name="name">Servicios al Exterior (Retención ISR 27%)</field>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="note">Aplica retención de ISR 27% en compras de servicios a proveedores del exterior</field>
+        </record>
+
+        <!-- Mapeo de impuestos: Sin impuesto -> Retención ISR 27% -->
+        <record id="fiscal_position_tax_exterior" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="fiscal_position_servicios_exterior"/>
+            <field name="tax_src_id" ref="tax_template_itbis_0_purchase"/>
+            <field name="tax_dest_id" ref="tax_template_servicios_exterior"/>
+        </record>
+
+        <!-- ========== PERSONAS FÍSICAS SERVICIOS ========== -->
+        <record id="fiscal_position_persona_fisica" model="account.fiscal.position.template">
+            <field name="name">Persona Física - Servicios (Retención ISR 27%)</field>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="note">Aplica retención de ISR 27% a personas físicas que prestan servicios</field>
+        </record>
+
+        <!-- Mapeo de impuestos: ITBIS 0% -> Retención ISR 27% PF -->
+        <record id="fiscal_position_tax_pf_servicios" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="fiscal_position_persona_fisica"/>
+            <field name="tax_src_id" ref="tax_template_itbis_0_purchase"/>
+            <field name="tax_dest_id" ref="tax_template_persona_fisica_servicios"/>
+        </record>
+
+        <!-- ========== TELECOMUNICACIONES ========== -->
+        <record id="fiscal_position_telecomunicaciones" model="account.fiscal.position.template">
+            <field name="name">Telecomunicaciones (ITBIS + Ret ISR 10%)</field>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="note">Aplica ITBIS 18% más retención de ISR 10% para servicios de telecomunicaciones</field>
+        </record>
+
+        <!-- Mapeo de impuestos: ITBIS 18% -> Grupo Telecom -->
+        <record id="fiscal_position_tax_telecom" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="fiscal_position_telecomunicaciones"/>
+            <field name="tax_src_id" ref="tax_template_itbis_18_purchase"/>
+            <field name="tax_dest_id" ref="tax_template_telecom_group"/>
+        </record>
+
+        <!-- ========== MATERIALES DE CONSTRUCCIÓN ========== -->
+        <record id="fiscal_position_construccion" model="account.fiscal.position.template">
+            <field name="name">Materiales de Construcción (ITBIS + Ret ITBIS 75%)</field>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="note">Aplica ITBIS 18% más retención del 75% del ITBIS para materiales de construcción</field>
+        </record>
+
+        <!-- Mapeo de impuestos: ITBIS 18% -> Grupo Construcción -->
+        <record id="fiscal_position_tax_construccion" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="fiscal_position_construccion"/>
+            <field name="tax_src_id" ref="tax_template_itbis_18_purchase"/>
+            <field name="tax_dest_id" ref="tax_template_construction_group"/>
+        </record>
+
+        <!-- ========== SERVICIOS PROFESIONALES ========== -->
+        <record id="fiscal_position_profesionales" model="account.fiscal.position.template">
+            <field name="name">Servicios Profesionales (ITBIS + Ret ISR 10%)</field>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="note">Aplica ITBIS 18% más retención de ISR 10% para servicios profesionales</field>
+        </record>
+
+        <!-- Mapeo de impuestos: ITBIS 18% -> Grupo Profesionales -->
+        <record id="fiscal_position_tax_profesionales" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="fiscal_position_profesionales"/>
+            <field name="tax_src_id" ref="tax_template_itbis_18_purchase"/>
+            <field name="tax_dest_id" ref="tax_template_servicios_profesionales"/>
+        </record>
+
+        <!-- ========== ALQUILERES ========== -->
+        <record id="fiscal_position_alquileres" model="account.fiscal.position.template">
+            <field name="name">Alquileres (Retención ISR 10%)</field>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="note">Aplica retención de ISR 10% para pagos de alquileres</field>
+        </record>
+
+        <!-- Mapeo de impuestos: Sin impuesto -> Retención ISR 10% -->
+        <record id="fiscal_position_tax_alquileres" model="account.fiscal.position.tax.template">
+            <field name="position_id" ref="fiscal_position_alquileres"/>
+            <field name="tax_src_id" ref="tax_template_itbis_0_purchase"/>
+            <field name="tax_dest_id" ref="tax_template_alquileres_retencion"/>
+        </record>
+
+    </data>
+</odoo>
+

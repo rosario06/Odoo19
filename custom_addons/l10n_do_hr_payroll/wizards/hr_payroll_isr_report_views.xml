@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form Wizard IT-1 -->
+    <record id="view_it1_wizard_form" model="ir.ui.view">
+        <field name="name">it1.wizard.form</field>
+        <field name="model">it1.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generar IT-1">
+                <group>
+                    <group>
+                        <field name="year"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="report_format"/>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group invisible="not excel_file">
+                    <field name="excel_file" filename="excel_filename" invisible="1"/>
+                    <field name="excel_filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_generate_it1" string="Generar IT-1" type="object" class="btn-primary"/>
+                    <button name="action_download_file" string="Descargar" type="object" invisible="not excel_file" class="btn-success"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_it1_wizard" model="ir.actions.act_window">
+        <field name="name">Generar IT-1 (DGII)</field>
+        <field name="res_model">it1.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
+

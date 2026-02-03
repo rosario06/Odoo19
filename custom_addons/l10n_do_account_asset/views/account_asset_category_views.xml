@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form de Categoría de Activos -->
+    <record id="view_account_asset_category_form" model="ir.ui.view">
+        <field name="name">account.asset.category.form</field>
+        <field name="model">account.asset.category</field>
+        <field name="arch" type="xml">
+            <form string="Categoría de Activos">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_assets" type="object" class="oe_stat_button" icon="fa-cubes">
+                            <field name="asset_count" widget="statinfo" string="Activos"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archivado" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="depreciation_rate"/>
+                            <field name="useful_life_years"/>
+                            <field name="depreciation_method"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Configuración Contable" name="accounting">
+                            <group>
+                                <group string="Cuentas">
+                                    <field name="account_asset_id"/>
+                                    <field name="account_depreciation_id"/>
+                                    <field name="account_depreciation_expense_id"/>
+                                </group>
+                                <group string="Diario">
+                                    <field name="journal_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Notas" name="notes">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista List de Categoría de Activos -->
+    <record id="view_account_asset_category_list" model="ir.ui.view">
+        <field name="name">account.asset.category.list</field>
+        <field name="model">account.asset.category</field>
+        <field name="arch" type="xml">
+            <list string="Categorías de Activos">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="depreciation_rate"/>
+                <field name="useful_life_years"/>
+                <field name="depreciation_method"/>
+                <field name="asset_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de Búsqueda -->
+    <record id="view_account_asset_category_search" model="ir.ui.view">
+        <field name="name">account.asset.category.search</field>
+        <field name="model">account.asset.category</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Categorías">
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Archivadas" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="Método" name="group_method" context="{'group_by': 'depreciation_method'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_account_asset_category" model="ir.actions.act_window">
+        <field name="name">Categorías de Activos</field>
+        <field name="res_model">account.asset.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear nueva categoría de activos
+            </p>
+            <p>
+                Las categorías definen las tasas de depreciación según normativa DGII.
+                Cada categoría tiene configuradas las cuentas contables correspondientes.
+            </p>
+        </field>
+    </record>
+
+</odoo>
+

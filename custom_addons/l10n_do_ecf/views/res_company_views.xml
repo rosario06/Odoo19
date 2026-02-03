@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Extensión de la vista de empresa (ya están los campos en l10n_do_ext) -->
+        <!-- Solo agregamos las estadísticas e-CF -->
+        
+        <record id="view_company_form_inherit_ecf_stats" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.ecf.stats</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_ecf_documents" type="object" 
+                            class="oe_stat_button" icon="fa-file-text" 
+                            invisible="not (country_id and country_id.code == 'DO')">
+                        <field name="ecf_sent_count" widget="statinfo" string="e-CF Enviados"/>
+                    </button>
+                    <button name="action_view_ecf_documents" type="object" 
+                            class="oe_stat_button" icon="fa-check-circle" 
+                            invisible="not (country_id and country_id.code == 'DO')">
+                        <field name="ecf_approved_count" widget="statinfo" string="e-CF Aprobados"/>
+                    </button>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

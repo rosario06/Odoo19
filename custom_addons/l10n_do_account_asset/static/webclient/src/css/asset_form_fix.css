@@ -1,0 +1,38 @@
+/* Fix para el layout del formulario de Activos Fijos */
+/* Sobrescribe el comportamiento flex problemático del core de Odoo */
+
+.o_form_view.o_xxl_form_view .o_form_sheet_bg {
+    overflow: visible !important;
+    display: block !important;
+    flex-direction: initial !important;
+    flex: initial !important;
+}
+
+/* Hacer el formulario más ancho */
+.o_form_view.o_xxl_form_view .o_form_sheet {
+    max-width: 1400px !important;
+    min-width: 1200px !important;
+    width: 95% !important;
+    margin: 0 auto;
+}
+
+/* Fix adicional para campos relacionados en el formulario */
+.o_field_widget.o_field_many2one {
+    max-width: 100%;
+}
+
+/* Prevenir overflow en grupos de campos */
+.o_group {
+    overflow: visible;
+}
+
+/* Hacer los grupos de campos más anchos */
+.o_form_view.o_xxl_form_view .o_group {
+    width: 100%;
+}
+
+/* Ajustar el ancho del notebook (pestañas) */
+.o_form_view.o_xxl_form_view .o_notebook {
+    width: 100%;
+}
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Salarios Mínimos 2024-2025 según Ministerio de Trabajo -->
+    <record id="minimum_wage_2024" model="minimum.wage">
+        <field name="name">Salarios Mínimos 2024-2025</field>
+        <field name="date_from" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-01-01')"/>
+        <field name="date_to" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="category">general</field>
+        
+        <!-- Sector Privado -->
+        <field name="private_sector_large">27000.00</field>
+        <field name="private_sector_medium">23000.00</field>
+        <field name="private_sector_small">21000.00</field>
+        
+        <!-- Sector Público -->
+        <field name="public_sector">27000.00</field>
+        
+        <!-- Zonas Francas -->
+        <field name="free_zone">22500.00</field>
+        
+        <!-- Sector Agropecuario -->
+        <field name="agricultural">18000.00</field>
+        
+        <!-- Construcción -->
+        <field name="construction">23000.00</field>
+        
+        <!-- Turismo y Hoteles -->
+        <field name="tourism_hotels">24000.00</field>
+        
+        <field name="notes">Salarios mínimos establecidos por el Ministerio de Trabajo de la República Dominicana para el período 2024-2025. Sujetos a actualización mediante resolución ministerial.</field>
+    </record>
+
+</odoo>
+

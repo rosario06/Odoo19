@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_do_conduce_user,l10n.do.conduce.user,model_l10n_do_conduce,group_l10n_do_stock_user,1,1,1,0
+access_l10n_do_conduce_manager,l10n.do.conduce.manager,model_l10n_do_conduce,group_l10n_do_stock_manager,1,1,1,1
+access_l10n_do_conduce_line_user,l10n.do.conduce.line.user,model_l10n_do_conduce_line,group_l10n_do_stock_user,1,1,1,0
+access_l10n_do_conduce_line_manager,l10n.do.conduce.line.manager,model_l10n_do_conduce_line,group_l10n_do_stock_manager,1,1,1,1
+access_l10n_do_stock_valuation_user,l10n.do.stock.valuation.user,model_l10n_do_stock_valuation,group_l10n_do_stock_user,1,0,0,0
+access_l10n_do_stock_valuation_manager,l10n.do.stock.valuation.manager,model_l10n_do_stock_valuation,group_l10n_do_stock_manager,1,1,1,1
+access_l10n_do_kardex_user,l10n.do.kardex.user,model_l10n_do_kardex,group_l10n_do_stock_user,1,0,0,0
+access_l10n_do_kardex_manager,l10n.do.kardex.manager,model_l10n_do_kardex,group_l10n_do_stock_manager,1,1,1,1
+access_l10n_do_conduce_wizard,l10n.do.conduce.wizard,model_l10n_do_conduce_wizard,group_l10n_do_stock_user,1,1,1,1
+access_l10n_do_kardex_wizard,l10n.do.kardex.wizard,model_l10n_do_kardex_wizard,group_l10n_do_stock_user,1,1,1,1
+access_l10n_do_inventory_report_wizard,l10n.do.inventory.report.wizard,model_l10n_do_inventory_report_wizard,group_l10n_do_stock_user,1,1,1,1
+access_l10n_do_606_607_wizard,l10n.do.606.607.wizard,model_l10n_do_606_607_wizard,group_l10n_do_stock_user,1,1,1,1
+

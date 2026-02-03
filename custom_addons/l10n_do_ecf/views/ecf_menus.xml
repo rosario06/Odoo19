@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Menú Principal de Facturación Electrónica (igual que Reportes DGII) -->
+        <menuitem id="menu_l10n_do_ecf_root" 
+                  name="Facturación Electrónica" 
+                  parent="account.menu_finance" 
+                  sequence="101" 
+                  groups="account.group_account_user"/>
+
+        <!-- Documentos e-CF -->
+        <menuitem id="menu_ecf_documents" 
+                  name="Documentos e-CF" 
+                  parent="menu_l10n_do_ecf_root" 
+                  action="action_ecf_document" 
+                  sequence="10"/>
+
+        <!-- Certificados Digitales -->
+        <menuitem id="menu_ecf_certificates" 
+                  name="Certificados Digitales" 
+                  parent="menu_l10n_do_ecf_root" 
+                  action="action_ecf_certificate" 
+                  sequence="20"/>
+
+        <!-- Configuración -->
+        <menuitem id="menu_l10n_do_ecf_config" 
+                  name="Configuración" 
+                  parent="menu_l10n_do_ecf_root" 
+                  sequence="90"/>
+
+    </data>
+</odoo>
+

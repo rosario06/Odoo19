@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>República Dominicana - Facturación Electrónica DGII (e-CF)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #002D62 0%, #C60C30 100%);
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #002D62;
+        }
+        .header h1 {
+            color: #002D62;
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .header .flag {
+            font-size: 3em;
+            margin: 10px 0;
+        }
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .badges {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .badge-success { background: #28a745; color: white; }
+        .badge-info { background: #17a2b8; color: white; }
+        .badge-warning { background: #ffc107; color: #333; }
+        .badge-danger { background: #dc3545; color: white; }
+        
+        .section {
+            margin: 30px 0;
+        }
+        .section h2 {
+            color: #002D62;
+            font-size: 1.8em;
+            border-left: 5px solid #C60C30;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #002D62;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .feature-card h3 {
+            color: #002D62;
+            margin-top: 0;
+        }
+        .feature-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .feature-card li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .alert-box {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }
+        .alert-info {
+            background: #e7f3ff;
+            border-color: #2196F3;
+        }
+        .alert-info h3 {
+            color: #2196F3;
+            margin-top: 0;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+        .alert-warning h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .alert-success h3 {
+            color: #155724;
+            margin-top: 0;
+        }
+        
+        .ecf-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .ecf-type {
+            background: linear-gradient(135deg, #002D62 0%, #003875 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .ecf-type .code {
+            font-size: 2em;
+            display: block;
+        }
+        .ecf-type .name {
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .requirements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .requirement-card {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 4px solid #C60C30;
+        }
+        .requirement-card h4 {
+            color: #002D62;
+            margin-top: 0;
+        }
+        
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+        .steps li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 20px;
+        }
+        .steps li:before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #002D62;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #666;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background: #002D62;
+            color: white;
+        }
+        table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .tech-badge {
+            background: #002D62;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .screenshot {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flag">🇩🇴</div>
+            <h1>Facturación Electrónica DGII (e-CF)</h1>
+            <p>Integración Completa de e-CF para República Dominicana</p>
+            <div class="badges">
+                <span class="badge badge-warning">Versión 19.0.1.0.0 Beta</span>
+                <span class="badge badge-success">✅ Instalado</span>
+                <span class="badge badge-info">DGII Compatible</span>
+                <span class="badge badge-warning">Odoo 19</span>
+            </div>
+        </div>
+
+        <div class="alert-warning">
+            <h3>⚠️ Versión de Desarrollo - Módulo Simplificado</h3>
+            <p>
+                <strong>Este módulo ha sido simplificado para compatibilidad con Odoo 19.</strong>
+                Algunas funcionalidades avanzadas están pendientes de implementación completa.
+            </p>
+            <ul>
+                <li>✅ <strong>Funcionalidades Core:</strong> Modelos, seguridad y estructura base implementados</li>
+                <li>⚠️ <strong>Vistas Simplificadas:</strong> Búsquedas y filtros básicos activos</li>
+                <li>🐧 <strong>Producción Linux:</strong> Firma XMLDSig completa - Certificación DGII</li>
+                <li>💻 <strong>Desarrollo Windows:</strong> Firma simplificada - Todas las funcionalidades disponibles</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📋 Descripción</h2>
+            <p>
+                Módulo completo de <strong>Facturación Electrónica DGII (e-CF)</strong> para República Dominicana.
+                Implementa la integración total con los servicios de la DGII según especificaciones técnicas v1.0.
+            </p>
+            <p>
+                Este módulo permite generar, firmar y enviar Comprobantes Fiscales Electrónicos (e-CF) directamente
+                desde Odoo a los servicios web de la DGII, cumpliendo con todas las normativas fiscales de
+                República Dominicana para facturación electrónica.
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>✨ Características Principales</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>🎯 Generación de e-CF</h3>
+                    <ul>
+                        <li>Generación automática de XML</li>
+                        <li>Formato DGII v1.0</li>
+                        <li>Validación de esquemas XSD</li>
+                        <li>9 tipos de e-CF soportados</li>
+                        <li>Estructura completa de datos</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🔐 Firma Digital</h3>
+                    <ul>
+                        <li>Certificados PKCS#12 (.p12/.pfx)</li>
+                        <li>Validación automática</li>
+                        <li>Control de vencimiento</li>
+                        <li>Gestión de certificados</li>
+                        <li>Multi-empresa</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📡 Integración DGII</h3>
+                    <ul>
+                        <li>Cliente SOAP completo</li>
+                        <li>Envío automático</li>
+                        <li>Acuse de Recibo</li>
+                        <li>Aprobación Comercial</li>
+                        <li>Consulta de estado</li>
+                        <li>Ambiente testecf/producción</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📄 Representación Impresa</h3>
+                    <ul>
+                        <li>PDF automático</li>
+                        <li>Código QR integrado</li>
+                        <li>Formato oficial DGII</li>
+                        <li>Información de seguridad</li>
+                        <li>Marca de agua</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>⚙️ Gestión Avanzada</h3>
+                    <ul>
+                        <li>Envío masivo de facturas</li>
+                        <li>Cola de procesamiento</li>
+                        <li>Manejo de errores</li>
+                        <li>Reintentos automáticos</li>
+                        <li>Historial completo</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🚫 Anulación</h3>
+                    <ul>
+                        <li>Anulación directa en DGII</li>
+                        <li>Múltiples motivos</li>
+                        <li>Trazabilidad completa</li>
+                        <li>Confirmación requerida</li>
+                        <li>Historial de anulaciones</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔢 Tipos de e-CF Soportados</h2>
+            <div class="ecf-types">
+                <div class="ecf-type">
+                    <span class="code">31</span>
+                    <span class="name">e-Factura Crédito Fiscal</span>
+                </div>
+                <div class="ecf-type">
+                    <span class="code">32</span>
+                    <span class="name">e-Factura Consumo</span>
+                </div>
+                <div class="ecf-type">
+                    <span class="code">33</span>
+                    <span class="name">e-Nota de Débito</span>
+                </div>
+                <div class="ecf-type">
+                    <span class="code">34</span>
+                    <span class="name">e-Nota de Crédito</span>
+                </div>
+                <div class="ecf-type">
+                    <span class="code">43</span>
+                    <span class="name">e-Gastos Menores</span>
+                </div>
+                <div class="ecf-type">
+                    <span class="code">44</span>
+                    <span class="name">e-Régimen Especial</span>
+                </div>
+                <div class="ecf-type">
+                    <span class="code">45</span>
+                    <span class="name">e-Gubernamental</span>
+                </div>
+                <div class="ecf-type">
+                    <span class="code">46</span>
+                    <span class="name">e-Exportación</span>
+                </div>
+                <div class="ecf-type">
+                    <span class="code">47</span>
+                    <span class="name">e-Pagos Exterior</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📦 Stack Tecnológico</h2>
+            <div class="tech-stack">
+                <span class="tech-badge">Python 3.10+</span>
+                <span class="tech-badge">Odoo 19</span>
+                <span class="tech-badge">zeep (SOAP)</span>
+                <span class="tech-badge">lxml (XML)</span>
+                <span class="tech-badge">cryptography</span>
+                <span class="tech-badge">qrcode</span>
+                <span class="tech-badge">requests</span>
+                <span class="tech-badge">xmlschema</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📋 Requisitos</h2>
+            <div class="requirements">
+                <div class="requirement-card">
+                    <h4>Módulos Odoo</h4>
+                    <ul>
+                        <li>account</li>
+                        <li>l10n_do</li>
+                        <li>l10n_do_ext</li>
+                        <li>l10n_latam_invoice_document</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>Certificado Digital</h4>
+                    <ul>
+                        <li>Formato PKCS#12 (.p12/.pfx)</li>
+                        <li>Entidad certificadora autorizada</li>
+                        <li>Contraseña del certificado</li>
+                        <li>No vencido</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>Registro DGII</h4>
+                    <ul>
+                        <li>Cuenta portal DGII</li>
+                        <li>Usuario administrador e-CF</li>
+                        <li>RNC autorizado</li>
+                        <li>Aprobación DGII</li>
+                    </ul>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>Dependencias Python</h4>
+                    <ul>
+                        <li>zeep==4.2.1</li>
+                        <li>lxml==5.1.0</li>
+                        <li>cryptography==42.0.5</li>
+                        <li>qrcode==7.4.2</li>
+                    </ul>
+                    <p style="font-size: 0.8em; color: #666;">*Ya instaladas</p>
+                </div>
+            </div>
+        </div>
+
+        <!--div class="alert-info">
+            <h3>ℹ️ Dependencias Python Instaladas</h3>
+            <p>
+                Las dependencias Python han sido pre-instaladas durante la creación del módulo:
+            </p>
+            <ul>
+                <li>✅ zeep - Cliente SOAP para servicios DGII</li>
+                <li>✅ lxml - Procesamiento XML</li>
+                <li>✅ cryptography - Manejo de certificados digitales</li>
+                <li>✅ qrcode + pillow - Generación de códigos QR</li>
+                <li>✅ requests - Cliente HTTP</li>
+                <li>✅ xmlschema - Validación XSD</li>
+                <li>⚠️ xmlsec - Opcional (Windows: firma simplificada / Linux: firma completa)</li>
+            </ul>
+        </div-->
+
+        <div class="section">
+            <h2>🚀 Instalación</h2>
+            <div class="alert-success">
+                <h3>✅ Instalación Exitosa</h3>
+                <p>El módulo se ha instalado correctamente en Odoo 19. Los pasos básicos son:</p>
+            </div>
+            <ol class="steps">
+                <li>
+                    <strong>Actualizar Lista de Módulos</strong><br>
+                    Apps → ⋯ (menú) → Actualizar Lista de Apps
+                </li>
+                <li>
+                    <strong>Instalar Módulo</strong><br>
+                    Buscar "Facturación Electrónica" → Instalar
+                </li>
+                <li>
+                    <strong>Verificar Instalación</strong><br>
+                    Contabilidad → Menú "Facturación Electrónica" debe estar visible
+                </li>
+                <li>
+                    <strong>Configurar Empresa</strong><br>
+                    Ajustes → Empresas → Mi Empresa → Configuración e-CF
+                </li>
+                <li>
+                    <strong>Cargar Certificado (Opcional en desarrollo)</strong><br>
+                    Contabilidad → Facturación Electrónica → Certificados Digitales
+                </li>
+            </ol>
+            <div class="alert-warning">
+                <h3>⚠️ Nota de Desarrollo</h3>
+                <p>Algunas funcionalidades avanzadas requieren configuración adicional y están siendo refinadas para Odoo 19. 
+                   El módulo base está funcional y listo para desarrollo y pruebas.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💼 Uso Básico</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Acción</th>
+                        <th>Ubicación</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Enviar e-CF</strong></td>
+                        <td>Factura → Botón "Enviar e-CF"</td>
+                        <td>Genera y envía e-CF a DGII</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ver e-CF</strong></td>
+                        <td>Factura → Botón "Ver e-CF"</td>
+                        <td>Abre documento e-CF completo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Consultar Estado</strong></td>
+                        <td>Documento e-CF → "Consultar Estado"</td>
+                        <td>Verifica estado en DGII</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Anular</strong></td>
+                        <td>Documento e-CF → "Anular e-CF"</td>
+                        <td>Anula e-CF aprobado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Imprimir</strong></td>
+                        <td>Documento e-CF → Imprimir</td>
+                        <td>Representación impresa con QR</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert-success">
+            <h3>✅ Estados de e-CF</h3>
+            <table>
+                <tr>
+                    <td><strong>Borrador</strong></td>
+                    <td>e-CF creado, pendiente de generar XML</td>
+                </tr>
+                <tr>
+                    <td><strong>Por Enviar</strong></td>
+                    <td>XML generado y firmado, listo para envío</td>
+                </tr>
+                <tr>
+                    <td><strong>Enviado</strong></td>
+                    <td>Enviado a DGII, esperando respuesta</td>
+                </tr>
+                <tr>
+                    <td><strong>Aprobado</strong></td>
+                    <td>Aprobado por DGII, e-NCF asignado</td>
+                </tr>
+                <tr>
+                    <td><strong>Rechazado</strong></td>
+                    <td>Rechazado por DGII con motivo</td>
+                </tr>
+                <tr>
+                    <td><strong>Anulado</strong></td>
+                    <td>Anulado en DGII</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>⚙️ Cambios de Implementación - Odoo 19</h2>
+            <div class="alert-info">
+                <h3>ℹ️ Simplificaciones Aplicadas</h3>
+                <p>Para garantizar compatibilidad con Odoo 19, se aplicaron las siguientes simplificaciones:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Componente</th>
+                            <th>Estado</th>
+                            <th>Detalles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Vistas de Búsqueda</strong></td>
+                            <td><span style="background: #ffc107; color: #333; padding: 3px 8px; border-radius: 3px;">Simplificadas</span></td>
+                            <td>Campos básicos de búsqueda y filtros mínimos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Integración Facturas</strong></td>
+                            <td><span style="background: #ffc107; color: #333; padding: 3px 8px; border-radius: 3px;">Básica</span></td>
+                            <td>Campos e-CF agregados sin botones avanzados</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Grupos de Seguridad</strong></td>
+                            <td><span style="background: #28a745; color: white; padding: 3px 8px; border-radius: 3px;">Activos</span></td>
+                            <td>Usuario e-CF y Gerente e-CF sin categoría</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modelos Python</strong></td>
+                            <td><span style="background: #28a745; color: white; padding: 3px 8px; border-radius: 3px;">Completos</span></td>
+                            <td>5 modelos + wizards funcionando</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Firma XML</strong></td>
+                            <td><span style="background: #ffc107; color: #333; padding: 3px 8px; border-radius: 3px;">Condicional</span></td>
+                            <td>Simplificada en Windows, completa en Linux</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🐧 Para Producción con DGII</h2>
+            <div class="alert-warning">
+                <h3>Requisitos para Certificación DGII</h3>
+                <p><strong>Ambiente de Producción requiere:</strong></p>
+                <ol>
+                    <li><strong>Servidor Linux</strong> (Ubuntu/Debian recomendado)</li>
+                    <li><strong>Instalar xmlsec:</strong>
+                        <pre>sudo apt-get install libxml2-dev libxmlsec1-dev libxmlsec1-openssl
+pip install xmlsec</pre>
+                    </li>
+                    <li><strong>Certificado de Producción</strong> (no de pruebas)</li>
+                    <li><strong>Cambiar a Modo Producción</strong> en configuración</li>
+                    <li><strong>URL Producción:</strong> https://ecf.dgii.gov.do/ecf/ws/recepcionecf</li>
+                </ol>
+                <p>
+                    El módulo detectará automáticamente xmlsec y usará firma XMLDSig completa.
+                </p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Documentación Adicional</h2>
+            <ul>
+                <li><strong>README.md</strong> - Documentación completa del módulo</li>
+                <li><strong>QUICK_START.md</strong> - Guía de inicio rápido</li>
+                <li><strong>INSTALLATION_GUIDE.md</strong> - Guía detallada de instalación</li>
+                <li><strong>XMLSEC_NOTES.md</strong> - Información sobre firma digital</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🆘 Soporte</h2>
+            <div class="requirements">
+                <div class="requirement-card">
+                    <h4>🌐 Portal DGII</h4>
+                    <p><a href="https://dgii.gov.do" target="_blank">https://dgii.gov.do</a></p>
+                    <p><a href="https://dgii.gov.do/ecf" target="_blank">Documentación e-CF</a></p>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>📧 Soporte Técnico</h4>
+                    <p>Web: https://www.linkedin.com/in/jrosariom/</p>
+                    <p>Juan Rosario</p>
+                </div>
+
+                <div class="requirement-card">
+                    <h4>📖 Recursos</h4>
+                    <p>Especificaciones técnicas DGII v1.0</p>
+                    <p>Proceso de certificación</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Versión:</strong> 19.0.1.0.0 (Beta - Desarrollo)</p>
+            <p><strong>Estado:</strong> ✅ Instalado y Funcional - Refinamiento en Progreso</p>
+            <p><strong>Licencia:</strong> LGPL-3</p>
+            <p><strong>Categoría:</strong> Accounting/Localizations</p>
+            <p><strong>Autor:</strong> Juan Rosario</p>
+            <p>Desarrollado para Odoo 19 Community y Enterprise</p>
+            <p style="margin-top: 10px;"><em>Módulo base funcional con vistas simplificadas para compatibilidad Odoo 19</em></p>
+            <p style="margin-top: 20px; color: #999;">© 2025 Juan Rosario - República Dominicana</p>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Registros de Contribuciones TSS -->
+    
+    <record id="hr_contribution_register_afp" model="hr.contribution.register">
+        <field name="name">AFP - Administradora de Fondos de Pensiones</field>
+        <field name="note">Administradora de Fondos de Pensiones (AFP)</field>
+    </record>
+
+    <record id="hr_contribution_register_ars" model="hr.contribution.register">
+        <field name="name">ARS - Administradora de Riesgos de Salud</field>
+        <field name="note">Administradora de Riesgos de Salud (ARS)</field>
+    </record>
+
+    <record id="hr_contribution_register_sfs" model="hr.contribution.register">
+        <field name="name">SFS - Seguro Familiar de Salud</field>
+        <field name="note">Seguro Familiar de Salud (SFS) - SENASA</field>
+    </record>
+
+    <record id="hr_contribution_register_infotep" model="hr.contribution.register">
+        <field name="name">Infotep</field>
+        <field name="note">Instituto Nacional de Formación Técnico Profesional</field>
+    </record>
+
+    <record id="hr_contribution_register_isr" model="hr.contribution.register">
+        <field name="name">ISR - Impuesto Sobre la Renta</field>
+        <field name="note">Impuesto Sobre la Renta (ISR)</field>
+    </record>
+
+</odoo>
+

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Tramos de ISR 2024-2025 según DGII -->
+    
+    <!-- Tramo 1: Exento hasta 416,220.00 DOP/año -->
+    <record id="isr_bracket_2024_01" model="isr.tax.bracket">
+        <field name="name">Tramo 1 - Exento</field>
+        <field name="sequence">10</field>
+        <field name="date_from" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-01-01')"/>
+        <field name="date_to" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="amount_from">0.00</field>
+        <field name="amount_to">416220.00</field>
+        <field name="tax_rate">0.00</field>
+        <field name="fixed_amount">0.00</field>
+        <field name="description">Primer tramo exento hasta RD$ 416,220.00 anuales</field>
+    </record>
+
+    <!-- Tramo 2: 15% sobre el excedente de 416,220.01 hasta 624,329.00 -->
+    <record id="isr_bracket_2024_02" model="isr.tax.bracket">
+        <field name="name">Tramo 2 - 15%</field>
+        <field name="sequence">20</field>
+        <field name="date_from" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-01-01')"/>
+        <field name="date_to" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="amount_from">416220.01</field>
+        <field name="amount_to">624329.00</field>
+        <field name="tax_rate">15.00</field>
+        <field name="fixed_amount">0.00</field>
+        <field name="description">15% sobre el excedente de RD$ 416,220.01 hasta RD$ 624,329.00</field>
+    </record>
+
+    <!-- Tramo 3: 20% sobre el excedente de 624,329.01 hasta 867,123.00 -->
+    <record id="isr_bracket_2024_03" model="isr.tax.bracket">
+        <field name="name">Tramo 3 - 20%</field>
+        <field name="sequence">30</field>
+        <field name="date_from" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-01-01')"/>
+        <field name="date_to" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="amount_from">624329.01</field>
+        <field name="amount_to">867123.00</field>
+        <field name="tax_rate">20.00</field>
+        <field name="fixed_amount">31216.35</field>
+        <field name="description">RD$ 31,216.35 + 20% sobre el excedente de RD$ 624,329.01 hasta RD$ 867,123.00</field>
+    </record>
+
+    <!-- Tramo 4: 25% sobre el excedente de 867,123.01 en adelante -->
+    <record id="isr_bracket_2024_04" model="isr.tax.bracket">
+        <field name="name">Tramo 4 - 25%</field>
+        <field name="sequence">40</field>
+        <field name="date_from" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-01-01')"/>
+        <field name="date_to" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="amount_from">867123.01</field>
+        <field name="amount_to">0.00</field>
+        <field name="tax_rate">25.00</field>
+        <field name="fixed_amount">79775.15</field>
+        <field name="description">RD$ 79,775.15 + 25% sobre el excedente de RD$ 867,123.01 en adelante</field>
+    </record>
+
+</odoo>
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Definición del Reporte de Activo -->
+    <record id="action_report_asset" model="ir.actions.report">
+        <field name="name">Ficha de Activo Fijo</field>
+        <field name="model">account.asset</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_do_account_asset.report_asset_document</field>
+        <field name="report_file">l10n_do_account_asset.report_asset_document</field>
+        <field name="binding_model_id" ref="model_account_asset"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Activo - %s' % (object.code)</field>
+    </record>
+
+    <!-- Plantilla QWeb del Activo -->
+    <template id="report_asset_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="color: #002D62;">FICHA DE ACTIVO FIJO</h2>
+                        <div class="row">
+                            <div class="col-8">
+                                <h3><span t-field="o.name"/></h3>
+                                <p><strong>Código:</strong> <span t-field="o.code"/></p>
+                            </div>
+                            <div class="col-4 text-right">
+                                <span t-field="o.image" t-options="{'widget': 'image', 'class': 'img-thumbnail', 'style': 'max-height: 150px;'}"/>
+                            </div>
+                        </div>
+                        
+                        <table class="table table-bordered mt-3">
+                            <tr>
+                                <td style="width:30%; background-color:#f8f9fa;"><strong>Categoría</strong></td>
+                                <td><span t-field="o.category_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#f8f9fa;"><strong>Fecha de Adquisición</strong></td>
+                                <td><span t-field="o.acquisition_date"/></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#f8f9fa;"><strong>Valor de Compra</strong></td>
+                                <td><span t-field="o.purchase_value" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#f8f9fa;"><strong>Depreciación Acumulada</strong></td>
+                                <td><span t-field="o.depreciated_value" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#f8f9fa;"><strong>Valor en Libros</strong></td>
+                                <td><span t-field="o.book_value" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#f8f9fa;"><strong>Ubicación</strong></td>
+                                <td><span t-field="o.location"/></td>
+                            </tr>
+                            <tr>
+                                <td style="background-color:#f8f9fa;"><strong>Responsable</strong></td>
+                                <td><span t-field="o.responsible_id.name"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista de Formulario de Certificados -->
+        <record id="view_ecf_certificate_form" model="ir.ui.view">
+            <field name="name">ecf.certificate.form</field>
+            <field name="model">ecf.certificate</field>
+            <field name="arch" type="xml">
+                <form string="Certificado Digital e-CF">
+                    <header>
+                        <button name="action_validate_certificate" string="Validar Certificado" type="object" 
+                                class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_set_active" string="Activar" type="object" 
+                                class="oe_highlight" invisible="state != 'validated'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,validated,active"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="EXPIRADO" bg_color="bg-danger" invisible="not is_expired"/>
+                        <widget name="web_ribbon" title="ACTIVO" bg_color="bg-success" invisible="state != 'active'"/>
+                        
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="certificate_file" filename="certificate_filename"/>
+                                <field name="certificate_filename" invisible="1"/>
+                                <field name="password" password="True"/>
+                                <field name="active" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="issuer" readonly="1"/>
+                                <field name="subject" readonly="1"/>
+                                <field name="serial_number" readonly="1"/>
+                                <field name="issue_date" readonly="1"/>
+                                <field name="expiration_date" readonly="1"/>
+                                <field name="is_expired" invisible="1"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Notas">
+                            <field name="notes" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de Lista de Certificados -->
+        <record id="view_ecf_certificate_tree" model="ir.ui.view">
+            <field name="name">ecf.certificate.tree</field>
+            <field name="model">ecf.certificate</field>
+            <field name="arch" type="xml">
+                <list string="Certificados Digitales">
+                    <field name="name"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="issue_date"/>
+                    <field name="expiration_date"/>
+                    <field name="is_expired" invisible="1"/>
+                    <field name="state" decoration-success="state == 'active'" 
+                           decoration-warning="state == 'validated'" 
+                           decoration-danger="state == 'expired'" 
+                           widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista de Búsqueda de Certificados -->
+        <record id="view_ecf_certificate_search" model="ir.ui.view">
+            <field name="name">ecf.certificate.search</field>
+            <field name="model">ecf.certificate</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <filter name="active_certs" string="Activo" domain="[('state', '=', 'active')]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Acción de Certificados -->
+        <record id="action_ecf_certificate" model="ir.actions.act_window">
+            <field name="name">Certificados Digitales</field>
+            <field name="res_model">ecf.certificate</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No hay certificados digitales configurados
+                </p>
+                <p>
+                    Agregue un certificado digital PKCS#12 (.p12 o .pfx) para firmar los e-CF.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

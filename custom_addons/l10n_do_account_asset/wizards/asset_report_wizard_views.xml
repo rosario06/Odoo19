@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form del Wizard de Reportes -->
+    <record id="view_asset_report_wizard_form" model="ir.ui.view">
+        <field name="name">asset.report.wizard.form</field>
+        <field name="model">asset.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reporte de Activos">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="category_ids" widget="many2many_tags"/>
+                        <field name="state"/>
+                    </group>
+                </group>
+                <group invisible="not excel_file">
+                    <field name="excel_file" filename="excel_filename" invisible="1"/>
+                    <field name="excel_filename" invisible="1"/>
+                    <div class="alert alert-success" role="alert">
+                        <h4>✅ Reporte Generado</h4>
+                        <p>El archivo Excel está listo para descargar.</p>
+                    </div>
+                </group>
+                <footer>
+                    <button name="action_generate_report" string="Generar" type="object" class="btn-primary" invisible="excel_file"/>
+                    <button name="action_download_excel" string="Descargar Excel" type="object" class="btn-success" invisible="not excel_file"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción del Wizard -->
+    <record id="action_asset_report_wizard" model="ir.actions.act_window">
+        <field name="name">Reporte de Activos</field>
+        <field name="res_model">asset.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
+

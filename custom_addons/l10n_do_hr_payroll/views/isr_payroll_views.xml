@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form ISR -->
+    <record id="view_isr_payroll_form" model="ir.ui.view">
+        <field name="name">isr.payroll.form</field>
+        <field name="model">isr.payroll</field>
+        <field name="arch" type="xml">
+            <form string="Retencion ISR">
+                <header>
+                    <button name="action_confirm" string="Confirmar" type="object" invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_report" string="Marcar Reportado" type="object" invisible="state != 'confirmed'" class="oe_highlight"/>
+                    <button name="action_draft" string="Volver a Borrador" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,reported"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                            <field name="period"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="payslip_id"/>
+                            <field name="bracket_applied"/>
+                        </group>
+                    </group>
+                    <group string="Salarios">
+                        <group>
+                            <field name="monthly_salary"/>
+                            <field name="annual_salary"/>
+                        </group>
+                    </group>
+                    <group string="Deducciones">
+                        <group>
+                            <field name="tss_deductions"/>
+                            <field name="dependents"/>
+                            <field name="dependents_deduction"/>
+                        </group>
+                        <group>
+                            <field name="other_deductions"/>
+                            <field name="total_deductions" class="oe_bold"/>
+                        </group>
+                    </group>
+                    <group string="Base Imponible">
+                        <group>
+                            <field name="taxable_income" class="oe_bold"/>
+                        </group>
+                    </group>
+                    <group string="Impuesto Sobre la Renta">
+                        <group>
+                            <field name="isr_annual"/>
+                            <field name="isr_monthly" class="oe_bold"/>
+                        </group>
+                        <group>
+                            <field name="effective_rate"/>
+                        </group>
+                    </group>
+                    <group string="Notas">
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista List ISR -->
+    <record id="view_isr_payroll_list" model="ir.ui.view">
+        <field name="name">isr.payroll.list</field>
+        <field name="model">isr.payroll</field>
+        <field name="arch" type="xml">
+            <list string="Retenciones ISR">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="period"/>
+                <field name="monthly_salary" sum="Total Salario"/>
+                <field name="isr_monthly" sum="Total ISR"/>
+                <field name="effective_rate" avg="Tasa Prom."/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Accion -->
+    <record id="action_isr_payroll" model="ir.actions.act_window">
+        <field name="name">Retenciones ISR</field>
+        <field name="res_model">isr.payroll</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
+

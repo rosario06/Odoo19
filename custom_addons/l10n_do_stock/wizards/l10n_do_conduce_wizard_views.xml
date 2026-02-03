@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form del Wizard -->
+    <record id="view_l10n_do_conduce_wizard_form" model="ir.ui.view">
+        <field name="name">l10n.do.conduce.wizard.form</field>
+        <field name="model">l10n.do.conduce.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generar Conduce">
+                <group>
+                    <group>
+                        <field name="date"/>
+                        <field name="generation_mode"/>
+                    </group>
+                    <group>
+                        <field name="picking_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                </group>
+                
+                <group string="Información del Transporte">
+                    <group>
+                        <field name="driver_name"/>
+                        <field name="driver_id_number"/>
+                        <field name="driver_license"/>
+                    </group>
+                    <group>
+                        <field name="vehicle_plate"/>
+                        <field name="vehicle_type"/>
+                    </group>
+                </group>
+                
+                <group string="Direcciones (Consolidado)" invisible="generation_mode != 'consolidated'">
+                    <group>
+                        <field name="origin_address" nolabel="1" placeholder="Dirección de origen..."/>
+                    </group>
+                    <group>
+                        <field name="destination_address" nolabel="1" placeholder="Dirección de destino..."/>
+                    </group>
+                </group>
+                
+                <group string="Observaciones">
+                    <field name="notes" nolabel="1" placeholder="Observaciones adicionales..."/>
+                </group>
+                
+                <footer>
+                    <button name="action_generate_conduce" string="Generar Conduce" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción del Wizard -->
+    <record id="action_l10n_do_conduce_wizard" model="ir.actions.act_window">
+        <field name="name">Generar Conduce</field>
+        <field name="res_model">l10n.do.conduce.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+</odoo>
+

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Definición del Reporte -->
+    <record id="action_report_kardex" model="ir.actions.report">
+        <field name="name">Kardex de Inventario</field>
+        <field name="model">l10n.do.kardex</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_do_stock.report_kardex_document</field>
+        <field name="report_file">l10n_do_stock.report_kardex_document</field>
+        <field name="binding_model_id" ref="model_l10n_do_kardex"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Kardex - %s' % (object.product_id.name)</field>
+    </record>
+
+    <!-- Plantilla QWeb del Kardex -->
+    <template id="report_kardex_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Encabezado -->
+                        <div class="row" style="border-bottom: 3px solid #002D62; padding-bottom: 10px; margin-bottom: 20px;">
+                            <div class="col-8">
+                                <h2 style="color: #002D62; margin: 0;">
+                                    <strong>KARDEX DE INVENTARIO</strong>
+                                </h2>
+                                <p style="margin: 5px 0;">Control de Movimientos de Inventario</p>
+                                <p style="margin: 5px 0; font-size: 12px;">
+                                    República Dominicana - Reporte Fiscal
+                                </p>
+                            </div>
+                            <div class="col-4 text-right">
+                                <p style="margin: 5px 0;">
+                                    <strong>Fecha:</strong> <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Información del Producto -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-12">
+                                <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #002D62;">
+                                    <h5 style="color: #002D62; margin-top: 0;">
+                                        <i class="fa fa-cube"></i> Información del Producto
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p style="margin: 5px 0;">
+                                                <strong>Código:</strong> <span t-field="o.product_id.default_code"/>
+                                            </p>
+                                            <p style="margin: 5px 0;">
+                                                <strong>Nombre:</strong> <span t-field="o.product_id.name"/>
+                                            </p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="margin: 5px 0;">
+                                                <strong>Categoría:</strong> <span t-field="o.product_id.categ_id.name"/>
+                                            </p>
+                                            <p style="margin: 5px 0;">
+                                                <strong>U.M.:</strong> <span t-field="o.product_id.uom_id.name"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nota: Este reporte muestra UN movimiento individual -->
+                        <!-- Para un kardex completo, se debe usar el wizard que genera Excel -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <strong>Nota:</strong> Para generar un kardex completo con todos los movimientos,
+                                    utilice el wizard: Inventario → República Dominicana → Reportes → Generar Kardex
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detalle del Movimiento -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 style="color: #002D62; border-bottom: 2px solid #002D62; padding-bottom: 5px;">
+                                    <i class="fa fa-exchange"></i> Detalle del Movimiento
+                                </h5>
+                                <table class="table table-bordered" style="margin-top: 10px;">
+                                    <tr>
+                                        <td style="width: 30%; background-color: #f8f9fa;"><strong>Fecha:</strong></td>
+                                        <td><span t-field="o.date" t-options="{'widget': 'datetime'}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #f8f9fa;"><strong>Referencia:</strong></td>
+                                        <td><span t-field="o.reference"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #f8f9fa;"><strong>Ubicación:</strong></td>
+                                        <td><span t-field="o.location_id.name"/></td>
+                                    </tr>
+                                    <tr t-if="o.partner_id">
+                                        <td style="background-color: #f8f9fa;"><strong>Cliente/Proveedor:</strong></td>
+                                        <td><span t-field="o.partner_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #f8f9fa;"><strong>Tipo de Movimiento:</strong></td>
+                                        <td>
+                                            <span t-if="o.move_type == 'in'" class="badge badge-success">Entrada</span>
+                                            <span t-if="o.move_type == 'out'" class="badge badge-danger">Salida</span>
+                                            <span t-if="o.move_type == 'adjustment'" class="badge badge-warning">Ajuste</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Cantidades y Valores -->
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-6">
+                                <h6 style="color: #002D62; border-bottom: 1px solid #002D62;">Cantidades</h6>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Entrada:</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.qty_in" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Salida:</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.qty_out" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #f8f9fa;">
+                                        <td><strong>Saldo:</strong></td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-field="o.qty_balance" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <h6 style="color: #002D62; border-bottom: 1px solid #002D62;">Valores</h6>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Costo Unitario:</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.unit_cost" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Valor Entrada:</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.value_in" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Valor Salida:</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.value_out" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #f8f9fa;">
+                                        <td><strong>Saldo Valor:</strong></td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-field="o.value_balance" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Notas -->
+                        <div class="row" style="margin-top: 20px;" t-if="o.notes">
+                            <div class="col-12">
+                                <h6 style="color: #002D62;">Notas:</h6>
+                                <p style="white-space: pre-line; border: 1px solid #ddd; padding: 10px; background-color: #f8f9fa;">
+                                    <span t-field="o.notes"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Pie de página -->
+                        <div class="row" style="margin-top: 30px; padding-top: 10px; border-top: 1px solid #ddd;">
+                            <div class="col-12 text-center">
+                                <small style="color: #6c757d;">
+                                    Documento generado automáticamente por el sistema<br/>
+                                    Fecha de generación: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+

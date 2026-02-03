@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Definición del Reporte -->
+    <record id="action_report_conduce" model="ir.actions.report">
+        <field name="name">Conduce</field>
+        <field name="model">l10n.do.conduce</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_do_stock.report_conduce_document</field>
+        <field name="report_file">l10n_do_stock.report_conduce_document</field>
+        <field name="binding_model_id" ref="model_l10n_do_conduce"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Conduce - %s' % (object.name)</field>
+    </record>
+
+    <!-- Plantilla QWeb del Conduce -->
+    <template id="report_conduce_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Encabezado -->
+                        <div class="row" style="border-bottom: 3px solid #002D62; padding-bottom: 10px; margin-bottom: 20px;">
+                            <div class="col-8">
+                                <h2 style="color: #002D62; margin: 0;">
+                                    <strong>CONDUCE</strong>
+                                </h2>
+                                <p style="margin: 5px 0;">Documento de Transporte de Mercancías</p>
+                                <p style="margin: 5px 0; font-size: 12px;">
+                                    República Dominicana - Normativa DGII
+                                </p>
+                            </div>
+                            <div class="col-4 text-right">
+                                <h3 style="color: #ED1C24; margin: 0;">
+                                    <strong t-field="o.name"/>
+                                </h3>
+                                <p style="margin: 5px 0;">
+                                    <strong>Fecha:</strong> <span t-field="o.date" t-options="{'widget': 'date'}"/>
+                                </p>
+                                <p style="margin: 5px 0;">
+                                    <span t-if="o.state == 'draft'" class="badge badge-secondary">Borrador</span>
+                                    <span t-if="o.state == 'confirmed'" class="badge badge-info">Confirmado</span>
+                                    <span t-if="o.state == 'done'" class="badge badge-success">Entregado</span>
+                                    <span t-if="o.state == 'cancelled'" class="badge badge-danger">Cancelado</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Información de la Empresa -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-12">
+                                <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #002D62;">
+                                    <h5 style="color: #002D62; margin-top: 0;">
+                                        <i class="fa fa-building"></i> Información del Remitente
+                                    </h5>
+                                    <p style="margin: 5px 0;">
+                                        <strong t-field="o.company_id.name"/>
+                                    </p>
+                                    <p style="margin: 5px 0;">
+                                        <strong>RNC:</strong> <span t-field="o.company_id.vat"/>
+                                    </p>
+                                    <p style="margin: 5px 0;">
+                                        <span t-field="o.company_id.street"/>
+                                        <span t-if="o.company_id.city">, <span t-field="o.company_id.city"/></span>
+                                    </p>
+                                    <p style="margin: 5px 0;" t-if="o.company_id.phone">
+                                        <strong>Teléfono:</strong> <span t-field="o.company_id.phone"/>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información del Destinatario -->
+                        <div class="row" style="margin-bottom: 20px;" t-if="o.partner_id">
+                            <div class="col-12">
+                                <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #ED1C24;">
+                                    <h5 style="color: #ED1C24; margin-top: 0;">
+                                        <i class="fa fa-user"></i> Información del Destinatario
+                                    </h5>
+                                    <p style="margin: 5px 0;">
+                                        <strong t-field="o.partner_id.name"/>
+                                    </p>
+                                    <p style="margin: 5px 0;" t-if="o.partner_id.vat">
+                                        <strong>RNC/Cédula:</strong> <span t-field="o.partner_id.vat"/>
+                                    </p>
+                                    <p style="margin: 5px 0;" t-if="o.partner_id.street">
+                                        <span t-field="o.partner_id.street"/>
+                                        <span t-if="o.partner_id.city">, <span t-field="o.partner_id.city"/></span>
+                                    </p>
+                                    <p style="margin: 5px 0;" t-if="o.partner_id.phone">
+                                        <strong>Teléfono:</strong> <span t-field="o.partner_id.phone"/>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Origen y Destino -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-6">
+                                <div style="border: 2px solid #002D62; padding: 10px; min-height: 100px;">
+                                    <h6 style="color: #002D62; margin-top: 0;">
+                                        <i class="fa fa-map-marker"></i> ORIGEN
+                                    </h6>
+                                    <p style="margin: 0; white-space: pre-line;" t-field="o.origin_address"/>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div style="border: 2px solid #ED1C24; padding: 10px; min-height: 100px;">
+                                    <h6 style="color: #ED1C24; margin-top: 0;">
+                                        <i class="fa fa-flag-checkered"></i> DESTINO
+                                    </h6>
+                                    <p style="margin: 0; white-space: pre-line;" t-field="o.destination_address"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información del Transporte -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-12">
+                                <div style="background-color: #fff3cd; padding: 15px; border: 2px solid #ffc107;">
+                                    <h5 style="color: #856404; margin-top: 0;">
+                                        <i class="fa fa-truck"></i> Información del Transporte
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p style="margin: 5px 0;">
+                                                <strong>Chofer:</strong> <span t-field="o.driver_name"/>
+                                            </p>
+                                            <p style="margin: 5px 0;" t-if="o.driver_id_number">
+                                                <strong>Cédula:</strong> <span t-field="o.driver_id_number"/>
+                                            </p>
+                                            <p style="margin: 5px 0;" t-if="o.driver_license">
+                                                <strong>Licencia:</strong> <span t-field="o.driver_license"/>
+                                            </p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="margin: 5px 0;">
+                                                <strong>Placa del Vehículo:</strong> <span t-field="o.vehicle_plate"/>
+                                            </p>
+                                            <p style="margin: 5px 0;" t-if="o.vehicle_type">
+                                                <strong>Tipo de Vehículo:</strong> 
+                                                <span t-if="o.vehicle_type == 'truck'">Camión</span>
+                                                <span t-if="o.vehicle_type == 'van'">Camioneta</span>
+                                                <span t-if="o.vehicle_type == 'car'">Automóvil</span>
+                                                <span t-if="o.vehicle_type == 'motorcycle'">Motocicleta</span>
+                                                <span t-if="o.vehicle_type == 'other'">Otro</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabla de Productos -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-12">
+                                <h5 style="color: #002D62; border-bottom: 2px solid #002D62; padding-bottom: 5px;">
+                                    <i class="fa fa-list"></i> Detalle de Mercancías
+                                </h5>
+                                <table class="table table-sm table-bordered" style="margin-top: 10px;">
+                                    <thead style="background-color: #002D62; color: white;">
+                                        <tr>
+                                            <th style="width: 5%;">#</th>
+                                            <th style="width: 40%;">Descripción</th>
+                                            <th style="width: 15%;" class="text-center">Cantidad</th>
+                                            <th style="width: 10%;" class="text-center">U.M.</th>
+                                            <th style="width: 15%;" class="text-right">Peso (kg)</th>
+                                            <th style="width: 15%;">Lote/Serie</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.line_ids" t-as="line">
+                                            <td class="text-center">
+                                                <span t-esc="line_index + 1"/>
+                                            </td>
+                                            <td>
+                                                <strong t-field="line.product_id.default_code"/>
+                                                <span t-field="line.description"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.quantity" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.uom_id.name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.weight" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.lot_id.name" t-if="line.lot_id"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot style="background-color: #f8f9fa; font-weight: bold;">
+                                        <tr>
+                                            <td colspan="2" class="text-right">TOTALES:</td>
+                                            <td class="text-center">
+                                                <span t-field="o.total_qty" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            </td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <span t-field="o.total_weight" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Observaciones -->
+                        <div class="row" style="margin-bottom: 20px;" t-if="o.notes">
+                            <div class="col-12">
+                                <h6 style="color: #002D62;">Observaciones:</h6>
+                                <p style="white-space: pre-line; border: 1px solid #ddd; padding: 10px; background-color: #f8f9fa;">
+                                    <span t-field="o.notes"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Firmas -->
+                        <div class="row" style="margin-top: 50px;">
+                            <div class="col-4 text-center">
+                                <div style="border-top: 2px solid #000; padding-top: 5px;">
+                                    <strong>Preparado por</strong>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div style="border-top: 2px solid #000; padding-top: 5px;">
+                                    <strong>Conductor</strong><br/>
+                                    <small t-field="o.driver_name"/>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div style="border-top: 2px solid #000; padding-top: 5px;">
+                                    <strong>Recibido por</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie de página con información legal -->
+                        <div class="row" style="margin-top: 30px; padding-top: 10px; border-top: 1px solid #ddd;">
+                            <div class="col-12 text-center">
+                                <small style="color: #6c757d;">
+                                    Este documento es válido para el transporte de mercancías según normativa DGII<br/>
+                                    <span t-if="o.picking_id">
+                                        Transferencia relacionada: <span t-field="o.picking_id.name"/>
+                                    </span>
+                                    <span t-if="o.ncf_id">
+                                        | NCF: <span t-field="o.ncf_id.l10n_latam_document_number"/>
+                                    </span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+

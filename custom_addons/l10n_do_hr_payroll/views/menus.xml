@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú Principal Reportes RD -->
+    <menuitem
+        id="menu_payroll_do_reports"
+        name="Reportes RD"
+        parent="hr_payroll.payroll_menu_root"
+        sequence="50"/>
+
+    <!-- Aportes TSS -->
+    <menuitem
+        id="menu_tss_contribution"
+        name="Aportes TSS"
+        parent="menu_payroll_do_reports"
+        action="action_tss_contribution"
+        sequence="10"/>
+
+    <!-- Retenciones ISR -->
+    <menuitem
+        id="menu_isr_payroll"
+        name="Retenciones ISR"
+        parent="menu_payroll_do_reports"
+        action="action_isr_payroll"
+        sequence="20"/>
+
+    <!-- COMENTADO TEMPORALMENTE: Wizards se agregarán en actualización futura
+    <menuitem
+        id="menu_tss_report_wizard"
+        name="Generar Reporte TSS"
+        parent="menu_payroll_do_reports"
+        action="action_tss_report_wizard"
+        sequence="50"/>
+
+    <menuitem
+        id="menu_it1_wizard"
+        name="Generar IT-1 (DGII)"
+        parent="menu_payroll_do_reports"
+        action="action_it1_wizard"
+        sequence="60"/>
+    -->
+
+    <!-- Menú Configuración dentro de Payroll -->
+    <menuitem
+        id="menu_payroll_do_configuration"
+        name="Configuración RD"
+        parent="hr_payroll.payroll_menu_configuration"
+        sequence="100"/>
+
+    <!-- Tasas TSS -->
+    <menuitem
+        id="menu_tss_rate_config"
+        name="Tasas TSS"
+        parent="menu_payroll_do_configuration"
+        action="action_tss_rate_config"
+        sequence="10"/>
+
+    <!-- Tramos ISR -->
+    <menuitem
+        id="menu_isr_tax_bracket"
+        name="Tramos ISR"
+        parent="menu_payroll_do_configuration"
+        action="action_isr_tax_bracket"
+        sequence="20"/>
+
+    <!-- Salarios Mínimos -->
+    <menuitem
+        id="menu_minimum_wage"
+        name="Salarios Mínimos"
+        parent="menu_payroll_do_configuration"
+        action="action_minimum_wage"
+        sequence="30"/>
+
+</odoo>

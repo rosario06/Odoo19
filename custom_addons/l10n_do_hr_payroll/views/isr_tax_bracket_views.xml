@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Views for isr.tax.bracket -->
+    <record id="view_isr_tax_bracket_list" model="ir.ui.view">
+        <field name="name">isr.tax.bracket.list</field>
+        <field name="model">isr.tax.bracket</field>
+        <field name="arch" type="xml">
+            <list string="Tramos ISR">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="amount_from"/>
+                <field name="amount_to"/>
+                <field name="tax_rate"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_isr_tax_bracket" model="ir.actions.act_window">
+        <field name="name">Tramos ISR</field>
+        <field name="res_model">isr.tax.bracket</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
+

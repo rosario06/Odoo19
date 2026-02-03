@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form Wizard TSS -->
+    <record id="view_tss_report_wizard_form" model="ir.ui.view">
+        <field name="name">tss.report.wizard.form</field>
+        <field name="model">tss.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generar Reporte TSS">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="report_type"/>
+                        <field name="state"/>
+                        <field name="employee_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group invisible="not excel_file">
+                    <field name="excel_file" filename="excel_filename" invisible="1"/>
+                    <field name="excel_filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_generate_report" string="Generar Reporte" type="object" class="btn-primary"/>
+                    <button name="action_download_excel" string="Descargar Excel" type="object" invisible="not excel_file" class="btn-success"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_tss_report_wizard" model="ir.actions.act_window">
+        <field name="name">Generar Reporte TSS</field>
+        <field name="res_model">tss.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
+

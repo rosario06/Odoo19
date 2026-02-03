@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Categoría del Módulo para e-CF -->
+        <record id="module_category_ecf" model="ir.module.category">
+            <field name="name">e-CF</field>
+            <field name="description">Gestión de Comprobantes Electrónicos Fiscales</field>
+            <field name="sequence">10</field>
+        </record>
+    </data>
+</odoo>

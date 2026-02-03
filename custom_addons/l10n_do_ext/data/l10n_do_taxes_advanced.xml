@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ============================================ -->
+        <!-- IMPUESTOS ESPECIALIZADOS SECTOR ESPECÍFICO  -->
+        <!-- ============================================ -->
+
+        <!-- ========== TELECOMUNICACIONES ========== -->
+        
+        <!-- ITBIS 18% + Retención 10% ISR para Telecomunicaciones -->
+        <record id="tax_template_telecom_group" model="account.tax.template">
+            <field name="name">Telecomunicaciones (ITBIS 18% + Ret ISR 10%)</field>
+            <field name="description">Telecom</field>
+            <field name="amount">0</field>
+            <field name="amount_type">group</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="tax_group_retenciones"/>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="children_tax_ids" eval="[(6, 0, [
+                ref('tax_template_itbis_18_purchase'),
+                ref('tax_template_isr_retenido_10_purchase')
+            ])]"/>
+        </record>
+
+        <!-- ========== MATERIALES DE CONSTRUCCIÓN ========== -->
+        
+        <!-- ITBIS 18% + Retención 75% ITBIS para Construcción -->
+        <record id="tax_template_construction_group" model="account.tax.template">
+            <field name="name">Materiales Construcción (ITBIS 18% + Ret ITBIS 75%)</field>
+            <field name="description">Construcción</field>
+            <field name="amount">0</field>
+            <field name="amount_type">group</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="tax_group_retenciones"/>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="children_tax_ids" eval="[(6, 0, [
+                ref('tax_template_itbis_18_purchase'),
+                ref('tax_template_itbis_retenido_75_purchase')
+            ])]"/>
+        </record>
+
+        <!-- ========== PERSONAS FÍSICAS SERVICIOS ========== -->
+        
+        <!-- Retención ISR 27% para Personas Físicas (sin ITBIS) -->
+        <record id="tax_template_persona_fisica_servicios" model="account.tax.template">
+            <field name="name">Servicios Persona Física (Ret ISR 27%)</field>
+            <field name="description">PF Servicios</field>
+            <field name="amount">-27</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="tax_group_retenciones"/>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'base'}),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'tax', 'account_id': ref('l10n_do_account_template_21602')}),
+            ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'base'}),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'tax', 'account_id': ref('l10n_do_account_template_21602')}),
+            ]"/>
+        </record>
+
+        <!-- ========== SERVICIOS PROFESIONALES ========== -->
+        
+        <!-- ITBIS 18% + Retención 10% ISR para Servicios Profesionales -->
+        <record id="tax_template_servicios_profesionales" model="account.tax.template">
+            <field name="name">Servicios Profesionales (ITBIS 18% + Ret ISR 10%)</field>
+            <field name="description">Profesionales</field>
+            <field name="amount">0</field>
+            <field name="amount_type">group</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="tax_group_retenciones"/>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="children_tax_ids" eval="[(6, 0, [
+                ref('tax_template_itbis_18_purchase'),
+                ref('tax_template_isr_retenido_10_purchase')
+            ])]"/>
+        </record>
+
+        <!-- ========== ALQUILERES ========== -->
+        
+        <!-- Retención ISR 10% para Alquileres -->
+        <record id="tax_template_alquileres_retencion" model="account.tax.template">
+            <field name="name">Alquileres (Ret ISR 10%)</field>
+            <field name="description">Alquileres</field>
+            <field name="amount">-10</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="tax_group_retenciones"/>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'base'}),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'tax', 'account_id': ref('l10n_do_account_template_21602')}),
+            ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'base'}),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'tax', 'account_id': ref('l10n_do_account_template_21602')}),
+            ]"/>
+        </record>
+
+        <!-- ========== SERVICIOS AL EXTERIOR ========== -->
+        
+        <!-- Retención ISR 27% para Servicios al Exterior -->
+        <record id="tax_template_servicios_exterior" model="account.tax.template">
+            <field name="name">Servicios al Exterior (Ret ISR 27%)</field>
+            <field name="description">Exterior</field>
+            <field name="amount">-27</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">purchase</field>
+            <field name="tax_group_id" ref="tax_group_retenciones"/>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+            <field name="invoice_repartition_line_ids" eval="[(5, 0, 0),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'base'}),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'tax', 'account_id': ref('l10n_do_account_template_21602')}),
+            ]"/>
+            <field name="refund_repartition_line_ids" eval="[(5, 0, 0),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'base'}),
+                (0, 0, {'factor_percent': 100, 'repartition_type': 'tax', 'account_id': ref('l10n_do_account_template_21602')}),
+            ]"/>
+        </record>
+
+        <!-- ========== EXENCIÓN PARA VENTAS AL ESTADO ========== -->
+        
+        <!-- ITBIS 0% para Ventas Exentas (Estado) -->
+        <record id="tax_template_itbis_exento_estado" model="account.tax.template">
+            <field name="name">ITBIS Exento - Ventas al Estado</field>
+            <field name="description">ITBIS 0% Estado</field>
+            <field name="amount">0</field>
+            <field name="amount_type">percent</field>
+            <field name="type_tax_use">sale</field>
+            <field name="tax_group_id" ref="tax_group_itbis"/>
+            <field name="chart_template_id" ref="l10n_do_chart_template"/>
+        </record>
+
+    </data>
+</odoo>
+

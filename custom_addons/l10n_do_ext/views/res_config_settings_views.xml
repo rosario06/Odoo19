@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- NOTA: La configuración de Facturación Electrónica (e-CF) se ha movido
+             a la vista de la empresa (Ajustes → Empresas → Mi Empresa → Pestaña "Facturación Electrónica (e-CF)")
+             debido a limitaciones de evaluación de expresiones en Odoo 19 -->
+
+    </data>
+</odoo>
+

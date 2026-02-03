@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================== -->
+        <!-- VISTAS PARA REPORTES DGII 606/607         -->
+        <!-- ========================================== -->
+
+        <!-- Vista de Árbol para Líneas del Reporte -->
+        <record id="view_l10n_do_dgii_report_line_tree" model="ir.ui.view">
+            <field name="name">l10n.do.dgii.report.line.tree</field>
+            <field name="model">l10n.do.dgii.report.line</field>
+            <field name="arch" type="xml">
+                <list create="false" delete="false">
+                    <field name="invoice_date"/>
+                    <field name="partner_id"/>
+                    <field name="partner_vat"/>
+                    <field name="ncf_type"/>
+                    <field name="ncf"/>
+                    <field name="amount_untaxed" sum="Total sin Impuesto"/>
+                    <field name="itbis_amount" sum="Total ITBIS"/>
+                    <field name="withholding_amount" sum="Total Retención" 
+                           column_invisible="parent.report_type == '607'"/>
+                    <field name="amount_total" sum="Total"/>
+                    <field name="expense_type" optional="hide" 
+                           column_invisible="parent.report_type == '607'"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista de Formulario -->
+        <record id="view_l10n_do_dgii_report_form" model="ir.ui.view">
+            <field name="name">l10n.do.dgii.report.form</field>
+            <field name="model">l10n.do.dgii.report</field>
+            <field name="arch" type="xml">
+                <form string="Reporte DGII">
+                    <header>
+                        <button name="action_generate_report" 
+                                string="Generar Reporte" 
+                                type="object" 
+                                class="oe_highlight" 
+                                invisible="state != 'draft'"/>
+                        <button name="action_generate_txt" 
+                                string="Exportar a TXT" 
+                                type="object" 
+                                class="oe_highlight" 
+                                invisible="state not in ['generated', 'sent']"/>
+                        <button name="action_send_dgii" 
+                                string="Marcar como Enviado" 
+                                type="object" 
+                                invisible="state != 'generated'"/>
+                        <button name="action_reset_to_draft" 
+                                string="Resetear a Borrador" 
+                                type="object" 
+                                invisible="state == 'draft'"/>
+                        <button name="action_cancel" 
+                                string="Cancelar" 
+                                type="object" 
+                                invisible="state in ['cancelled', 'sent']"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,generated,sent"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" 
+                                    type="object" 
+                                    class="oe_stat_button" 
+                                    icon="fa-download" 
+                                    invisible="not txt_file">
+                                <field name="txt_filename" widget="char"/>
+                            </button>
+                        </div>
+                        
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nombre del Reporte" readonly="state != 'draft'"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="company_id" readonly="1"/>
+                                <field name="report_type" widget="radio" readonly="state != 'draft'"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="date_from" readonly="state != 'draft'"/>
+                                <field name="date_to" readonly="state != 'draft'"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Líneas del Reporte" name="lines">
+                                <field name="line_ids" widget="one2many" 
+                                       context="{'tree_view_ref': 'l10n_do_ext.view_l10n_do_dgii_report_line_tree'}"/>
+                                
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="line_count" string="Total de Líneas"/>
+                                    <field name="total_amount" widget="monetary"/>
+                                    <field name="total_itbis" widget="monetary"/>
+                                    <field name="total_withholding" widget="monetary" 
+                                           invisible="report_type == '607'"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Archivos Generados" name="files" invisible="not txt_file">
+                                <group>
+                                    <group>
+                                        <label for="txt_file"/>
+                                        <div>
+                                            <field name="txt_file" filename="txt_filename"/>
+                                            <field name="txt_filename" invisible="1"/>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <label for="excel_file" invisible="not excel_file"/>
+                                        <div invisible="not excel_file">
+                                            <field name="excel_file" filename="excel_filename"/>
+                                            <field name="excel_filename" invisible="1"/>
+                                        </div>
+                                    </group>
+                                </group>
+                                
+                                <group string="Información">
+                                    <div class="alert alert-info" role="alert">
+                                        <h4>Instrucciones de Envío</h4>
+                                        <ol>
+                                            <li>Descargue el archivo TXT generado.</li>
+                                            <li>Ingrese al portal de la DGII: <a href="https://dgii.gov.do" target="_blank">https://dgii.gov.do</a></li>
+                                            <li>Vaya a la sección de "Declaraciones".</li>
+                                            <li>Seleccione el tipo de reporte correspondiente (606 o 607).</li>
+                                            <li>Cargue el archivo TXT.</li>
+                                            <li>Valide y envíe la declaración.</li>
+                                            <li>Una vez confirmado, marque este reporte como "Enviado".</li>
+                                        </ol>
+                                    </div>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de Lista -->
+        <record id="view_l10n_do_dgii_report_tree" model="ir.ui.view">
+            <field name="name">l10n.do.dgii.report.tree</field>
+            <field name="model">l10n.do.dgii.report</field>
+            <field name="arch" type="xml">
+                <list string="Reportes DGII">
+                    <field name="name"/>
+                    <field name="report_type"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="line_count"/>
+                    <field name="total_amount" sum="Total"/>
+                    <field name="total_itbis" sum="Total ITBIS"/>
+                    <field name="state" decoration-success="state == 'sent'" 
+                           decoration-info="state == 'generated'" 
+                           decoration-muted="state == 'cancelled'"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista de Búsqueda -->
+        <record id="view_l10n_do_dgii_report_search" model="ir.ui.view">
+            <field name="name">l10n.do.dgii.report.search</field>
+            <field name="model">l10n.do.dgii.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="report_type"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Acción para Reporte 606 -->
+        <record id="action_l10n_do_dgii_report_606" model="ir.actions.act_window">
+            <field name="name">Reporte 606 - Compras</field>
+            <field name="res_model">l10n.do.dgii.report</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'default_report_type': '606', 'search_default_606': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear el primer Reporte 606 (Compras)
+                </p>
+                <p>
+                    El Reporte 606 contiene todas las compras realizadas en el período fiscal.
+                    Debe ser presentado mensualmente a la DGII.
+                </p>
+            </field>
+        </record>
+
+        <!-- Acción para Reporte 607 -->
+        <record id="action_l10n_do_dgii_report_607" model="ir.actions.act_window">
+            <field name="name">Reporte 607 - Ventas</field>
+            <field name="res_model">l10n.do.dgii.report</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'default_report_type': '607', 'search_default_607': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear el primer Reporte 607 (Ventas)
+                </p>
+                <p>
+                    El Reporte 607 contiene todas las ventas realizadas en el período fiscal.
+                    Debe ser presentado mensualmente a la DGII.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menú Principal de Reportes DGII -->
+        <menuitem id="menu_l10n_do_dgii_reports" 
+                  name="Reportes DGII" 
+                  parent="account.menu_finance" 
+                  sequence="100" 
+                  groups="account.group_account_user"/>
+
+        <menuitem id="menu_l10n_do_dgii_report_606" 
+                  name="Reporte 606 - Compras" 
+                  parent="menu_l10n_do_dgii_reports" 
+                  action="action_l10n_do_dgii_report_606" 
+                  sequence="10"/>
+
+        <menuitem id="menu_l10n_do_dgii_report_607" 
+                  name="Reporte 607 - Ventas" 
+                  parent="menu_l10n_do_dgii_reports" 
+                  action="action_l10n_do_dgii_report_607" 
+                  sequence="20"/>
+
+    </data>
+</odoo>
+

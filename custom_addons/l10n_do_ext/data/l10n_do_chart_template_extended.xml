@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ============================================ -->
+        <!-- PLAN DE CUENTAS EXTENDIDO - 8 DÍGITOS       -->
+        <!-- Estructura: XXYYZZZZ                         -->
+        <!-- XX = Categoría, YY = Rubro, ZZZZ = Detalle  -->
+        <!-- ============================================ -->
+
+        <!-- ============================================ -->
+        <!-- NOTA IMPORTANTE                             -->
+        <!-- ============================================ -->
+        <!-- En Odoo 19, no se usan account.account.template -->
+        <!-- Este archivo está deshabilitado temporalmente. -->
+        <!-- El módulo l10n_do ya proporciona el plan de  -->
+        <!-- cuentas base para República Dominicana.       -->
+        <!--                                               -->
+        <!-- Si necesita cuentas adicionales:              -->
+        <!-- 1. Créelas desde: Contabilidad > Configuración -->
+        <!--    > Plan de Cuentas                          -->
+        <!-- 2. O defínalas aquí usando account.account    -->
+        <!--    (no templates) si desea automatizar su     -->
+        <!--    instalación.                               -->
+        <!-- ============================================ -->
+
+    </data>
+</odoo>

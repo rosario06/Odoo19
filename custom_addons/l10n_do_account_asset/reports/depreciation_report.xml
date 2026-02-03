@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Definición del Reporte de Depreciación -->
+    <record id="action_report_depreciation" model="ir.actions.report">
+        <field name="name">Tabla de Depreciación</field>
+        <field name="model">account.asset</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_do_account_asset.report_depreciation_document</field>
+        <field name="report_file">l10n_do_account_asset.report_depreciation_document</field>
+        <field name="binding_model_id" ref="model_account_asset"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Depreciación - %s' % (object.code)</field>
+    </record>
+
+    <!-- Plantilla QWeb de Depreciación -->
+    <template id="report_depreciation_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 style="color: #002D62;">TABLA DE DEPRECIACIÓN</h2>
+                        <h3><span t-field="o.name"/> (<span t-field="o.code"/>)</h3>
+                        
+                        <div class="row mt-3 mb-3">
+                            <div class="col-6">
+                                <p><strong>Valor de Compra:</strong> <span t-field="o.purchase_value" t-options="{'widget': 'monetary'}"/></p>
+                                <p><strong>Tasa Anual:</strong> <span t-field="o.depreciation_rate"/>%</p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Valor Residual:</strong> <span t-field="o.salvage_value" t-options="{'widget': 'monetary'}"/></p>
+                                <p><strong>Método:</strong> <span t-field="o.depreciation_method"/></p>
+                            </div>
+                        </div>
+                        
+                        <table class="table table-sm table-bordered">
+                            <thead style="background-color:#002D62; color:white;">
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th class="text-right">Monto</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.depreciation_line_ids" t-as="line">
+                                    <td><span t-field="line.depreciation_date"/></td>
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-right"><span t-field="line.amount" t-options="{'widget': 'monetary'}"/></td>
+                                    <td><span t-field="line.state"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot style="background-color:#f8f9fa; font-weight:bold;">
+                                <tr>
+                                    <td colspan="2" class="text-right">TOTAL DEPRECIADO:</td>
+                                    <td class="text-right"><span t-field="o.depreciated_value" t-options="{'widget': 'monetary'}"/></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-right">VALOR EN LIBROS:</td>
+                                    <td class="text-right"><span t-field="o.book_value" t-options="{'widget': 'monetary'}"/></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+

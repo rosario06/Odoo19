@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Nota: Los campos de configuración e-CF ya están definidos en l10n_do_ext
+             en la vista de empresa (res.company).
+             
+             Para acceder a la configuración e-CF:
+             Ajustes → Empresas → Mi Empresa → Pestaña "Facturación Electrónica (e-CF)"
+        -->
+
+    </data>
+</odoo>
+

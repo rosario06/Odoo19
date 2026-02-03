@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_minimum_wage_list" model="ir.ui.view">
+        <field name="name">minimum.wage.list</field>
+        <field name="model">minimum.wage</field>
+        <field name="arch" type="xml">
+            <list string="Salarios Mínimos">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="private_sector_large"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_minimum_wage" model="ir.actions.act_window">
+        <field name="name">Salarios Mínimos</field>
+        <field name="res_model">minimum.wage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
+

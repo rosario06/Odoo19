@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_move_form_inherit_l10n_do" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.l10n.do</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Modificamos el campo l10n_latam_document_number para facturas dominicanas -->
+            <xpath expr="//field[@name='l10n_latam_document_number']" position="attributes">
+                <attribute name="invisible">not is_l10n_do_fiscal_invoice</attribute>
+                <attribute name="readonly">state != 'draft'</attribute>
+                <attribute name="required">is_l10n_do_fiscal_invoice</attribute>
+            </xpath>
+            
+            <!-- Agregamos el campo NCF computado después del campo de documento -->
+            <xpath expr="//field[@name='l10n_latam_document_number']" position="after">
+                <field name="ncf" invisible="not is_l10n_do_fiscal_invoice" readonly="1" force_save="1"/>
+            </xpath>
+            
+            <!-- Agregamos el campo is_l10n_do_fiscal_invoice para que esté disponible -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="is_l10n_do_fiscal_invoice" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

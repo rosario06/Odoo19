@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista de Formulario del Wizard de Envío -->
+        <record id="view_ecf_send_wizard_form" model="ir.ui.view">
+            <field name="name">ecf.send.wizard.form</field>
+            <field name="model">ecf.send.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Enviar e-CF a DGII">
+                    <group>
+                        <field name="invoice_ids" widget="many2many_tags" readonly="1"/>
+                        <field name="invoice_count"/>
+                    </group>
+                    <group string="Opciones">
+                        <field name="generate_xml"/>
+                        <field name="sign_xml"/>
+                        <field name="send_to_dgii"/>
+                    </group>
+                    <footer>
+                        <button name="action_process" string="Procesar" type="object" class="oe_highlight"/>
+                        <button string="Cancelar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción del Wizard -->
+        <record id="action_ecf_send_wizard" model="ir.actions.act_window">
+            <field name="name">Enviar e-CF</field>
+            <field name="res_model">ecf.send.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>
+

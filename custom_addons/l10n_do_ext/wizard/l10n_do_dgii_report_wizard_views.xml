@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Vista de Formulario del Wizard -->
+        <record id="view_l10n_do_dgii_report_wizard_form" model="ir.ui.view">
+            <field name="name">l10n.do.dgii.report.wizard.form</field>
+            <field name="model">l10n.do.dgii.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generar Reporte DGII">
+                    <group>
+                        <group>
+                            <field name="report_type" widget="radio"/>
+                            <field name="company_id" readonly="1" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="period_type" widget="radio"/>
+                            <field name="year" invisible="period_type == 'custom'"/>
+                            <field name="month" invisible="period_type == 'custom'"/>
+                            <field name="date_from" invisible="period_type == 'month'" required="period_type == 'custom'"/>
+                            <field name="date_to" invisible="period_type == 'month'" required="period_type == 'custom'"/>
+                        </group>
+                    </group>
+
+                    <group string="Información">
+                        <div class="alert alert-info" role="alert">
+                            <h4>¿Qué es este reporte?</h4>
+                            <ul>
+                                <li><strong>Reporte 606:</strong> Declaración Jurada de Compras. Incluye todas las compras realizadas en el período.</li>
+                                <li><strong>Reporte 607:</strong> Declaración Jurada de Ventas. Incluye todas las ventas realizadas en el período.</li>
+                            </ul>
+                            <p>
+                                Estos reportes deben ser presentados mensualmente a la DGII dentro de los primeros 20 días del mes siguiente.
+                            </p>
+                        </div>
+                    </group>
+                    
+                    <footer>
+                        <button string="Generar Reporte" 
+                                name="action_generate_report" 
+                                type="object" 
+                                class="btn-primary"/>
+                        <button string="Generar Ambos (606 y 607)" 
+                                name="action_generate_multiple_reports" 
+                                type="object" 
+                                class="btn-secondary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para el Wizard -->
+        <record id="action_l10n_do_dgii_report_wizard" model="ir.actions.act_window">
+            <field name="name">Generar Reporte DGII</field>
+            <field name="res_model">l10n.do.dgii.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="model_l10n_do_dgii_report"/>
+        </record>
+
+        <!-- Menú para el Wizard -->
+        <menuitem id="menu_l10n_do_dgii_report_wizard" 
+                  name="Generar Nuevo Reporte" 
+                  parent="menu_l10n_do_dgii_reports" 
+                  action="action_l10n_do_dgii_report_wizard" 
+                  sequence="5"/>
+
+    </data>
+</odoo>
+

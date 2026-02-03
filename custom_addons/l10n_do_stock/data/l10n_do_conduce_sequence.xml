@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Secuencia para Conduce -->
+    <record id="sequence_l10n_do_conduce" model="ir.sequence">
+        <field name="name">Conduce RD</field>
+        <field name="code">l10n.do.conduce</field>
+        <field name="prefix">CON/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+        <field name="implementation">standard</field>
+    </record>
+
+    <!-- Secuencia para Valorización -->
+    <record id="sequence_l10n_do_stock_valuation" model="ir.sequence">
+        <field name="name">Valorización Inventario RD</field>
+        <field name="code">l10n.do.stock.valuation</field>
+        <field name="prefix">VAL/</field>
+        <field name="padding">6</field>
+        <field name="company_id" eval="False"/>
+        <field name="implementation">standard</field>
+    </record>
+
+</odoo>
+

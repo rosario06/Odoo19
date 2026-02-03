@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Secuencia para Activos Fijos -->
+    <record id="seq_account_asset" model="ir.sequence">
+        <field name="name">Activos Fijos</field>
+        <field name="code">account.asset</field>
+        <field name="prefix">AF</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Secuencia para Bajas de Activos -->
+    <record id="seq_account_asset_disposal" model="ir.sequence">
+        <field name="name">Bajas de Activos</field>
+        <field name="code">account.asset.disposal</field>
+        <field name="prefix">BAJA</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+</odoo>
+

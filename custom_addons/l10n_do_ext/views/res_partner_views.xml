@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de Formulario Heredada para res.partner -->
+        <record id="view_partner_form_inherit_l10n_do" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.l10n.do</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                
+                <!-- Añadir tipo de identificación junto al VAT -->
+                <xpath expr="//field[@name='vat']" position="before">
+                    <field name="l10n_do_identification_type" 
+                           invisible="not (country_id and country_id.code == 'DO')"
+                           placeholder="Seleccione tipo"/>
+                </xpath>
+
+                <!-- Modificar el campo VAT para mostrar placeholder según tipo -->
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="placeholder">RNC (9 dígitos) o Cédula (11 dígitos)</attribute>
+                    <attribute name="required">country_id and country_id.code == 'DO' and l10n_do_dgii_tax_payer_type not in ['non_taxpayer', 'foreigner']</attribute>
+                </xpath>
+
+                <!-- Agregar pestaña de Información Fiscal RD -->
+                <xpath expr="//page[@name='sales_purchases']" position="after">
+                    <page name="l10n_do_fiscal" string="Información Fiscal RD" 
+                          invisible="not (country_id and country_id.code == 'DO')">
+                        
+                        <group>
+                            <group string="Clasificación Fiscal">
+                                <field name="l10n_do_dgii_tax_payer_type"/>
+                                <field name="l10n_do_sale_fiscal_type" 
+                                       invisible="customer_rank == 0"/>
+                                <field name="l10n_do_expense_type" 
+                                       invisible="supplier_rank == 0"/>
+                            </group>
+                            
+                            <group string="Retenciones">
+                                <field name="l10n_do_apply_itbis_withholding" 
+                                       invisible="supplier_rank == 0"/>
+                                <field name="l10n_do_apply_isr_withholding" 
+                                       invisible="supplier_rank == 0"/>
+                                <field name="l10n_do_isr_withholding_percent" 
+                                       invisible="supplier_rank == 0 or not l10n_do_apply_isr_withholding"/>
+                            </group>
+                        </group>
+
+                        <group string="Información de Ayuda">
+                            <div class="alert alert-info" role="alert">
+                                <h4>Tipos de Contribuyente DGII</h4>
+                                <ul>
+                                    <li><strong>Contribuyente:</strong> Persona o empresa registrada en la DGII con RNC.</li>
+                                    <li><strong>No Contribuyente:</strong> Persona física sin actividad comercial (solo cédula).</li>
+                                    <li><strong>Régimen Especial:</strong> Contribuyente con tratamiento fiscal especial.</li>
+                                    <li><strong>Gubernamental:</strong> Entidad del gobierno.</li>
+                                    <li><strong>Extranjero:</strong> Persona o empresa no residente sin RNC local.</li>
+                                </ul>
+                                
+                                <h4>Tipos Fiscales para Ventas</h4>
+                                <ul>
+                                    <li><strong>01 - Crédito Fiscal:</strong> Para contribuyentes que generan crédito fiscal (RNC).</li>
+                                    <li><strong>02 - Consumo:</strong> Para consumidores finales sin RNC.</li>
+                                    <li><strong>14 - Régimen Especial:</strong> Para contribuyentes con régimen especial.</li>
+                                    <li><strong>15 - Gubernamental:</strong> Para entidades del gobierno.</li>
+                                </ul>
+                                
+                                <h4>Retenciones</h4>
+                                <p>
+                                    <strong>Retención ITBIS (100%):</strong> Se retiene el 100% del ITBIS en compras a proveedores que apliquen.
+                                </p>
+                                <p>
+                                    <strong>Retención ISR:</strong> Se retiene un porcentaje del monto base según el tipo de servicio (generalmente 10% o 27%).
+                                </p>
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Vista de Lista/Tree para mostrar RNC -->
+        <record id="view_partner_tree_inherit_l10n_do" model="ir.ui.view">
+            <field name="name">res.partner.tree.inherit.l10n.do</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="l10n_do_identification_type" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

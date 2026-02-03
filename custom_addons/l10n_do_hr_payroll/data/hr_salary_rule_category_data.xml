@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Categorías de Reglas Salariales para RD -->
+    
+    <record id="hr_salary_category_basic" model="hr.salary.rule.category">
+        <field name="name">Básico</field>
+        <field name="code">BASIC</field>
+    </record>
+
+    <record id="hr_salary_category_allowance" model="hr.salary.rule.category">
+        <field name="name">Asignaciones</field>
+        <field name="code">ALW</field>
+    </record>
+
+    <record id="hr_salary_category_gross" model="hr.salary.rule.category">
+        <field name="name">Salario Bruto</field>
+        <field name="code">GROSS</field>
+    </record>
+
+    <!-- TSS -->
+    <record id="hr_salary_category_tss_employee" model="hr.salary.rule.category">
+        <field name="name">TSS Empleado</field>
+        <field name="code">TSS_EMP</field>
+    </record>
+
+    <record id="hr_salary_category_tss_employer" model="hr.salary.rule.category">
+        <field name="name">TSS Empleador</field>
+        <field name="code">TSS_EMPR</field>
+    </record>
+
+    <!-- ISR -->
+    <record id="hr_salary_category_isr" model="hr.salary.rule.category">
+        <field name="name">ISR</field>
+        <field name="code">ISR</field>
+    </record>
+
+    <!-- Otras Deducciones -->
+    <record id="hr_salary_category_other_deductions" model="hr.salary.rule.category">
+        <field name="name">Otras Deducciones</field>
+        <field name="code">DED</field>
+    </record>
+
+    <!-- Neto -->
+    <record id="hr_salary_category_net" model="hr.salary.rule.category">
+        <field name="name">Neto a Pagar</field>
+        <field name="code">NET</field>
+    </record>
+
+    <!-- Provisiones -->
+    <record id="hr_salary_category_provisions" model="hr.salary.rule.category">
+        <field name="name">Provisiones Laborales</field>
+        <field name="code">PROV</field>
+    </record>
+
+    <!-- Costo Total -->
+    <record id="hr_salary_category_total_cost" model="hr.salary.rule.category">
+        <field name="name">Costo Total</field>
+        <field name="code">COST</field>
+    </record>
+
+</odoo>
+

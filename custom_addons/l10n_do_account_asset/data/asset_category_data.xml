@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Categorías de Activos según DGII República Dominicana -->
+    
+    <!-- 1. Edificios y Construcciones - 5% anual -->
+    <record id="asset_category_buildings" model="account.asset.category">
+        <field name="name">Edificios y Construcciones</field>
+        <field name="code">EDIF</field>
+        <field name="depreciation_rate">5.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Edificios, construcciones y mejoras permanentes. Vida útil: 20 años.</field>
+    </record>
+
+    <!-- 2. Vehículos - 25% anual -->
+    <record id="asset_category_vehicles" model="account.asset.category">
+        <field name="name">Vehículos de Transporte</field>
+        <field name="code">VEH</field>
+        <field name="depreciation_rate">25.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Vehículos, camiones, automóviles. Vida útil: 4 años.</field>
+    </record>
+
+    <!-- 3. Maquinaria y Equipos - 15% anual -->
+    <record id="asset_category_machinery" model="account.asset.category">
+        <field name="name">Maquinaria y Equipos Industriales</field>
+        <field name="code">MAQ</field>
+        <field name="depreciation_rate">15.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Maquinaria industrial, equipos de producción. Vida útil: 6.67 años.</field>
+    </record>
+
+    <!-- 4. Equipos de Oficina - 20% anual -->
+    <record id="asset_category_office_equipment" model="account.asset.category">
+        <field name="name">Equipos de Oficina</field>
+        <field name="code">EQOF</field>
+        <field name="depreciation_rate">20.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Equipos de oficina, impresoras, faxes, teléfonos. Vida útil: 5 años.</field>
+    </record>
+
+    <!-- 5. Equipos de Computación - 33.33% anual -->
+    <record id="asset_category_computers" model="account.asset.category">
+        <field name="name">Equipos de Computación</field>
+        <field name="code">COMP</field>
+        <field name="depreciation_rate">33.33</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Computadoras, servidores, equipos informáticos. Vida útil: 3 años.</field>
+    </record>
+
+    <!-- 6. Herramientas - 25% anual -->
+    <record id="asset_category_tools" model="account.asset.category">
+        <field name="name">Herramientas</field>
+        <field name="code">HERR</field>
+        <field name="depreciation_rate">25.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Herramientas de trabajo, equipos menores. Vida útil: 4 años.</field>
+    </record>
+
+    <!-- 7. Mobiliario - 10% anual -->
+    <record id="asset_category_furniture" model="account.asset.category">
+        <field name="name">Mobiliario y Equipamiento</field>
+        <field name="code">MUEB</field>
+        <field name="depreciation_rate">10.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Muebles de oficina, estantes, archivadores. Vida útil: 10 años.</field>
+    </record>
+
+    <!-- 8. Equipos de Comunicación - 20% anual -->
+    <record id="asset_category_communication" model="account.asset.category">
+        <field name="name">Equipos de Comunicación</field>
+        <field name="code">ECOM</field>
+        <field name="depreciation_rate">20.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Equipos de telecomunicación, radios, sistemas de comunicación. Vida útil: 5 años.</field>
+    </record>
+
+    <!-- 9. Instalaciones - 10% anual -->
+    <record id="asset_category_installations" model="account.asset.category">
+        <field name="name">Instalaciones</field>
+        <field name="code">INST</field>
+        <field name="depreciation_rate">10.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Instalaciones eléctricas, sanitarias, climatización. Vida útil: 10 años.</field>
+    </record>
+
+    <!-- 10. Mejoras a Propiedad Arrendada - Variable -->
+    <record id="asset_category_leasehold_improvements" model="account.asset.category">
+        <field name="name">Mejoras a Propiedad Arrendada</field>
+        <field name="code">MEJAR</field>
+        <field name="depreciation_rate">20.0</field>
+        <field name="depreciation_method">linear</field>
+        <field name="note">Mejoras realizadas a propiedades arrendadas. Vida útil según contrato de arrendamiento.</field>
+    </record>
+
+</odoo>
+

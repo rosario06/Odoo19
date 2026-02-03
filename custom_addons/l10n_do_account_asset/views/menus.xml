@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menú Principal: Activos Fijos -->
+    <menuitem
+        id="menu_account_asset_root"
+        name="Activos Fijos"
+        parent="account.menu_finance"
+        sequence="25"/>
+
+    <!-- Submenú: Activos -->
+    <menuitem
+        id="menu_account_asset"
+        name="Activos"
+        parent="menu_account_asset_root"
+        action="action_account_asset"
+        sequence="10"/>
+
+    <!-- Submenú: Depreciación -->
+    <menuitem
+        id="menu_account_asset_depreciation"
+        name="Depreciación"
+        parent="menu_account_asset_root"
+        action="action_account_asset_depreciation"
+        sequence="20"/>
+
+    <!-- Submenú: Mantenimientos -->
+    <menuitem
+        id="menu_account_asset_maintenance"
+        name="Mantenimientos"
+        parent="menu_account_asset_root"
+        action="action_account_asset_maintenance"
+        sequence="30"/>
+
+    <!-- Submenú: Reportes -->
+    <menuitem
+        id="menu_account_asset_reports"
+        name="Reportes"
+        parent="menu_account_asset_root"
+        sequence="40"/>
+
+    <!-- Wizard: Calcular Depreciación -->
+    <menuitem
+        id="menu_asset_compute_wizard"
+        name="Calcular Depreciación"
+        parent="menu_account_asset_reports"
+        action="action_asset_compute_wizard"
+        sequence="10"/>
+
+    <!-- Wizard: Reporte de Activos -->
+    <menuitem
+        id="menu_asset_report_wizard"
+        name="Reporte de Activos DGII"
+        parent="menu_account_asset_reports"
+        action="action_asset_report_wizard"
+        sequence="20"/>
+
+    <!-- Submenú: Configuración -->
+    <menuitem
+        id="menu_account_asset_config"
+        name="Configuración"
+        parent="menu_account_asset_root"
+        sequence="50"/>
+
+    <!-- Configuración: Categorías -->
+    <menuitem
+        id="menu_account_asset_category"
+        name="Categorías de Activos"
+        parent="menu_account_asset_config"
+        action="action_account_asset_category"
+        sequence="10"/>
+
+    <!-- Configuración: Importar -->
+    <menuitem
+        id="menu_asset_import_wizard"
+        name="Importar desde Excel"
+        parent="menu_account_asset_config"
+        action="action_asset_import_wizard"
+        sequence="20"/>
+
+</odoo>
+

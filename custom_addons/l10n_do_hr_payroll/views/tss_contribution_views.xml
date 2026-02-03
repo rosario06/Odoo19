@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form para Aportes TSS -->
+    <record id="view_tss_contribution_form" model="ir.ui.view">
+        <field name="name">tss.contribution.form</field>
+        <field name="model">tss.contribution</field>
+        <field name="arch" type="xml">
+            <form string="Aporte TSS">
+                <header>
+                    <button name="action_confirm" string="Confirmar" type="object" invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_report" string="Marcar Reportado" type="object" invisible="state != 'confirmed'" class="oe_highlight"/>
+                    <button name="action_draft" string="Volver a Borrador" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,reported"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                            <field name="period"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="tss_number"/>
+                            <field name="afp_number"/>
+                            <field name="ars_number"/>
+                            <field name="ars_provider"/>
+                            <field name="payslip_id"/>
+                        </group>
+                    </group>
+                    <group string="Salarios">
+                        <group>
+                            <field name="base_salary"/>
+                            <field name="taxable_salary_afp"/>
+                        </group>
+                        <group>
+                            <field name="taxable_salary_ars"/>
+                            <field name="taxable_salary_sfs"/>
+                        </group>
+                    </group>
+                    <group string="Aportes Empleado">
+                        <group>
+                            <field name="afp_employee"/>
+                            <field name="ars_employee"/>
+                            <field name="sfs_employee"/>
+                        </group>
+                        <group>
+                            <field name="total_employee" class="oe_bold"/>
+                        </group>
+                    </group>
+                    <group string="Aportes Empleador">
+                        <group>
+                            <field name="afp_employer"/>
+                            <field name="ars_employer"/>
+                            <field name="sfs_employer"/>
+                            <field name="infotep"/>
+                        </group>
+                        <group>
+                            <field name="total_employer" class="oe_bold"/>
+                            <field name="total_tss" class="oe_bold oe_subtotal_footer"/>
+                        </group>
+                    </group>
+                    <group string="Notas">
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista List para Aportes TSS -->
+    <record id="view_tss_contribution_list" model="ir.ui.view">
+        <field name="name">tss.contribution.list</field>
+        <field name="model">tss.contribution</field>
+        <field name="arch" type="xml">
+            <list string="Aportes TSS">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="period"/>
+                <field name="base_salary" sum="Total Salario"/>
+                <field name="total_employee" sum="Total Empleado"/>
+                <field name="total_employer" sum="Total Empleador"/>
+                <field name="total_tss" sum="Total TSS"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Accion -->
+    <record id="action_tss_contribution" model="ir.actions.act_window">
+        <field name="name">Aportes TSS</field>
+        <field name="res_model">tss.contribution</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear un nuevo aporte TSS
+            </p>
+            <p>
+                Los aportes TSS se generan automaticamente desde las nominas.
+                Puede crear registros manualmente para ajustes o correcciones.
+            </p>
+        </field>
+    </record>
+
+</odoo>

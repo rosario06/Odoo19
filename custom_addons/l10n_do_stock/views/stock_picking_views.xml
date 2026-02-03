@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión de vista de transferencia -->
+    <record id="view_picking_form_l10n_do_stock" model="ir.ui.view">
+        <field name="name">stock.picking.form.l10n.do.stock</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            
+            <!-- Agregar botón de generar conduce -->
+            <button name="action_assign" position="before">
+                <button name="action_generate_conduce" 
+                        string="Generar Conduce" 
+                        type="object"
+                        invisible="not l10n_do_requires_conduce or l10n_do_conduce_id"
+                        class="btn-primary"/>
+                <button name="action_generate_conduce" 
+                        string="Ver Conduce" 
+                        type="object"
+                        invisible="not l10n_do_conduce_id"
+                        class="btn-secondary"/>
+            </button>
+            
+            <!-- Agregar campos de transporte -->
+            <field name="partner_id" position="after">
+                <field name="l10n_do_requires_conduce" invisible="1"/>
+                <field name="l10n_do_conduce_id" readonly="1" invisible="not l10n_do_conduce_id"/>
+            </field>
+            
+            <xpath expr="//page[@name='operations']" position="after">
+                <page string="Información de Transporte RD" name="l10n_do_transport" 
+                      invisible="not l10n_do_requires_conduce">
+                    <group>
+                        <group string="Datos del Chofer">
+                            <field name="l10n_do_driver_name"/>
+                            <field name="l10n_do_driver_id"/>
+                        </group>
+                        <group string="Datos del Vehículo">
+                            <field name="l10n_do_vehicle_plate"/>
+                        </group>
+                    </group>
+                    <group string="Documento Fiscal">
+                        <field name="l10n_do_ncf_id"/>
+                    </group>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+
+</odoo>
+

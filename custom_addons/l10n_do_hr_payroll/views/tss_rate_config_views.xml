@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form para Tasas TSS -->
+    <record id="view_tss_rate_config_form" model="ir.ui.view">
+        <field name="name">tss.rate.config.form</field>
+        <field name="model">tss.rate.config</field>
+        <field name="arch" type="xml">
+            <form string="Configuración Tasas TSS">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="AFP">
+                        <group>
+                            <field name="afp_employee_rate"/>
+                            <field name="afp_employer_rate"/>
+                        </group>
+                    </group>
+                    <group string="ARS">
+                        <group>
+                            <field name="ars_employee_rate"/>
+                            <field name="ars_employer_rate"/>
+                        </group>
+                    </group>
+                    <group string="SFS">
+                        <group>
+                            <field name="sfs_employee_rate"/>
+                            <field name="sfs_employer_rate"/>
+                        </group>
+                    </group>
+                    <group string="Infotep">
+                        <field name="infotep_rate"/>
+                    </group>
+                    <group string="Totales">
+                        <group>
+                            <field name="total_employee_rate"/>
+                            <field name="total_employer_rate"/>
+                        </group>
+                    </group>
+                    <group string="Notas">
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista List para Tasas TSS -->
+    <record id="view_tss_rate_config_list" model="ir.ui.view">
+        <field name="name">tss.rate.config.list</field>
+        <field name="model">tss.rate.config</field>
+        <field name="arch" type="xml">
+            <list string="Tasas TSS">
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="total_employee_rate"/>
+                <field name="total_employer_rate"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_tss_rate_config" model="ir.actions.act_window">
+        <field name="name">Tasas TSS</field>
+        <field name="res_model">tss.rate.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
+

@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ecf_document_user,ecf.document.user,model_ecf_document,base.group_user,1,1,1,0
+access_ecf_document_manager,ecf.document.manager,model_ecf_document,account.group_account_manager,1,1,1,1
+access_ecf_document_log_user,ecf.document.log.user,model_ecf_document_log,base.group_user,1,0,1,0
+access_ecf_document_log_manager,ecf.document.log.manager,model_ecf_document_log,account.group_account_manager,1,1,1,1
+access_ecf_certificate_user,ecf.certificate.user,model_ecf_certificate,base.group_user,1,0,0,0
+access_ecf_certificate_manager,ecf.certificate.manager,model_ecf_certificate,account.group_account_manager,1,1,1,1
+access_ecf_send_wizard,ecf.send.wizard,model_ecf_send_wizard,base.group_user,1,1,1,1
+access_ecf_test_connection_wizard,ecf.test.connection.wizard,model_ecf_test_connection_wizard,account.group_account_manager,1,1,1,1
+access_ecf_cancel_wizard,ecf.cancel.wizard,model_ecf_cancel_wizard,account.group_account_manager,1,1,1,1

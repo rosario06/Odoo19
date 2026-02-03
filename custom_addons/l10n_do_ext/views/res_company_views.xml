@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vista de Formulario Heredada para res.company -->
+        <record id="view_company_form_inherit_l10n_do" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.l10n.do</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                
+                <!-- Añadir campos fiscales de RD después del VAT -->
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="l10n_do_rnc" 
+                           invisible="not (country_id and country_id.code == 'DO')"
+                           required="country_id and country_id.code == 'DO'"
+                           placeholder="Ej: 123456789"/>
+                </xpath>
+
+                <!-- Agregar sección de configuración fiscal dominicana -->
+                <xpath expr="//page[@name='general_info']" position="after">
+                    <page name="l10n_do_fiscal" string="Configuración Fiscal RD" 
+                          invisible="not (country_id and country_id.code == 'DO')">
+                        <group>
+                            <group string="Información DGII">
+                                <field name="l10n_do_dgii_tax_payer_type"/>
+                                <field name="l10n_do_default_sale_fiscal_type"/>
+                            </group>
+                            <group string="Secuencias NCF">
+                                <field name="l10n_do_ncf_expiration_date"/>
+                                <field name="l10n_do_purchase_journal_id"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Información y Ayuda">
+                            <div class="alert alert-info" role="alert">
+                                <h4>Configuración de Comprobantes Fiscales (NCF)</h4>
+                                <ul>
+                                    <li><strong>RNC:</strong> Registro Nacional del Contribuyente de 9 dígitos.</li>
+                                    <li><strong>Tipo de Contribuyente:</strong> Clasificación según la DGII.</li>
+                                    <li><strong>Fecha de Vencimiento NCF:</strong> Fecha límite autorizada por la DGII para emitir NCF.</li>
+                                    <li><strong>Diario de Compras:</strong> Diario donde se registrarán las facturas de proveedores con NCF.</li>
+                                </ul>
+                                <p>
+                                    Para obtener secuencias NCF, debe solicitarlas a la DGII a través de su portal:
+                                    <a href="https://dgii.gov.do" target="_blank">https://dgii.gov.do</a>
+                                </p>
+                            </div>
+                        </group>
+                    </page>
+                    
+                    <page name="l10n_do_ecf" string="Facturación Electrónica (e-CF)" 
+                          invisible="not (country_id and country_id.code == 'DO')">
+                        <group>
+                            <group string="Configuración e-CF">
+                                <field name="l10n_do_ecf_enabled"/>
+                                <field name="l10n_do_ecf_test_mode" invisible="not l10n_do_ecf_enabled"/>
+                                <field name="l10n_do_ecf_service_url" invisible="not l10n_do_ecf_enabled"/>
+                            </group>
+                            <group string="Certificado Digital">
+                                <field name="l10n_do_ecf_certificate" invisible="not l10n_do_ecf_enabled"/>
+                                <field name="l10n_do_ecf_certificate_password" password="True" invisible="not l10n_do_ecf_enabled"/>
+                                <field name="l10n_do_ecf_security_code" invisible="not l10n_do_ecf_enabled"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Información">
+                            <div class="alert alert-warning" role="alert">
+                                <h4>Facturación Electrónica DGII</h4>
+                                <p>
+                                    La facturación electrónica (e-CF) es un sistema implementado por la DGII para la emisión 
+                                    y recepción de comprobantes fiscales en formato digital con firma electrónica.
+                                </p>
+                                <p><strong>Pasos para activar e-CF:</strong></p>
+                                <ol>
+                                    <li>Obtener un certificado digital de una entidad certificadora autorizada</li>
+                                    <li>Registrarse en el portal de la DGII</li>
+                                    <li>Cargar el certificado digital y su contraseña aquí</li>
+                                    <li>Configurar los parámetros de producción/pruebas</li>
+                                    <li>Probar la conexión desde Ajustes → Contabilidad</li>
+                                </ol>
+                                <p>
+                                    <strong>Nota:</strong> El modo de pruebas le permite familiarizarse con el sistema antes 
+                                    de pasar a producción.
+                                </p>
+                            </div>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
+

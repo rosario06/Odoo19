@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Form del Wizard de Cálculo -->
+    <record id="view_asset_compute_wizard_form" model="ir.ui.view">
+        <field name="name">asset.compute.wizard.form</field>
+        <field name="model">asset.compute.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Calcular Depreciación">
+                <group>
+                    <field name="date"/>
+                    <field name="asset_ids" widget="many2many_tags" placeholder="Todos los activos en uso"/>
+                </group>
+                <footer>
+                    <button name="action_compute_depreciation" string="Calcular" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción del Wizard -->
+    <record id="action_asset_compute_wizard" model="ir.actions.act_window">
+        <field name="name">Calcular Depreciación</field>
+        <field name="res_model">asset.compute.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
+

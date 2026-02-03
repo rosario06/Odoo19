@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Estructura Salarial República Dominicana -->
+    <record id="hr_payroll_structure_do" model="hr.payroll.structure">
+        <field name="name">Nómina República Dominicana</field>
+        <field name="code">PAYROLL_DO</field>
+        <field name="rule_ids" eval="[
+            (4, ref('hr_salary_rule_basic')),
+            (4, ref('hr_salary_rule_gross')),
+            (4, ref('hr_salary_rule_afp_employee')),
+            (4, ref('hr_salary_rule_ars_employee')),
+            (4, ref('hr_salary_rule_sfs_employee')),
+            (4, ref('hr_salary_rule_afp_employer')),
+            (4, ref('hr_salary_rule_ars_employer')),
+            (4, ref('hr_salary_rule_sfs_employer')),
+            (4, ref('hr_salary_rule_infotep')),
+            (4, ref('hr_salary_rule_net')),
+            (4, ref('hr_salary_rule_provision_cesantia')),
+            (4, ref('hr_salary_rule_provision_preaviso')),
+            (4, ref('hr_salary_rule_provision_vacaciones')),
+            (4, ref('hr_salary_rule_provision_salario_navidad')),
+            (4, ref('hr_salary_rule_total_provisions')),
+            (4, ref('hr_salary_rule_total_cost'))
+        ]"/>
+        <field name="note">Estructura salarial completa para República Dominicana con TSS (AFP, ARS, SFS, Infotep) y Provisiones Laborales (Cesantía, Preaviso, Vacaciones, Salario de Navidad)</field>
+    </record>
+
+</odoo>
+

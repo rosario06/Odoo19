@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- REGLAS SALARIALES BÁSICAS - REPÚBLICA DOMINICANA -->
+    
+    <!-- 1. SALARIO BÁSICO -->
+    <record id="hr_salary_rule_basic" model="hr.salary.rule">
+        <field name="name">Salario Básico</field>
+        <field name="code">BASIC</field>
+        <field name="sequence">1</field>
+        <field name="category_id" ref="hr_salary_category_basic"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = contract.wage</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 2. SALARIO BRUTO -->
+    <record id="hr_salary_rule_gross" model="hr.salary.rule">
+        <field name="name">Salario Bruto</field>
+        <field name="code">GROSS</field>
+        <field name="sequence">100</field>
+        <field name="category_id" ref="hr_salary_category_gross"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.BASIC</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 3. AFP EMPLEADO -->
+    <record id="hr_salary_rule_afp_employee" model="hr.salary.rule">
+        <field name="name">AFP Empleado (2.87%)</field>
+        <field name="code">AFP_EMPLOYEE</field>
+        <field name="sequence">200</field>
+        <field name="category_id" ref="hr_salary_category_tss_employee"/>
+        <field name="register_id" ref="hr_contribution_register_afp"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -categories.BASIC * 0.0287</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 4. ARS EMPLEADO -->
+    <record id="hr_salary_rule_ars_employee" model="hr.salary.rule">
+        <field name="name">ARS Empleado (3.04%)</field>
+        <field name="code">ARS_EMPLOYEE</field>
+        <field name="sequence">201</field>
+        <field name="category_id" ref="hr_salary_category_tss_employee"/>
+        <field name="register_id" ref="hr_contribution_register_ars"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -categories.BASIC * 0.0304</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 5. SFS EMPLEADO -->
+    <record id="hr_salary_rule_sfs_employee" model="hr.salary.rule">
+        <field name="name">SFS Empleado (3.04%)</field>
+        <field name="code">SFS_EMPLOYEE</field>
+        <field name="sequence">202</field>
+        <field name="category_id" ref="hr_salary_category_tss_employee"/>
+        <field name="register_id" ref="hr_contribution_register_sfs"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -categories.BASIC * 0.0304</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 6. AFP EMPLEADOR -->
+    <record id="hr_salary_rule_afp_employer" model="hr.salary.rule">
+        <field name="name">AFP Empleador (7.10%)</field>
+        <field name="code">AFP_EMPLOYER</field>
+        <field name="sequence">300</field>
+        <field name="category_id" ref="hr_salary_category_tss_employer"/>
+        <field name="register_id" ref="hr_contribution_register_afp"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.BASIC * 0.0710</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 7. ARS EMPLEADOR -->
+    <record id="hr_salary_rule_ars_employer" model="hr.salary.rule">
+        <field name="name">ARS Empleador (7.09%)</field>
+        <field name="code">ARS_EMPLOYER</field>
+        <field name="sequence">301</field>
+        <field name="category_id" ref="hr_salary_category_tss_employer"/>
+        <field name="register_id" ref="hr_contribution_register_ars"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.BASIC * 0.0709</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 8. SFS EMPLEADOR -->
+    <record id="hr_salary_rule_sfs_employer" model="hr.salary.rule">
+        <field name="name">SFS Empleador (7.09%)</field>
+        <field name="code">SFS_EMPLOYER</field>
+        <field name="sequence">302</field>
+        <field name="category_id" ref="hr_salary_category_tss_employer"/>
+        <field name="register_id" ref="hr_contribution_register_sfs"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.BASIC * 0.0709</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 9. INFOTEP -->
+    <record id="hr_salary_rule_infotep" model="hr.salary.rule">
+        <field name="name">Infotep (1.00%)</field>
+        <field name="code">INFOTEP</field>
+        <field name="sequence">303</field>
+        <field name="category_id" ref="hr_salary_category_tss_employer"/>
+        <field name="register_id" ref="hr_contribution_register_infotep"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.BASIC * 0.0100</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 10. NETO A PAGAR -->
+    <record id="hr_salary_rule_net" model="hr.salary.rule">
+        <field name="name">Neto a Pagar</field>
+        <field name="code">NET</field>
+        <field name="sequence">900</field>
+        <field name="category_id" ref="hr_salary_category_net"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.BASIC + categories.TSS_EMP</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- ========================================== -->
+    <!-- PRESTACIONES LABORALES (NO AFECTAN NETO)  -->
+    <!-- ========================================== -->
+
+    <!-- 11. PROVISIÓN CESANTÍA -->
+    <record id="hr_salary_rule_provision_cesantia" model="hr.salary.rule">
+        <field name="name">Provisión Cesantía (8.33%)</field>
+        <field name="code">PROVISION_CESANTIA</field>
+        <field name="sequence">1000</field>
+        <field name="category_id" ref="hr_salary_category_provisions"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.provision_enabled if contract else False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+# Cesantía: 1 mes por año trabajado = 8.33% mensual
+result = categories.BASIC * 0.0833
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="note">Provisión mensual de cesantía (auxilio de cesantía). Según Código de Trabajo Art. 80: empleador debe pagar una cantidad equivalente a los salarios de 14, 18 o 21 días por cada año de servicio continuo. Se provisiona aprox. 1 mes/año.</field>
+    </record>
+
+    <!-- 12. PROVISIÓN PREAVISO -->
+    <record id="hr_salary_rule_provision_preaviso" model="hr.salary.rule">
+        <field name="name">Provisión Preaviso (8.33%)</field>
+        <field name="code">PROVISION_PREAVISO</field>
+        <field name="sequence">1001</field>
+        <field name="category_id" ref="hr_salary_category_provisions"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.provision_enabled if contract else False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+# Preaviso: 1 mes por año trabajado = 8.33% mensual
+result = categories.BASIC * 0.0833
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="note">Provisión mensual de preaviso. Según Código de Trabajo Art. 75-76: tiempo de aviso previo que debe dar el empleador antes de despedir. Se provisiona aprox. 1 mes/año.</field>
+    </record>
+
+    <!-- 13. PROVISIÓN VACACIONES -->
+    <record id="hr_salary_rule_provision_vacaciones" model="hr.salary.rule">
+        <field name="name">Provisión Vacaciones (3.23%)</field>
+        <field name="code">PROVISION_VACACIONES</field>
+        <field name="sequence">1002</field>
+        <field name="category_id" ref="hr_salary_category_provisions"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.provision_enabled if contract else False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+# Vacaciones: 14 días por año
+# Cálculo: (salario_diario * 14 días) / 12 meses
+# salario_diario = salario_mensual / 30
+# Provisión mensual = (BASIC / 30) * (14 / 12) = BASIC * 0.0389
+vacation_days = contract.vacation_days_per_year if contract and contract.vacation_days_per_year else 14
+daily_wage = categories.BASIC / 30
+result = daily_wage * (vacation_days / 12)
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="note">Provisión mensual de vacaciones. Según Código de Trabajo Art. 178: todo trabajador tiene derecho a un período de vacaciones remuneradas de 14 días después de un año de trabajo continuo.</field>
+    </record>
+
+    <!-- 14. PROVISIÓN SALARIO DE NAVIDAD -->
+    <record id="hr_salary_rule_provision_salario_navidad" model="hr.salary.rule">
+        <field name="name">Provisión Salario Navidad (8.33%)</field>
+        <field name="code">PROVISION_SALARIO_NAVIDAD</field>
+        <field name="sequence">1003</field>
+        <field name="category_id" ref="hr_salary_category_provisions"/>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.provision_enabled if contract else False</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+# Salario de Navidad (Bono Navideño): 1 mes por año = 8.33% mensual
+result = categories.BASIC * 0.0833
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="note">Provisión mensual del Salario de Navidad (también llamado Regalía Pascual o Bono Navideño). Según Código de Trabajo Art. 219: equivalente a 1/12 del salario ordinario devengado por el trabajador.</field>
+    </record>
+
+    <!-- 15. TOTAL PROVISIONES -->
+    <record id="hr_salary_rule_total_provisions" model="hr.salary.rule">
+        <field name="name">Total Provisiones</field>
+        <field name="code">TOTAL_PROVISIONS</field>
+        <field name="sequence">1010</field>
+        <field name="category_id" ref="hr_salary_category_provisions"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories.PROV</field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 16. COSTO TOTAL EMPLEADOR -->
+    <record id="hr_salary_rule_total_cost" model="hr.salary.rule">
+        <field name="name">Costo Total Empleador</field>
+        <field name="code">TOTAL_COST</field>
+        <field name="sequence">2000</field>
+        <field name="category_id" ref="hr_salary_category_total_cost"/>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+# Costo Total = Salario Básico + Aportes Patronales + Provisiones
+result = categories.BASIC + categories.TSS_EMPR + categories.PROV
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="note">Costo total que representa el empleado para el empleador, incluyendo salario base, aportes patronales a TSS y provisiones de prestaciones laborales.</field>
+    </record>
+
+</odoo>
+

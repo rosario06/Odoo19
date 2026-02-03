@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo -->
+  <rect width="128" height="128" fill="#002D62"/>
+  
+  <!-- Bandera RD - Franja roja -->
+  <rect x="0" y="42" width="128" height="44" fill="#C60C30"/>
+  
+  <!-- Documento -->
+  <g transform="translate(24, 20)">
+    <!-- Papel -->
+    <rect x="0" y="0" width="80" height="88" rx="4" fill="white" stroke="#002D62" stroke-width="2"/>
+    
+    <!-- Esquina doblada -->
+    <path d="M 64 0 L 80 16 L 64 16 Z" fill="#e0e0e0"/>
+    <path d="M 64 0 L 80 16" stroke="#002D62" stroke-width="1" fill="none"/>
+    
+    <!-- Líneas de texto -->
+    <line x1="12" y1="28" x2="56" y2="28" stroke="#002D62" stroke-width="2"/>
+    <line x1="12" y1="36" x2="68" y2="36" stroke="#002D62" stroke-width="2"/>
+    <line x1="12" y1="44" x2="52" y2="44" stroke="#002D62" stroke-width="2"/>
+    
+    <!-- e-CF -->
+    <text x="40" y="62" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#C60C30" text-anchor="middle">e-CF</text>
+    
+    <!-- Código QR simplificado -->
+    <g transform="translate(28, 68)">
+      <rect width="24" height="24" fill="white" stroke="#002D62" stroke-width="1"/>
+      <rect x="2" y="2" width="4" height="4" fill="#002D62"/>
+      <rect x="8" y="2" width="4" height="4" fill="#002D62"/>
+      <rect x="14" y="2" width="4" height="4" fill="#002D62"/>
+      <rect x="18" y="2" width="4" height="4" fill="#002D62"/>
+      
+      <rect x="2" y="8" width="4" height="4" fill="#002D62"/>
+      <rect x="14" y="8" width="4" height="4" fill="#002D62"/>
+      <rect x="18" y="8" width="4" height="4" fill="#002D62"/>
+      
+      <rect x="2" y="14" width="4" height="4" fill="#002D62"/>
+      <rect x="8" y="14" width="4" height="4" fill="#002D62"/>
+      <rect x="14" y="14" width="4" height="4" fill="#002D62"/>
+      
+      <rect x="2" y="18" width="4" height="4" fill="#002D62"/>
+      <rect x="8" y="18" width="4" height="4" fill="#002D62"/>
+      <rect x="18" y="18" width="4" height="4" fill="#002D62"/>
+    </g>
+  </g>
+  
+  <!-- Checkmark de aprobación -->
+  <circle cx="100" cy="28" r="12" fill="#28a745"/>
+  <path d="M 95 28 L 98 31 L 105 24" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+

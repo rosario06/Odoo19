@@ -1,0 +1,34 @@
+# Dependencias Python para l10n_do_ecf
+# Facturación Electrónica DGII - República Dominicana
+
+# SOAP Web Services (comunicación con DGII)
+zeep==4.2.1
+
+# Firma Digital XML
+xmlsec==1.3.13
+lxml==5.1.0
+
+# Criptografía (certificados digitales)
+cryptography==42.0.5
+pyOpenSSL==24.1.0
+
+# HTTP Requests
+requests==2.31.0
+requests-toolbelt==1.0.0
+
+# QR Code
+qrcode==7.4.2
+pillow==10.2.0
+
+# Validación XML
+xmlschema==3.0.2
+
+# Utilidades
+python-dateutil==2.9.0
+pytz==2024.1
+
+# Nota: xmlsec puede requerir binarios pre-compilados en Windows
+# Si falla la instalación, usar:
+# conda install -c conda-forge xmlsec
+# o descargar wheel desde: https://www.lfd.uci.edu/~gohlke/pythonlibs/#xmlsec
+

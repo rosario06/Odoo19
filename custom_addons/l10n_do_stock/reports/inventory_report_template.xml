@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Definición del Reporte -->
+    <record id="action_report_stock_valuation" model="ir.actions.report">
+        <field name="name">Valorización de Inventario</field>
+        <field name="model">l10n.do.stock.valuation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_do_stock.report_stock_valuation_document</field>
+        <field name="report_file">l10n_do_stock.report_stock_valuation_document</field>
+        <field name="binding_model_id" ref="model_l10n_do_stock_valuation"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Valorización - %s' % (object.product_id.name)</field>
+    </record>
+
+    <!-- Plantilla QWeb del Reporte de Valorización -->
+    <template id="report_stock_valuation_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Encabezado -->
+                        <div class="row" style="border-bottom: 3px solid #002D62; padding-bottom: 10px; margin-bottom: 20px;">
+                            <div class="col-8">
+                                <h2 style="color: #002D62; margin: 0;">
+                                    <strong>VALORIZACIÓN DE INVENTARIO</strong>
+                                </h2>
+                                <p style="margin: 5px 0;">Reporte de Existencias Valoradas</p>
+                                <p style="margin: 5px 0; font-size: 12px;">
+                                    República Dominicana - Reporte Fiscal
+                                </p>
+                            </div>
+                            <div class="col-4 text-right">
+                                <h4 style="color: #ED1C24; margin: 0;">
+                                    <span t-field="o.name"/>
+                                </h4>
+                                <p style="margin: 5px 0;">
+                                    <strong>Fecha:</strong> <span t-field="o.date" t-options="{'widget': 'date'}"/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Información de la Empresa -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-12">
+                                <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #002D62;">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h5 style="color: #002D62; margin-top: 0;">
+                                                <span t-field="o.company_id.name"/>
+                                            </h5>
+                                            <p style="margin: 5px 0;" t-if="o.company_id.vat">
+                                                <strong>RNC:</strong> <span t-field="o.company_id.vat"/>
+                                            </p>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <p style="margin: 5px 0;">
+                                                <strong>Método:</strong> 
+                                                <span t-if="o.valuation_method == 'fifo'">PEPS</span>
+                                                <span t-if="o.valuation_method == 'average'">Promedio</span>
+                                                <span t-if="o.valuation_method == 'standard'">Estándar</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nota: Este reporte muestra UN registro individual -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <strong>Nota:</strong> Para generar un reporte completo de inventario valorado,
+                                    utilice el wizard: Inventario → República Dominicana → Reportes → Reporte de Inventario DGII
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información del Producto -->
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-12">
+                                <h5 style="color: #002D62; border-bottom: 2px solid #002D62; padding-bottom: 5px;">
+                                    <i class="fa fa-cube"></i> Información del Producto
+                                </h5>
+                                <table class="table table-bordered" style="margin-top: 10px;">
+                                    <tr>
+                                        <td style="width: 30%; background-color: #f8f9fa;"><strong>Código:</strong></td>
+                                        <td><span t-field="o.product_id.default_code"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #f8f9fa;"><strong>Nombre:</strong></td>
+                                        <td><span t-field="o.product_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color: #f8f9fa;"><strong>Categoría:</strong></td>
+                                        <td><span t-field="o.product_id.categ_id.name"/></td>
+                                    </tr>
+                                    <tr t-if="o.location_id">
+                                        <td style="background-color: #f8f9fa;"><strong>Ubicación:</strong></td>
+                                        <td><span t-field="o.location_id.name"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Valorización -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h5 style="color: #002D62; border-bottom: 2px solid #002D62; padding-bottom: 5px;">
+                                    <i class="fa fa-calculator"></i> Detalle de Valorización
+                                </h5>
+                                <div style="background-color: #d4edda; padding: 20px; border-radius: 5px; margin-top: 10px;">
+                                    <table class="table table-borderless" style="margin-bottom: 0;">
+                                        <tr>
+                                            <td style="width: 50%;"><h6>Cantidad en Existencia:</h6></td>
+                                            <td class="text-right">
+                                                <h5 style="margin: 0;">
+                                                    <span t-field="o.quantity" t-options="{'widget': 'float', 'precision': 2}"/>
+                                                    <span t-field="o.product_id.uom_id.name"/>
+                                                </h5>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><h6>Costo Unitario:</h6></td>
+                                            <td class="text-right">
+                                                <h5 style="margin: 0;">
+                                                    <span t-field="o.unit_cost" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                                </h5>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-top: 2px solid #28a745;">
+                                            <td><h5 style="color: #28a745; margin: 0;"><strong>VALOR TOTAL:</strong></h5></td>
+                                            <td class="text-right">
+                                                <h4 style="color: #28a745; margin: 0;">
+                                                    <strong>
+                                                        <span t-field="o.total_value" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/>
+                                                    </strong>
+                                                </h4>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Método de Valorización -->
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-12">
+                                <div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107;">
+                                    <h6 style="color: #856404; margin-top: 0;">
+                                        <i class="fa fa-info-circle"></i> Método de Valorización
+                                    </h6>
+                                    <p style="margin: 5px 0;">
+                                        <span t-if="o.valuation_method == 'fifo'">
+                                            <strong>PEPS (Primero en Entrar, Primero en Salir):</strong> 
+                                            El costo se calcula según el orden de entrada de los productos al inventario.
+                                        </span>
+                                        <span t-if="o.valuation_method == 'average'">
+                                            <strong>Costo Promedio Ponderado:</strong> 
+                                            El costo se calcula como el promedio ponderado de todas las compras.
+                                        </span>
+                                        <span t-if="o.valuation_method == 'standard'">
+                                            <strong>Costo Estándar:</strong> 
+                                            Se utiliza un costo fijo predeterminado para la valorización.
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie de página -->
+                        <div class="row" style="margin-top: 50px; padding-top: 10px; border-top: 1px solid #ddd;">
+                            <div class="col-12 text-center">
+                                <small style="color: #6c757d;">
+                                    Documento generado automáticamente por el sistema<br/>
+                                    Fecha de generación: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M:%S')"/>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+

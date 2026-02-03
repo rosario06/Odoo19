@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ============================================ -->
+        <!-- DATOS DEMO PARA REPÚBLICA DOMINICANA        -->
+        <!-- ============================================ -->
+
+        <!-- Partners Demo - Clientes -->
+        <record id="partner_cliente_fiscal" model="res.partner">
+            <field name="name">Empresas Acme RD</field>
+            <field name="vat">101234567</field>
+            <field name="l10n_do_identification_type">rnc</field>
+            <field name="l10n_do_dgii_tax_payer_type">taxpayer</field>
+            <field name="l10n_do_sale_fiscal_type">01</field>
+            <field name="customer_rank">1</field>
+            <field name="email">ventas@acmerd.com</field>
+            <field name="phone">+1 809-555-0101</field>
+            <field name="street">Av. Winston Churchill #123</field>
+            <field name="city">Santo Domingo</field>
+            <field name="zip">10203</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <record id="partner_cliente_consumo" model="res.partner">
+            <field name="name">Juan Pérez García</field>
+            <field name="vat">40212345678</field>
+            <field name="l10n_do_identification_type">ced</field>
+            <field name="l10n_do_dgii_tax_payer_type">non_taxpayer</field>
+            <field name="l10n_do_sale_fiscal_type">02</field>
+            <field name="customer_rank">1</field>
+            <field name="email">juan.perez@email.com</field>
+            <field name="phone">+1 809-555-0102</field>
+            <field name="street">Calle El Conde #456</field>
+            <field name="city">Santo Domingo</field>
+            <field name="zip">10204</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <record id="partner_cliente_gubernamental" model="res.partner">
+            <field name="name">Ministerio de Hacienda</field>
+            <field name="vat">401234568</field>
+            <field name="l10n_do_identification_type">rnc</field>
+            <field name="l10n_do_dgii_tax_payer_type">governmental</field>
+            <field name="l10n_do_sale_fiscal_type">15</field>
+            <field name="customer_rank">1</field>
+            <field name="email">compras@hacienda.gob.do</field>
+            <field name="phone">+1 809-555-0150</field>
+            <field name="street">Av. México esquina Leopoldo Navarro</field>
+            <field name="city">Santo Domingo</field>
+            <field name="zip">10205</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- Partners Demo - Proveedores -->
+        <record id="partner_proveedor_servicios" model="res.partner">
+            <field name="name">Servicios Informáticos del Caribe</field>
+            <field name="vat">105678901</field>
+            <field name="l10n_do_identification_type">rnc</field>
+            <field name="l10n_do_dgii_tax_payer_type">taxpayer</field>
+            <field name="l10n_do_expense_type">02</field>
+            <field name="l10n_do_apply_itbis_withholding" eval="True"/>
+            <field name="l10n_do_apply_isr_withholding" eval="True"/>
+            <field name="l10n_do_isr_withholding_percent">10.0</field>
+            <field name="supplier_rank">1</field>
+            <field name="email">ventas@sicaribe.com</field>
+            <field name="phone">+1 809-555-0201</field>
+            <field name="street">Av. 27 de Febrero #789</field>
+            <field name="city">Santo Domingo</field>
+            <field name="zip">10206</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <record id="partner_proveedor_productos" model="res.partner">
+            <field name="name">Distribuidora Nacional SRL</field>
+            <field name="vat">107890123</field>
+            <field name="l10n_do_identification_type">rnc</field>
+            <field name="l10n_do_dgii_tax_payer_type">taxpayer</field>
+            <field name="l10n_do_expense_type">09</field>
+            <field name="l10n_do_apply_itbis_withholding" eval="False"/>
+            <field name="l10n_do_apply_isr_withholding" eval="False"/>
+            <field name="supplier_rank">1</field>
+            <field name="email">ventas@disnacional.com</field>
+            <field name="phone">+1 809-555-0202</field>
+            <field name="street">Zona Franca Industrial #100</field>
+            <field name="city">Santo Domingo</field>
+            <field name="zip">10207</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <record id="partner_proveedor_persona_fisica" model="res.partner">
+            <field name="name">María Rodríguez - Consultora</field>
+            <field name="vat">40298765432</field>
+            <field name="l10n_do_identification_type">ced</field>
+            <field name="l10n_do_dgii_tax_payer_type">taxpayer</field>
+            <field name="l10n_do_expense_type">05</field>
+            <field name="l10n_do_apply_itbis_withholding" eval="False"/>
+            <field name="l10n_do_apply_isr_withholding" eval="True"/>
+            <field name="l10n_do_isr_withholding_percent">27.0</field>
+            <field name="supplier_rank">1</field>
+            <field name="email">maria.rodriguez@consultor.com</field>
+            <field name="phone">+1 809-555-0203</field>
+            <field name="street">Calle Primera #234</field>
+            <field name="city">Santiago</field>
+            <field name="zip">51000</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- Productos Demo -->
+        <record id="product_servicio_consultoria" model="product.product">
+            <field name="name">Consultoría Empresarial</field>
+            <field name="type">service</field>
+            <field name="list_price">5000.00</field>
+            <field name="standard_price">2500.00</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="detailed_type">service</field>
+        </record>
+
+        <record id="product_servicio_software" model="product.product">
+            <field name="name">Licencia de Software Mensual</field>
+            <field name="type">service</field>
+            <field name="list_price">3500.00</field>
+            <field name="standard_price">1800.00</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="detailed_type">service</field>
+        </record>
+
+        <record id="product_equipo_computadora" model="product.product">
+            <field name="name">Computadora de Escritorio</field>
+            <field name="type">product</field>
+            <field name="list_price">35000.00</field>
+            <field name="standard_price">28000.00</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="detailed_type">consu</field>
+        </record>
+
+        <record id="product_suministro_oficina" model="product.product">
+            <field name="name">Paquete de Suministros de Oficina</field>
+            <field name="type">product</field>
+            <field name="list_price">2500.00</field>
+            <field name="standard_price">1500.00</field>
+            <field name="categ_id" ref="product.product_category_all"/>
+            <field name="detailed_type">consu</field>
+        </record>
+
+        <!-- Nota: Las facturas demo se pueden crear pero requieren que el módulo esté instalado 
+             y los diarios configurados, por lo que se omiten aquí para evitar errores en la instalación -->
+
+    </data>
+</odoo>
+

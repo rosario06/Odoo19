@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Tasas TSS 2024-2025 -->
+    <record id="tss_rates_2024" model="tss.rate.config">
+        <field name="name">Tasas TSS 2024-2025</field>
+        <field name="date_from" eval="(DateTime.now() - relativedelta(months=6)).strftime('%Y-%m-01')"/>
+        <field name="date_to" eval="False"/>
+        <field name="active" eval="True"/>
+        
+        <!-- AFP -->
+        <field name="afp_employee_rate">2.87</field>
+        <field name="afp_employer_rate">7.10</field>
+        
+        <!-- ARS -->
+        <field name="ars_employee_rate">3.04</field>
+        <field name="ars_employer_rate">7.09</field>
+        
+        <!-- SFS -->
+        <field name="sfs_employee_rate">3.04</field>
+        <field name="sfs_employer_rate">7.09</field>
+        
+        <!-- Infotep -->
+        <field name="infotep_rate">1.00</field>
+        
+        <field name="notes">Tasas vigentes según normativa de la Tesorería de la Seguridad Social (TSS) 2024-2025</field>
+    </record>
+
+</odoo>
+

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ============================================ -->
+        <!-- SECUENCIAS Y TIPOS DE DOCUMENTOS NCF        -->
+        <!-- República Dominicana - DGII                  -->
+        <!-- ============================================ -->
+        
+        <!-- NOTA IMPORTANTE ODOO 19:
+             Las secuencias se crean pero no se vinculan directamente
+             a los tipos de documentos. En su lugar, debes:
+             1. Ir a Contabilidad > Configuración > Diarios
+             2. Para cada diario, configurar:
+                - Usar documentos: Sí
+                - Tipo de documento: Seleccionar el NCF apropiado
+                - La secuencia se asignará automáticamente desde el diario
+        -->
+
+        <!-- ========== NCF 01 - FACTURA DE CRÉDITO FISCAL ========== -->
+        <record id="sequence_l10n_do_ncf_01" model="ir.sequence">
+            <field name="name">NCF Factura de Crédito Fiscal</field>
+            <field name="code">l10n_do.ncf.01</field>
+            <field name="prefix">B01</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="l10n_do_document_type_01" model="l10n_latam.document.type">
+            <field name="name">Factura de Crédito Fiscal</field>
+            <field name="code">01</field>
+            <field name="doc_code_prefix">B01</field>
+            <field name="internal_type">invoice</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- ========== NCF 02 - FACTURA DE CONSUMO ========== -->
+        <record id="sequence_l10n_do_ncf_02" model="ir.sequence">
+            <field name="name">NCF Factura de Consumo</field>
+            <field name="code">l10n_do.ncf.02</field>
+            <field name="prefix">B02</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="l10n_do_document_type_02" model="l10n_latam.document.type">
+            <field name="name">Factura de Consumo</field>
+            <field name="code">02</field>
+            <field name="doc_code_prefix">B02</field>
+            <field name="internal_type">invoice</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- ========== NCF 03 - NOTA DE DÉBITO ========== -->
+        <record id="sequence_l10n_do_ncf_03" model="ir.sequence">
+            <field name="name">NCF Nota de Débito</field>
+            <field name="code">l10n_do.ncf.03</field>
+            <field name="prefix">B03</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="l10n_do_document_type_03" model="l10n_latam.document.type">
+            <field name="name">Nota de Débito</field>
+            <field name="code">03</field>
+            <field name="doc_code_prefix">B03</field>
+            <field name="internal_type">debit_note</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- ========== NCF 04 - NOTA DE CRÉDITO ========== -->
+        <record id="sequence_l10n_do_ncf_04" model="ir.sequence">
+            <field name="name">NCF Nota de Crédito</field>
+            <field name="code">l10n_do.ncf.04</field>
+            <field name="prefix">B04</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="l10n_do_document_type_04" model="l10n_latam.document.type">
+            <field name="name">Nota de Crédito</field>
+            <field name="code">04</field>
+            <field name="doc_code_prefix">B04</field>
+            <field name="internal_type">credit_note</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- ========== NCF 11 - COMPROBANTE DE COMPRAS ========== -->
+        <!-- NOTA: NCF 11 es para COMPRAS (facturas de proveedores recibidas)
+             No se crea tipo de documento porque NO lo generas tú, lo recibes.
+             Solo la secuencia para casos excepcionales donde necesites emitir uno.
+        -->
+        <record id="sequence_l10n_do_ncf_11" model="ir.sequence">
+            <field name="name">NCF Comprobante de Compra</field>
+            <field name="code">l10n_do.ncf.11</field>
+            <field name="prefix">B11</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- ========== NCF 12 - REGISTRO ÚNICO DE INGRESOS ========== -->
+        <record id="sequence_l10n_do_ncf_12" model="ir.sequence">
+            <field name="name">NCF Registro Único de Ingresos</field>
+            <field name="code">l10n_do.ncf.12</field>
+            <field name="prefix">B12</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="l10n_do_document_type_12" model="l10n_latam.document.type">
+            <field name="name">Registro Único de Ingresos</field>
+            <field name="code">12</field>
+            <field name="doc_code_prefix">B12</field>
+            <field name="internal_type">invoice</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- ========== NCF 13 - GASTOS MENORES ========== -->
+        <!-- NOTA: NCF 13 es para COMPRAS menores (gastos sin NCF formal)
+             No se crea tipo de documento porque NO lo generas tú, documentas gastos.
+             Solo la secuencia para registro.
+        -->
+        <record id="sequence_l10n_do_ncf_13" model="ir.sequence">
+            <field name="name">NCF Gastos Menores</field>
+            <field name="code">l10n_do.ncf.13</field>
+            <field name="prefix">B13</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- ========== NCF 14 - RÉGIMEN ESPECIAL ========== -->
+        <record id="sequence_l10n_do_ncf_14" model="ir.sequence">
+            <field name="name">NCF Régimen Especial</field>
+            <field name="code">l10n_do.ncf.14</field>
+            <field name="prefix">B14</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="l10n_do_document_type_14" model="l10n_latam.document.type">
+            <field name="name">Régimen Especial</field>
+            <field name="code">14</field>
+            <field name="doc_code_prefix">B14</field>
+            <field name="internal_type">invoice</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- ========== NCF 15 - GUBERNAMENTAL ========== -->
+        <record id="sequence_l10n_do_ncf_15" model="ir.sequence">
+            <field name="name">NCF Gubernamental</field>
+            <field name="code">l10n_do.ncf.15</field>
+            <field name="prefix">B15</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="l10n_do_document_type_15" model="l10n_latam.document.type">
+            <field name="name">Gubernamental</field>
+            <field name="code">15</field>
+            <field name="doc_code_prefix">B15</field>
+            <field name="internal_type">invoice</field>
+            <field name="country_id" ref="base.do"/>
+        </record>
+
+        <!-- ========== NCF 07 - COMPROBANTE DE RETENCIÓN ========== -->
+        <!-- NOTA: NCF 07 es para retenciones que TÚ haces a proveedores
+             Podría considerarse un documento de salida, pero en la práctica
+             se maneja de forma especial. Solo creamos la secuencia.
+        -->
+        <record id="sequence_l10n_do_ncf_07" model="ir.sequence">
+            <field name="name">NCF Comprobante de Retención</field>
+            <field name="code">l10n_do.ncf.07</field>
+            <field name="prefix">B07</field>
+            <field name="padding">8</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

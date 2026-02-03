@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    
+    <!-- Grupos de seguridad -->
+    <record id="group_hr_payroll_do_user" model="res.groups">
+        <field name="name">RD Payroll User</field>
+        <field name="implied_ids" eval="[(4, ref('hr_payroll.group_payroll_user'))]"/>
+    </record>
+
+    <record id="group_hr_payroll_do_manager" model="res.groups">
+        <field name="name">RD Payroll Manager</field>
+        <field name="implied_ids" eval="[(4, ref('hr_payroll.group_payroll_manager')), (4, ref('l10n_do_hr_payroll.group_hr_payroll_do_user'))]"/>
+    </record>
+
+</odoo>
+

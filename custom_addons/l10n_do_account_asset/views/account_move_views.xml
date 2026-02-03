@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extensión de Vista Form de Facturas -->
+    <record id="view_account_move_form_asset" model="ir.ui.view">
+        <field name="name">account.move.form.asset</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_create_asset" string="Crear Activo" type="object" class="oe_highlight" invisible="not can_create_asset"/>
+            </xpath>
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="can_create_asset" invisible="1"/>
+                <field name="asset_id" readonly="1" invisible="not asset_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
+

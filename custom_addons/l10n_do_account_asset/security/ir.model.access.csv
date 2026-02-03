@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_asset_category_user,account.asset.category.user,model_account_asset_category,group_account_asset_user,1,0,0,0
+access_account_asset_category_manager,account.asset.category.manager,model_account_asset_category,group_account_asset_manager,1,1,1,1
+access_account_asset_user,account.asset.user,model_account_asset,group_account_asset_user,1,1,1,0
+access_account_asset_manager,account.asset.manager,model_account_asset,group_account_asset_manager,1,1,1,1
+access_account_asset_depreciation_user,account.asset.depreciation.user,model_account_asset_depreciation,group_account_asset_user,1,1,1,0
+access_account_asset_depreciation_manager,account.asset.depreciation.manager,model_account_asset_depreciation,group_account_asset_manager,1,1,1,1
+access_account_asset_maintenance_user,account.asset.maintenance.user,model_account_asset_maintenance,group_account_asset_user,1,1,1,0
+access_account_asset_maintenance_manager,account.asset.maintenance.manager,model_account_asset_maintenance,group_account_asset_manager,1,1,1,1
+access_account_asset_disposal_user,account.asset.disposal.user,model_account_asset_disposal,group_account_asset_user,1,1,1,0
+access_account_asset_disposal_manager,account.asset.disposal.manager,model_account_asset_disposal,group_account_asset_manager,1,1,1,1
+access_asset_compute_wizard,asset.compute.wizard,model_asset_compute_wizard,group_account_asset_user,1,1,1,1
+access_asset_disposal_wizard,asset.disposal.wizard,model_asset_disposal_wizard,group_account_asset_user,1,1,1,1
+access_asset_report_wizard,asset.report.wizard,model_asset_report_wizard,group_account_asset_user,1,1,1,1
+access_asset_import_wizard,asset.import.wizard,model_asset_import_wizard,group_account_asset_manager,1,1,1,1
+

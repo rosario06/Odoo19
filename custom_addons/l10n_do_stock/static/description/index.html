@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>República Dominicana - Inventario</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #002D62 0%, #ED1C24 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #002D62;
+            border-bottom: 2px solid #ED1C24;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #ED1C24;
+        }
+        .feature-card h3 {
+            color: #002D62;
+            margin-top: 0;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #28a745;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            text-align: center;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🇩🇴 República Dominicana - Inventario</h1>
+        <p style="font-size: 1.2em; margin-top: 10px;">Localización Completa de Inventario y Almacén para RD</p>
+        <p><span class="badge">v19.0.1.0.0</span> <span class="badge">LGPL-3</span></p>
+    </div>
+
+    <div class="success">
+        <strong>✅ Módulo Listo para Instalar</strong><br>
+        Este módulo incluye todas las funcionalidades básicas necesarias para gestión de inventario según normativa dominicana.
+    </div>
+
+    <h2>🎯 Funcionalidades Principales</h2>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>📄 Conduce</h3>
+            <p>Documento de transporte según DGII:</p>
+            <ul>
+                <li>Numeración automática</li>
+                <li>Datos de chofer y vehículo</li>
+                <li>Impresión oficial</li>
+                <li>Estados de seguimiento</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <h3>📦 Productos</h3>
+            <p>Campos fiscales RD:</p>
+            <ul>
+                <li>Clasificación fiscal</li>
+                <li>Código arancelario</li>
+                <li>% ITBIS</li>
+                <li>Productos controlados</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <h3>📊 Kardex</h3>
+            <p>Seguimiento detallado:</p>
+            <ul>
+                <li>Entradas y salidas</li>
+                <li>Saldos en cantidad/valor</li>
+                <li>Costos unitarios</li>
+                <li>Trazabilidad completa</li>
+            </ul>
+        </div>
+
+        <div class="feature-card">
+            <h3>💰 Valorización</h3>
+            <p>Métodos fiscales:</p>
+            <ul>
+                <li>PEPS (FIFO)</li>
+                <li>Costo Promedio</li>
+                <li>Costo Estándar</li>
+                <li>Reportes DGII</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>✨ Características Destacadas</h2>
+
+    <h3>🚚 Conduce (Documento de Transporte)</h3>
+    <ul>
+        <li><strong>Generación Automática:</strong> Crea conduce desde transferencias con un clic</li>
+        <li><strong>Campos Obligatorios:</strong> Chofer, cédula, vehículo, placa, origen, destino</li>
+        <li><strong>Control de Estados:</strong> Borrador → Confirmado → Entregado</li>
+        <li><strong>Integración NCF:</strong> Vinculación con comprobantes fiscales</li>
+        <li><strong>Líneas de Productos:</strong> Detalle completo de mercancía transportada</li>
+    </ul>
+
+    <h3>🏷️ Extensiones de Productos</h3>
+    <ul>
+        <li><strong>Clasificación Fiscal:</strong> Gravado, Exento, Excluido</li>
+        <li><strong>ITBIS Automático:</strong> Cálculo del 18% en productos gravados</li>
+        <li><strong>Código Arancelario:</strong> Para productos importados/exportados</li>
+        <li><strong>Tipo de Producto RD:</strong> Clasificación según DGII</li>
+        <li><strong>Productos Controlados:</strong> Identificación de productos especiales</li>
+    </ul>
+
+    <h3>📦 Gestión de Transferencias</h3>
+    <ul>
+        <li><strong>Detección Automática:</strong> Identifica cuándo se requiere conduce</li>
+        <li><strong>Datos de Transporte:</strong> Campos para chofer y vehículo en la transferencia</li>
+        <li><strong>Botón de Conduce:</strong> Genera conduce directamente desde la transferencia</li>
+        <li><strong>Vinculación NCF:</strong> Conecta transferencias con facturas</li>
+    </ul>
+
+    <h2>📋 Instalación y Configuración</h2>
+
+    <h3>1. Requisitos</h3>
+    <ul>
+        <li>Odoo 19 Community o Enterprise</li>
+        <li>Módulo <code>stock</code> (incluido en Odoo)</li>
+        <li>Módulo <code>stock_account</code> (incluido en Odoo)</li>
+        <li>Módulo <code>l10n_do</code> (Plan contable RD)</li>
+        <li>Módulo <code>l10n_do_ext</code> (Extensiones RD)</li>
+    </ul>
+
+    <h3>2. Instalación</h3>
+    <ol>
+        <li>Ir a <strong>Apps</strong></li>
+        <li>Actualizar lista de apps</li>
+        <li>Buscar: <strong>"República Dominicana - Inventario"</strong></li>
+        <li>Clic en <strong>Instalar</strong></li>
+    </ol>
+
+    <h3>3. Configuración Inicial</h3>
+    <ol>
+        <li><strong>Configurar Productos:</strong>
+            <ul>
+                <li>Ir a Inventario → Productos</li>
+                <li>Abrir un producto</li>
+                <li>Pestaña "República Dominicana"</li>
+                <li>Configurar clasificación fiscal e ITBIS</li>
+            </ul>
+        </li>
+        <li><strong>Configurar Secuencias:</strong>
+            <ul>
+                <li>La numeración de conduces se crea automáticamente</li>
+                <li>Formato: CON/000001, CON/000002, etc.</li>
+            </ul>
+        </li>
+    </ol>
+
+    <h2>🚀 Uso del Módulo</h2>
+
+    <h3>Crear un Conduce Manualmente</h3>
+    <ol>
+        <li>Ir a <strong>Inventario → República Dominicana → Conduces</strong></li>
+        <li>Clic en <strong>Crear</strong></li>
+        <li>Llenar datos del transporte (chofer, vehículo, direcciones)</li>
+        <li>Agregar líneas de productos</li>
+        <li>Clic en <strong>Confirmar</strong></li>
+        <li>Cuando se entregue, clic en <strong>Entregar</strong></li>
+    </ol>
+
+    <h3>Generar Conduce desde Transferencia</h3>
+    <ol>
+        <li>Ir a <strong>Inventario → Operaciones → Transferencias</strong></li>
+        <li>Abrir una transferencia de salida (Delivery Order)</li>
+        <li>Llenar datos en pestaña <strong>"Información de Transporte RD"</strong></li>
+        <li>Clic en botón <strong>"Generar Conduce"</strong></li>
+        <li>Se crea automáticamente el conduce vinculado</li>
+    </ol>
+
+    <h2>📊 Reportes</h2>
+
+    <div class="success">
+        <strong>✅ Reportes Disponibles</strong><br>
+        El módulo incluye reportes completos:
+        <ul>
+            <li><strong>Conduce (PDF):</strong> Formato oficial imprimible</li>
+            <li><strong>Kardex de Inventario (Excel + PDF):</strong> Completo y detallado</li>
+            <li><strong>Reporte de Existencias DGII (Excel):</strong> Formato oficial</li>
+            <li><strong>Reportes 606/607 (Excel):</strong> Formato DGII oficial</li>
+        </ul>
+    </div>
+
+    <h2>⚖️ Cumplimiento Legal</h2>
+
+    <p>Este módulo ha sido desarrollado considerando:</p>
+    <ul>
+        <li><strong>Código Tributario RD (11-92):</strong> Normativa fiscal dominicana</li>
+        <li><strong>Normas DGII:</strong> Dirección General de Impuestos Internos</li>
+        <li><strong>Conduce:</strong> Documento obligatorio para transporte de mercancías</li>
+        <li><strong>ITBIS:</strong> Impuesto sobre Transferencias de Bienes Industrializados y Servicios (18%)</li>
+        <li><strong>Clasificación Fiscal:</strong> Productos gravados, exentos y excluidos</li>
+    </ul>
+
+    <h2>🔧 Soporte Técnico</h2>
+
+    <p><strong>Desarrollador:</strong> Juan Rosario</p>
+    <p><strong>Email:</strong> <a href="mailto:juan.e.rosario05@gmail.com">juan.e.rosario05@gmail.com</a></p>
+    <p><strong>Versión:</strong> 19.0.1.0.0</p>
+    <p><strong>Licencia:</strong> LGPL-3</p>
+
+    <h2>📝 Historial de Versiones</h2>
+
+    <h3>v19.0.1.0.0 (Octubre 2025) - Versión Completa</h3>
+    <ul>
+        <li>✅ Modelo de Conduce completo con PDF oficial</li>
+        <li>✅ Extensiones de productos con campos RD</li>
+        <li>✅ Integración con transferencias de inventario</li>
+        <li>✅ Cálculo automático de ITBIS</li>
+        <li>✅ Modelos de Kardex y Valorización</li>
+        <li>✅ 4 Wizards completos (Conduce, Kardex, Inventario, 606/607)</li>
+        <li>✅ Reportes Excel formato DGII</li>
+        <li>✅ Reportes PDF QWeb profesionales</li>
+        <li>✅ Vistas funcionales y menús completos</li>
+        <li>✅ 100% Funcional y listo para producción</li>
+    </ul>
+
+    <div class="footer">
+        <p><strong>© 2025 Juan Rosario. Todos los derechos reservados.</strong></p>
+        <p>Módulo de localización para República Dominicana - Odoo 19</p>
+    </div>
+</body>
+</html>
+
