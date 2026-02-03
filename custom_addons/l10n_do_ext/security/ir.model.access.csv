@@ -10,3 +10,4 @@ access_l10n_do_dgii_report_wizard_user,l10n_do.dgii.report.wizard.user,model_l10
 access_l10n_do_config_wizard_user,l10n_do.config.wizard.user,model_l10n_do_config_wizard,base.group_system,1,1,1,1
 access_l10n_do_ncf_sequence_user,l10n_do.ncf.sequence.user,model_l10n_do_ncf_sequence,account.group_account_user,1,0,0,0
 access_l10n_do_ncf_sequence_manager,l10n_do.ncf.sequence.manager,model_l10n_do_ncf_sequence,account.group_account_manager,1,1,1,1
+access_l10n_do_ext_rnc_lookup_user,l10n_do_ext.rnc.lookup.user,model_l10n_do_ext_rnc_lookup,base.group_user,1,1,1,1
