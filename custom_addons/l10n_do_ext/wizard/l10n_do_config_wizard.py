@@ -14,6 +14,12 @@ class L10nDoConfigWizard(models.TransientModel):
         required=True,
         default=lambda self: self.env.company,
     )
+
+    partner_id = fields.Many2one(
+        'res.partner',
+        string='Buscar Empresa (Autocompletado)',
+        help='Busque por nombre para encontrar los datos de la empresa automáticamente.',
+    )
     
     # Paso 1: Información de la Empresa
     rnc = fields.Char(
@@ -245,6 +251,29 @@ class L10nDoConfigWizard(models.TransientModel):
                 })
         except (ValueError, IndexError):
             raise ValidationError(_("El formato del NCF %s no es válido. Use el formato: B0100000001") % ncf_code)
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        """Prellenar datos desde el contacto seleccionado."""
+        if self.partner_id:
+            if self.partner_id.vat:
+                # Limpiar VAT (RNC)
+                vat = self.partner_id.vat.replace('-', '').replace(' ', '').upper()
+                if vat.startswith('DO'):
+                    vat = vat[2:]
+                self.rnc = vat
+            
+            if self.partner_id.name:
+                self.company_name = self.partner_id.name
+            
+            if hasattr(self.partner_id, 'l10n_do_dgii_tax_payer_type') and self.partner_id.l10n_do_dgii_tax_payer_type:
+                # Intentar mapear tipo de contribuyente si el partner lo tiene
+                mapping = {
+                    'taxpayer': 'normal',
+                    'special': 'special',
+                    'governmental': 'normal', # O el que corresponda
+                }
+                self.tax_payer_type = mapping.get(self.partner_id.l10n_do_dgii_tax_payer_type, 'normal')
 
     @api.onchange('company_id')
     def _onchange_company_id(self):

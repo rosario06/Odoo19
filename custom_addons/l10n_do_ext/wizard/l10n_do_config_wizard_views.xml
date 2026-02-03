@@ -19,6 +19,19 @@
                     </div>
 
                     <separator string="Paso 1: Información de la Empresa"/>
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="partner_id" class="fw-bold"/>
+                            <field name="partner_id" 
+                                   placeholder="Escriba el nombre de la empresa para buscar..."
+                                   options="{'no_create': True, 'no_open': True}"/>
+                            <div class="form-text text-muted">
+                                <i class="fa fa-info-circle me-1"/> 
+                                Tip: Odoo buscará coincidencias en su base de datos y en servicios externos.
+                            </div>
+                        </div>
+                    </div>
+
                     <group>
                         <group>
                             <field name="company_id" readonly="1" groups="base.group_multi_company"/>
@@ -27,11 +40,12 @@
                                 <field name="rnc" placeholder="Ejemplo: 101850043" class="oe_inline"/>
                                 <button name="action_lookup_rnc" 
                                         type="object" 
-                                        string="Consultar DGII" 
-                                        class="btn-outline-primary btn-sm oe_inline"
-                                        icon="fa-search"/>
+                                        string="Verificar RNC" 
+                                        class="btn-link oe_inline"
+                                        icon="fa-refresh"
+                                        help="Refrescar datos desde la DGII usando el RNC"/>
                             </div>
-                            <field name="company_name" placeholder="Nombre Legal de la Empresa"/>
+                            <field name="company_name" placeholder="Nombre Legal de la Empresa" required="1"/>
                         </group>
                         <group>
                             <field name="tax_payer_type"/>
