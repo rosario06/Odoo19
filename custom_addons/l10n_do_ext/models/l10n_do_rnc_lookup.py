@@ -46,39 +46,76 @@ class L10nDoRncLookup(models.TransientModel):
                 return []
                 
             # 2. POST de búsqueda
+            # Nota: No enviamos X-MicrosoftAjax para tratar de forzar una respuesta full-page o manejar el parcial
+            # La respuesta provista por el usuario sugiere que el servidor siempre responde con pipes si detecta AJAX
+            # o quizás es el comportamiento por defecto del evento.
+            # Intentaremos parsear la respuesta pipe-delimited si no es HTML puro.
+            
             payload = {
+                'ctl00$smMain': 'ctl00$cphMain$upBusqueda|ctl00$cphMain$btnBuscarPorRazonSocial',
+                'ctl00$cphMain$txtRNCCedula': '',
+                'ctl00$cphMain$txtRazonSocial': name,
+                'ctl00$cphMain$hidActiveTab': 'razonsocial',
                 '__EVENTTARGET': '',
                 '__EVENTARGUMENT': '',
                 '__VIEWSTATE': viewstate[0],
                 '__VIEWSTATEGENERATOR': viewgen[0] if viewgen else '',
                 '__EVENTVALIDATION': eventval[0],
-                'ctl00$cphMain$txtRazonSocial': name,
-                'ctl00$cphMain$btnBuscarPorRazonSocial': 'BUSCAR',
-                'ctl00$cphMain$hidActiveTab': 'razonsocial'
+                '__ASYNCPOST': 'true',
+                'ctl00$cphMain$btnBuscarPorRazonSocial': 'BUSCAR'
             }
             
-            r2 = session.post(url, data=payload, headers=headers, timeout=6, verify=False)
+            # Headers necesarios para simular la petición AJAX del UpdatePanel
+            headers.update({
+                'X-MicrosoftAjax': 'Delta=true',
+                'X-Requested-With': 'XMLHttpRequest',
+                'Cache-Control': 'no-cache',
+            })
             
-            # 3. Extraer tabla de resultados
-            tree2 = html.fromstring(r2.content)
-            # El ID de la tabla según el HTML provisto por el usuario
-            rows = tree2.xpath('//table[@id="cphMain_gvBuscRazonSocial"]/tbody/tr')
+            r2 = session.post(url, data=payload, headers=headers, timeout=8, verify=False)
             
-            results = []
-            for row in rows:
-                cols = row.xpath('./td')
-                if len(cols) >= 2:
-                    rnc_val = cols[0].text_content().strip()
-                    name_val = cols[1].text_content().strip()
-                    
-                    if rnc_val and name_val:
-                        results.append({
-                            'name': name_val,
-                            'vat': rnc_val
-                        })
-                        if len(results) >= 8: break
+            content = r2.text
             
-            return results
+            # 3. Parsear respuesta (Pipe-delimited o HTML)
+            # Buscamos el fragmento de tabla dentro de la respuesta
+            # La respuesta típica es: length|type|id|content|...
+            
+            # Una forma robusta es buscar simplemente el HTML de la tabla en el texto crudo
+            # ya que el formato pipe solo envuelve el HTML.
+            
+            if 'id="cphMain_gvBuscRazonSocial"' in content:
+                # Extraer desde el inicio de la tabla hasta el fin de la tabla
+                start_marker = '<table class="table text-black table-topbot table-sm-filled" cellspacing="0" rules="all" border="1" id="cphMain_gvBuscRazonSocial"'
+                end_marker = '</table>'
+                
+                start_idx = content.find(start_marker)
+                if start_idx != -1:
+                    # Encontrar el cierre de la tabla
+                    # Esto es un aproxima simple, asumimos que no hay tablas anidadas complejas
+                    end_idx = content.find(end_marker, start_idx)
+                    if end_idx != -1:
+                        table_html = content[start_idx:end_idx + len(end_marker)]
+                        
+                        tree2 = html.fromstring(table_html)
+                        rows = tree2.xpath('//tr') # Ya estamos en la tabla
+                        
+                        results = []
+                        for row in rows:
+                            cols = row.xpath('./td')
+                            # Ignorar encabezados (th)
+                            if len(cols) >= 2:
+                                rnc_val = cols[0].text_content().strip()
+                                name_val = cols[1].text_content().strip()
+                                # Limpiar datos extra
+                                if rnc_val and name_val:
+                                    results.append({
+                                        'name': name_val,
+                                        'vat': rnc_val
+                                    })
+                                    if len(results) >= 8: break
+                        return results
+            
+            return []
             
         except Exception as e:
             _logger.warning(f"DGII Scraping Error: {e}")
