@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll - Gestión de Nómina | Odoo 19</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #2c3e50; background: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 20px; text-align: center; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .header h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header .subtitle { font-size: 1.3em; opacity: 0.95; margin-top: 10px; }
+        .version-badge { display: inline-block; background: rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 25px; margin-top: 15px; font-weight: bold; backdrop-filter: blur(10px); }
+        
+        .alert { padding: 20px; margin: 30px 0; border-radius: 10px; border-left: 5px solid; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .alert-info { border-color: #3498db; background: #ebf5fb; }
+        .alert-success { border-color: #27ae60; background: #eafaf1; }
+        .alert-warning { border-color: #f39c12; background: #fef5e7; }
+        .alert-danger { border-color: #e74c3c; background: #fadbd8; }
+        .alert h3 { margin-bottom: 10px; color: inherit; }
+        
+        .section { background: white; margin: 30px 0; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .section h2 { color: #667eea; font-size: 2.2em; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 3px solid #667eea; }
+        .section h3 { color: #764ba2; font-size: 1.6em; margin-top: 30px; margin-bottom: 15px; }
+        .section h4 { color: #555; font-size: 1.3em; margin-top: 20px; margin-bottom: 10px; }
+        
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 30px 0; }
+        .feature-card { background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 25px; border-radius: 10px; border: 2px solid #667eea30; transition: transform 0.3s, box-shadow 0.3s; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(102,126,234,0.3); }
+        .feature-card h4 { color: #667eea; margin-bottom: 15px; font-size: 1.3em; }
+        .feature-card ul { list-style: none; padding-left: 0; }
+        .feature-card li { padding: 8px 0 8px 30px; position: relative; }
+        .feature-card li:before { content: "✓"; position: absolute; left: 0; color: #27ae60; font-weight: bold; font-size: 1.2em; }
+        
+        .models-table { width: 100%; border-collapse: collapse; margin: 25px 0; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .models-table thead { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .models-table th, .models-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .models-table tbody tr:hover { background-color: #f8f9fa; }
+        .models-table tbody tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        .code-block { background: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); }
+        .code-block pre { margin: 0; font-family: 'Courier New', monospace; font-size: 0.95em; }
+        
+        .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin: 5px 5px 5px 0; }
+        .badge-primary { background: #667eea; color: white; }
+        .badge-success { background: #27ae60; color: white; }
+        .badge-info { background: #3498db; color: white; }
+        .badge-warning { background: #f39c12; color: white; }
+        
+        .footer { background: #2c3e50; color: white; padding: 40px 20px; text-align: center; margin-top: 50px; border-radius: 10px; }
+        .footer a { color: #3498db; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .section { padding: 20px; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💼 Payroll</h1>
+            <p class="subtitle">Sistema Completo de Gestión de Nómina para Odoo 19</p>
+            <div class="version-badge">Versión 19.0.1.1.3 | Adaptado para Odoo 19</div>
+        </div>
+
+        <!-- Alerta de Migración -->
+        <div class="alert alert-danger">
+            <h3>⚠️ Módulo Adaptado a Odoo 19</h3>
+            <p><strong>Este módulo fue migrado desde OCA Payroll 18.0 a Odoo 19.</strong></p>
+            <p><strong>Cambios importantes realizados:</strong></p>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li><strong>Modelo hr.contract:</strong> Ahora definido directamente en este módulo (no depende de hr_contract)</li>
+                <li><strong>Vistas de búsqueda:</strong> Temporalmente deshabilitadas debido a incompatibilidades de sintaxis</li>
+                <li><strong>Atributos deprecados:</strong> Eliminados (attrs, states, col, colspan, expand, filter_domain)</li>
+                <li><strong>Referencias de módulo:</strong> Actualizadas de 'payroll' a 'hr_payroll'</li>
+                <li><strong>Grupos de seguridad:</strong> Actualizados para Odoo 19</li>
+            </ul>
+        </div>
+
+        <!-- Alerta de Información -->
+        <div class="alert alert-info">
+            <h3>📋 Módulo Base de Nómina OCA</h3>
+            <p><strong>Este módulo es un backport desde Odoo SA mantenido por la OCA (Odoo Community Association).</strong></p>
+            <p>Proporciona todas las funcionalidades necesarias para gestionar nóminas de empleados de manera profesional y completa, incluyendo estructuras salariales, reglas de cálculo, recibos de nómina, y más.</p>
+        </div>
+
+        <!-- Características Principales -->
+        <div class="section">
+            <h2>🎯 Características Principales</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📊 Gestión de Recibos de Nómina</h4>
+                    <ul>
+                        <li>Creación automática y manual</li>
+                        <li>Cálculo de salarios</li>
+                        <li>Gestión de estados (Draft/Waiting/Done)</li>
+                        <li>Generación por lotes</li>
+                        <li>Envío por email</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🏗️ Estructuras Salariales</h4>
+                    <ul>
+                        <li>Estructuras jerárquicas</li>
+                        <li>Herencia de reglas</li>
+                        <li>Multi-compañía</li>
+                        <li>Personalización completa</li>
+                        <li>Validación automática</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📐 Reglas Salariales Avanzadas</h4>
+                    <ul>
+                        <li>Reglas de cálculo flexible</li>
+                        <li>Condiciones Python</li>
+                        <li>Porcentajes y montos fijos</li>
+                        <li>Rangos de aplicación</li>
+                        <li>Categorización de reglas</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📅 Días Trabajados</h4>
+                    <ul>
+                        <li>Seguimiento automático</li>
+                        <li>Tipos personalizables</li>
+                        <li>Integración con ausencias</li>
+                        <li>Cálculo de horas</li>
+                        <li>Reportes detallados</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📝 Entradas Adicionales</h4>
+                    <ul>
+                        <li>Bonos y comisiones</li>
+                        <li>Deducciones especiales</li>
+                        <li>Ajustes manuales</li>
+                        <li>Horas extras</li>
+                        <li>Prestaciones</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📈 Reportes y Análisis</h4>
+                    <ul>
+                        <li>Recibos de nómina imprimibles</li>
+                        <li>Reportes de contribuciones</li>
+                        <li>Detalles de nómina</li>
+                        <li>Análisis por período</li>
+                        <li>Exportación de datos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modelos Principales -->
+        <div class="section">
+            <h2>🗄️ Modelos Principales del Sistema</h2>
+            <table class="models-table">
+                <thead>
+                    <tr>
+                        <th>Modelo</th>
+                        <th>Nombre Técnico</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Contrato</strong></td>
+                        <td><code>hr.contract</code></td>
+                        <td>Contrato de empleado (definido en este módulo para Odoo 19)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recibo de Nómina</strong></td>
+                        <td><code>hr.payslip</code></td>
+                        <td>Documento principal de nómina para cada empleado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lote de Nómina</strong></td>
+                        <td><code>hr.payslip.run</code></td>
+                        <td>Procesamiento masivo de nóminas por período</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Línea de Nómina</strong></td>
+                        <td><code>hr.payslip.line</code></td>
+                        <td>Detalle de cada concepto en el recibo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Estructura Salarial</strong></td>
+                        <td><code>hr.payroll.structure</code></td>
+                        <td>Definición de reglas aplicables a la nómina</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Regla Salarial</strong></td>
+                        <td><code>hr.salary.rule</code></td>
+                        <td>Regla individual de cálculo (salario, deducciones, bonos)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Categoría de Regla</strong></td>
+                        <td><code>hr.salary.rule.category</code></td>
+                        <td>Agrupación de reglas (Básico, Deducciones, Neto, etc.)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Días Trabajados</strong></td>
+                        <td><code>hr.payslip.worked_days</code></td>
+                        <td>Registro de días/horas trabajadas por tipo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Entradas de Nómina</strong></td>
+                        <td><code>hr.payslip.input</code></td>
+                        <td>Conceptos variables (bonos, comisiones, deducciones)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registro de Contribución</strong></td>
+                        <td><code>hr.contribution.register</code></td>
+                        <td>Seguimiento de contribuciones (seguridad social, impuestos)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cambios Técnicos en Odoo 19 -->
+        <div class="section">
+            <h2>🔧 Cambios Técnicos en Odoo 19</h2>
+            
+            <h3>Modelo hr.contract</h3>
+            <p>En Odoo 19 Community, el modelo <code>hr.contract</code> no existe como módulo separado. Por lo tanto, se ha definido directamente en este módulo con los campos básicos necesarios para el funcionamiento de nómina:</p>
+            <div class="code-block">
+                <pre># Campos principales de hr.contract en este módulo:
+name                    # Referencia del contrato
+employee_id             # Empleado
+department_id           # Departamento
+job_id                  # Puesto
+date_start              # Fecha de inicio
+date_end                # Fecha de fin
+wage                    # Salario base
+schedule_pay            # Frecuencia de pago
+struct_id               # Estructura salarial
+resource_calendar_id    # Calendario de trabajo
+state                   # Estado (draft, open, close, cancel)</pre>
+            </div>
+
+            <h3>Vistas de Búsqueda Deshabilitadas</h3>
+            <p>Las siguientes vistas de búsqueda se han comentado temporalmente debido a incompatibilidades con la nueva sintaxis de Odoo 19:</p>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><code>hr_salary_rule_view_search</code></li>
+                <li><code>hr_payslip_view_search</code></li>
+                <li><code>hr_payslip_line_view_search</code></li>
+                <li><code>hr_payroll_structure_view_search</code></li>
+                <li><code>hr_salary_rule_category_view_search</code></li>
+            </ul>
+            <p><strong>Nota:</strong> Las funcionalidades de búsqueda básica siguen funcionando, pero sin los filtros y agrupaciones avanzadas.</p>
+
+            <h3>Atributos Deprecados Eliminados</h3>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><code>attrs</code> → Reemplazado por atributos directos (invisible, readonly, required)</li>
+                <li><code>states</code> → Movido de la definición del modelo a las vistas</li>
+                <li><code>col</code>, <code>colspan</code>, <code>expand</code> → Eliminados de grupos</li>
+                <li><code>filter_domain</code> → Eliminado de campos de búsqueda</li>
+                <li><code>target="inline"</code> → Cambiado a <code>target="current"</code></li>
+            </ul>
+        </div>
+
+        <!-- Instalación y Configuración -->
+        <div class="section">
+            <h2>📦 Instalación y Configuración</h2>
+            
+            <h3>Requisitos Previos</h3>
+            <div class="alert alert-warning">
+                <strong>Módulos requeridos:</strong>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li><strong>hr</strong> - Empleados (incluye contratos básicos en Odoo 19)</li>
+                    <li><strong>hr_holidays</strong> - Time Off (Ausencias)</li>
+                    <li><strong>mail</strong> - Sistema de mensajería</li>
+                    <li><strong>resource</strong> - Calendarios de trabajo</li>
+                </ul>
+            </div>
+
+            <h3>Pasos de Instalación</h3>
+            <ol style="margin: 15px 0 15px 30px; line-height: 2;">
+                <li>Ir a <strong>Apps</strong> → Activar modo desarrollador</li>
+                <li>Clic en <strong>"Actualizar lista de apps"</strong></li>
+                <li>Buscar <strong>"Payroll"</strong> o <strong>"hr_payroll"</strong></li>
+                <li>Clic en <strong>"Instalar"</strong></li>
+                <li>Esperar a que se complete la instalación</li>
+            </ol>
+
+            <div class="alert alert-info">
+                <h3>💡 Nota Importante</h3>
+                <p>Este módulo crea automáticamente el modelo <code>hr.contract</code> que es necesario para el funcionamiento de nómina. No necesitas instalar un módulo separado de contratos en Odoo 19 Community.</p>
+            </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="section">
+            <h2>🏷️ Características Técnicas</h2>
+            <p style="margin-bottom: 20px;">
+                <span class="badge badge-primary">OCA Community</span>
+                <span class="badge badge-success">Licencia LGPL-3</span>
+                <span class="badge badge-info">Odoo 19.0</span>
+                <span class="badge badge-warning">Adaptado/Migrado</span>
+                <span class="badge badge-primary">Multi-compañía</span>
+                <span class="badge badge-success">Multi-idioma</span>
+                <span class="badge badge-info">QWeb Reports</span>
+            </p>
+
+            <h3>Compatibilidad</h3>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><strong>Odoo Version:</strong> 19.0 (migrado desde OCA 18.0)</li>
+                <li><strong>Odoo Edition:</strong> Community</li>
+                <li><strong>Python:</strong> 3.10 o superior</li>
+                <li><strong>Base de Datos:</strong> PostgreSQL 12+</li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3>Payroll - Sistema de Gestión de Nómina</h3>
+            <p>Versión 19.0.1.1.3 | Desarrollado originalmente por Odoo SA</p>
+            <p>Mantenido por <strong>OCA - Odoo Community Association</strong></p>
+            <p>Adaptado a Odoo 19 por <strong>Juan Rosario</strong></p>
+            <p style="margin-top: 20px;">
+                <a href="https://github.com/OCA/payroll" target="_blank">GitHub OCA</a> | 
+                <a href="https://odoo-community.org" target="_blank">OCA</a> | 
+                <a href="mailto:juan.e.rosario05@gmail.com">Soporte Juan Rosario</a>
+            </p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">
+                Licencia LGPL-3 | © 2025 Odoo SA & OCA | Adaptación © 2025 Juan Rosario
+            </p>
+        </div>
+    </div>
+</body>
+</html>

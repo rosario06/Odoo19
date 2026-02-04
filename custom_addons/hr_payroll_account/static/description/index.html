@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Accounting - Integración Contable de Nómina | Odoo 19</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #2c3e50; background: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #27ae60 0%, #229954 100%); color: white; padding: 60px 20px; text-align: center; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .header h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header .subtitle { font-size: 1.3em; opacity: 0.95; margin-top: 10px; }
+        .version-badge { display: inline-block; background: rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 25px; margin-top: 15px; font-weight: bold; backdrop-filter: blur(10px); }
+        
+        .alert { padding: 20px; margin: 30px 0; border-radius: 10px; border-left: 5px solid; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .alert-info { border-color: #3498db; background: #ebf5fb; }
+        .alert-success { border-color: #27ae60; background: #eafaf1; }
+        .alert-warning { border-color: #f39c12; background: #fef5e7; }
+        .alert-danger { border-color: #e74c3c; background: #fadbd8; }
+        .alert h3 { margin-bottom: 10px; color: inherit; }
+        
+        .section { background: white; margin: 30px 0; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .section h2 { color: #27ae60; font-size: 2.2em; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 3px solid #27ae60; }
+        .section h3 { color: #229954; font-size: 1.6em; margin-top: 30px; margin-bottom: 15px; }
+        .section h4 { color: #555; font-size: 1.3em; margin-top: 20px; margin-bottom: 10px; }
+        
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minwidth(300px, 1fr)); gap: 25px; margin: 30px 0; }
+        .feature-card { background: linear-gradient(135deg, #27ae6015 0%, #22995415 100%); padding: 25px; border-radius: 10px; border: 2px solid #27ae6030; transition: transform 0.3s, box-shadow 0.3s; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(39,174,96,0.3); }
+        .feature-card h4 { color: #27ae60; margin-bottom: 15px; font-size: 1.3em; }
+        .feature-card ul { list-style: none; padding-left: 0; }
+        .feature-card li { padding: 8px 0 8px 30px; position: relative; }
+        .feature-card li:before { content: "✓"; position: absolute; left: 0; color: #27ae60; font-weight: bold; font-size: 1.2em; }
+        
+        .models-table { width: 100%; border-collapse: collapse; margin: 25px 0; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .models-table thead { background: linear-gradient(135deg, #27ae60 0%, #229954 100%); color: white; }
+        .models-table th, .models-table td { padding: 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .models-table tbody tr:hover { background-color: #f8f9fa; }
+        .models-table tbody tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        .code-block { background: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); }
+        .code-block pre { margin: 0; font-family: 'Courier New', monospace; font-size: 0.95em; }
+        
+        .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin: 5px 5px 5px 0; }
+        .badge-primary { background: #27ae60; color: white; }
+        .badge-success { background: #27ae60; color: white; }
+        .badge-info { background: #3498db; color: white; }
+        .badge-warning { background: #f39c12; color: white; }
+        
+        .footer { background: #2c3e50; color: white; padding: 40px 20px; text-align: center; margin-top: 50px; border-radius: 10px; }
+        .footer a { color: #3498db; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .section { padding: 20px; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💰 Payroll Accounting</h1>
+            <p class="subtitle">Integración Contable de Nómina para Odoo 19</p>
+            <div class="version-badge">Versión 19.0.1.0.4 | Adaptado para Odoo 19</div>
+        </div>
+
+        <!-- Alerta de Migración -->
+        <div class="alert alert-danger">
+            <h3>⚠️ Módulo Adaptado a Odoo 19</h3>
+            <p><strong>Este módulo fue migrado desde OCA Payroll Account 18.0 a Odoo 19.</strong></p>
+            <p><strong>Cambios importantes realizados:</strong></p>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li><strong>Referencia hr.contract:</strong> Actualizada para apuntar a hr_payroll.hr_contract_view_form</li>
+                <li><strong>XPath de herencia:</strong> Ajustado para coincidir con la nueva estructura de vistas</li>
+                <li><strong>Referencias de módulo:</strong> Actualizadas de 'payroll' a 'hr_payroll'</li>
+                <li><strong>Dependencias:</strong> Actualizadas para usar hr_payroll en lugar de payroll</li>
+            </ul>
+        </div>
+
+        <!-- Alerta de Información -->
+        <div class="alert alert-info">
+            <h3>📋 Módulo de Integración Contable OCA</h3>
+            <p><strong>Este módulo extiende el módulo Payroll base añadiendo integración completa con Contabilidad.</strong></p>
+            <p>Genera automáticamente asientos contables por cada nómina procesada, permitiendo un control financiero preciso de los costos de personal.</p>
+        </div>
+
+        <!-- Características Principales -->
+        <div class="section">
+            <h2>🎯 Características Principales</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📊 Asientos Contables Automáticos</h4>
+                    <ul>
+                        <li>Generación automática de asientos</li>
+                        <li>Un asiento por nómina</li>
+                        <li>Cuentas configurables por regla</li>
+                        <li>Multi-diario</li>
+                        <li>Fecha configurable</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>💼 Configuración en Contratos</h4>
+                    <ul>
+                        <li>Diario contable por contrato</li>
+                        <li>Cuenta analítica opcional</li>
+                        <li>Configuración flexible</li>
+                        <li>Herencia de configuración</li>
+                        <li>Validación automática</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📐 Cuentas por Regla Salarial</h4>
+                    <ul>
+                        <li>Cuenta de débito por regla</li>
+                        <li>Cuenta de crédito por regla</li>
+                        <li>Cuenta analítica por regla</li>
+                        <li>Configuración detallada</li>
+                        <li>Múltiples registros contables</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📅 Gestión de Fechas Contables</h4>
+                    <ul>
+                        <li>Fecha contable personalizable</li>
+                        <li>Fecha de nómina por defecto</li>
+                        <li>Control de períodos contables</li>
+                        <li>Validación de cierre</li>
+                        <li>Trazabilidad completa</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>🔍 Trazabilidad y Auditoría</h4>
+                    <ul>
+                        <li>Enlace directo nómina-asiento</li>
+                        <li>Reporte de asientos</li>
+                        <li>Historial de modificaciones</li>
+                        <li>Búsqueda avanzada</li>
+                        <li>Exportación de datos</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <h4>📈 Reportes Contables</h4>
+                    <ul>
+                        <li>Balance de nómina</li>
+                        <li>Detalle por departamento</li>
+                        <li>Costos por proyecto (analítica)</li>
+                        <li>Reportes personalizables</li>
+                        <li>Análisis de costos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modelos Extendidos -->
+        <div class="section">
+            <h2>🗄️ Modelos Extendidos por el Módulo</h2>
+            <table class="models-table">
+                <thead>
+                    <tr>
+                        <th>Modelo Base</th>
+                        <th>Campos Añadidos</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>hr.payslip</strong></td>
+                        <td><code>date</code>, <code>journal_id</code>, <code>move_id</code></td>
+                        <td>Fecha contable, diario y asiento generado</td>
+                    </tr>
+                    <tr>
+                        <td><strong>hr.contract</strong></td>
+                        <td><code>journal_id</code>, <code>analytic_account_id</code></td>
+                        <td>Diario y cuenta analítica por defecto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>hr.salary.rule</strong></td>
+                        <td><code>account_debit</code>, <code>account_credit</code>, <code>analytic_account_id</code></td>
+                        <td>Cuentas contables y analíticas para cada regla</td>
+                    </tr>
+                    <tr>
+                        <td><strong>hr.payslip.run</strong></td>
+                        <td><code>journal_id</code></td>
+                        <td>Diario para el lote completo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Flujo de Integración Contable -->
+        <div class="section">
+            <h2>🔄 Flujo de Integración Contable</h2>
+            
+            <h3>Generación de Asientos</h3>
+            <ol style="margin: 15px 0 15px 30px; line-height: 2;">
+                <li><strong>Configurar Contratos:</strong> Asignar diario contable y cuenta analítica (opcional)</li>
+                <li><strong>Configurar Reglas Salariales:</strong> Definir cuentas de débito y crédito para cada regla</li>
+                <li><strong>Generar Nómina:</strong> Calcular recibos de nómina normalmente</li>
+                <li><strong>Confirmar Nómina:</strong> Al confirmar, se genera automáticamente el asiento contable</li>
+                <li><strong>Revisar Asiento:</strong> Acceder al asiento desde el campo "move_id" en la nómina</li>
+                <li><strong>Publicar Asiento:</strong> El asiento se crea en estado borrador, publicar cuando esté listo</li>
+            </ol>
+
+            <h3>Ejemplo de Asiento Generado</h3>
+            <div class="code-block">
+                <pre># Asiento contable típico de nómina:
+
+DÉBITO                           | CRÉDITO
+---------------------------------+----------------------------------
+Gastos de Personal - Salarios    | Banco - Nómina a pagar
+Gastos de Personal - Bonos       | ISR por pagar
+Gastos de Personal - AFP Patronal| AFP por pagar
+Gastos de Personal - ARS Patronal| ARS por pagar
+                                 | SFS por pagar
+
+# Todos los movimientos se agrupan en un único asiento
+# con referencia a la nómina original</pre>
+            </div>
+        </div>
+
+        <!-- Configuración de Cuentas -->
+        <div class="section">
+            <h2>⚙️ Configuración de Cuentas Contables</h2>
+            
+            <h3>En Reglas Salariales</h3>
+            <p>Para cada regla salarial, puedes definir:</p>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><strong>Cuenta de Débito:</strong> Cuenta de gasto (ej: Gastos de Personal - Salarios)</li>
+                <li><strong>Cuenta de Crédito:</strong> Cuenta de pasivo o banco (ej: Banco - Nómina a pagar)</li>
+                <li><strong>Cuenta Analítica:</strong> Para distribución de costos por proyecto/departamento</li>
+            </ul>
+
+            <h3>Configuración Recomendada por Tipo de Regla</h3>
+            <table class="models-table">
+                <thead>
+                    <tr>
+                        <th>Tipo de Regla</th>
+                        <th>Cuenta de Débito</th>
+                        <th>Cuenta de Crédito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Salario Base</strong></td>
+                        <td>Gastos de Personal - Salarios</td>
+                        <td>Banco - Nómina a pagar</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bonos</strong></td>
+                        <td>Gastos de Personal - Bonos</td>
+                        <td>Banco - Nómina a pagar</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ISR (Deducción)</strong></td>
+                        <td>Banco - Nómina a pagar</td>
+                        <td>ISR por pagar</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Seguro Social Patronal</strong></td>
+                        <td>Gastos de Personal - Seg. Social</td>
+                        <td>TSS/AFP/ARS por pagar</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cambios Técnicos en Odoo 19 -->
+        <div class="section">
+            <h2>🔧 Cambios Técnicos en Odoo 19</h2>
+            
+            <h3>Referencias Actualizadas</h3>
+            <p>Todos los módulos OCA Payroll usan el prefijo <code>payroll.</code> en sus referencias XML. En Odoo 19, hemos actualizado esto a <code>hr_payroll.</code> para coincidir con el nombre del módulo.</p>
+
+            <h3>Vista de Contrato Modificada</h3>
+            <p>El XPath de herencia en la vista de contrato se ha ajustado:</p>
+            <div class="code-block">
+                <pre># Antes (Odoo 18):
+<xpath expr="//group[@name='top_info_right']" position="after">
+
+# Ahora (Odoo 19):
+<xpath expr="//group[@name='salary']" position="inside"></pre>
+            </div>
+            <p>Esto es debido a que el modelo <code>hr.contract</code> ahora se define directamente en <code>hr_payroll</code> con una estructura de vista simplificada.</p>
+
+            <h3>Dependencias</h3>
+            <p>El módulo ahora depende de:</p>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><code>hr_payroll</code> (en lugar de 'payroll')</li>
+                <li><code>account</code> (Contabilidad)</li>
+            </ul>
+        </div>
+
+        <!-- Instalación y Configuración -->
+        <div class="section">
+            <h2>📦 Instalación y Configuración</h2>
+            
+            <h3>Requisitos Previos</h3>
+            <div class="alert alert-warning">
+                <strong>Módulos requeridos (deben estar instalados antes):</strong>
+                <ul style="margin-top: 10px; padding-left: 20px;">
+                    <li><strong>hr_payroll</strong> - Módulo base de nómina</li>
+                    <li><strong>account</strong> - Contabilidad</li>
+                </ul>
+            </div>
+
+            <h3>Pasos de Instalación</h3>
+            <ol style="margin: 15px 0 15px 30px; line-height: 2;">
+                <li><strong>Instalar hr_payroll primero:</strong> Este módulo extiende hr_payroll</li>
+                <li>Ir a <strong>Apps</strong> → Activar modo desarrollador</li>
+                <li>Clic en <strong>"Actualizar lista de apps"</strong></li>
+                <li>Buscar <strong>"Payroll Accounting"</strong> o <strong>"hr_payroll_account"</strong></li>
+                <li>Clic en <strong>"Instalar"</strong></li>
+            </ol>
+
+            <h3>Configuración Post-Instalación</h3>
+            <ol style="margin: 15px 0 15px 30px; line-height: 2;">
+                <li><strong>Crear Diarios de Nómina:</strong>
+                    <br><em>Contabilidad → Configuración → Diarios</em>
+                    <br>Tipo: General, Código: NOM, Nombre: "Nómina"
+                </li>
+                <li><strong>Configurar Plan de Cuentas:</strong>
+                    <br>Crear cuentas para: gastos de personal, nómina por pagar, retenciones
+                </li>
+                <li><strong>Configurar Contratos:</strong>
+                    <br>Asignar diario contable y cuenta analítica a cada contrato
+                </li>
+                <li><strong>Configurar Reglas Salariales:</strong>
+                    <br>Asignar cuentas de débito y crédito a cada regla
+                </li>
+                <li><strong>Probar con una Nómina:</strong>
+                    <br>Generar y confirmar una nómina de prueba, verificar el asiento generado
+                </li>
+            </ol>
+
+            <div class="alert alert-success">
+                <h3>✅ Consejo Profesional</h3>
+                <p>Usa cuentas analíticas para distribuir los costos de nómina por departamento o proyecto. Esto te permitirá generar reportes de costos más detallados.</p>
+            </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="section">
+            <h2>🏷️ Características Técnicas</h2>
+            <p style="margin-bottom: 20px;">
+                <span class="badge badge-primary">OCA Community</span>
+                <span class="badge badge-success">Licencia LGPL-3</span>
+                <span class="badge badge-info">Odoo 19.0</span>
+                <span class="badge badge-warning">Adaptado/Migrado</span>
+                <span class="badge badge-primary">Multi-compañía</span>
+                <span class="badge badge-info">Contabilidad Integrada</span>
+            </p>
+
+            <h3>Compatibilidad</h3>
+            <ul style="margin: 15px 0 15px 30px;">
+                <li><strong>Odoo Version:</strong> 19.0 (migrado desde OCA 18.0)</li>
+                <li><strong>Odoo Edition:</strong> Community</li>
+                <li><strong>Python:</strong> 3.10 o superior</li>
+                <li><strong>Módulo Base:</strong> hr_payroll (versión 19.0)</li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3>Payroll Accounting - Integración Contable de Nómina</h3>
+            <p>Versión 19.0.1.0.4 | Desarrollado originalmente por Odoo SA</p>
+            <p>Mantenido por <strong>OCA - Odoo Community Association</strong></p>
+            <p>Adaptado a Odoo 19 por <strong>Juan Rosario</strong></p>
+            <p style="margin-top: 20px;">
+                <a href="https://github.com/OCA/payroll" target="_blank">GitHub OCA</a> | 
+                <a href="https://odoo-community.org" target="_blank">OCA</a> | 
+                <a href="mailto:juan.e.rosario05@gmail.com">Soporte Juan Rosario</a>
+            </p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">
+                Licencia LGPL-3 | © 2025 Odoo SA & OCA | Adaptación © 2025 Juan Rosario
+            </p>
+        </div>
+    </div>
+</body>
+</html>
