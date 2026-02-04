@@ -108,9 +108,10 @@ class L10nDoRncLookup(models.TransientModel):
                                 name_val = cols[1].text_content().strip()
                                 # Limpiar datos extra
                                 if rnc_val and name_val:
+                                    vat_clean = rnc_val.replace('-', '').replace(' ', '')
                                     results.append({
                                         'name': name_val,
-                                        'vat': rnc_val
+                                        'vat': vat_clean
                                     })
                                     if len(results) >= 8: break
                         return results

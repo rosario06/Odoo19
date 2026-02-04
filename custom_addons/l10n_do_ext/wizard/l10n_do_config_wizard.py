@@ -256,8 +256,13 @@ class L10nDoConfigWizard(models.TransientModel):
     def _onchange_rnc_lookup_id(self):
         """Prellenar datos desde el resultado de búsqueda externa."""
         if self.rnc_lookup_id:
+            # Asegurar que traemos el dato, limpiando guiones o espacios
             if self.rnc_lookup_id.vat:
-                self.rnc = self.rnc_lookup_id.vat
+                rnc_limpio = self.rnc_lookup_id.vat.replace('-', '').replace(' ', '')
+                self.rnc = rnc_limpio
+            else:
+                self.rnc = ''
+                
             if self.rnc_lookup_id.name:
                 self.company_name = self.rnc_lookup_id.name
 
