@@ -138,6 +138,7 @@ class L10nDoRncLookup(models.TransientModel):
         # Si hay búsqueda, intentar llamar a la API
         results = []
         if search_str and len(search_str) > 3:
+            _logger.info(f"RNC LOOKUP: Buscando término: '{search_str}'")
             try:
                 # 1. Si es número: Búsqueda por RNC directa
                 if search_str.isdigit() and len(search_str) in (9, 11):
@@ -170,6 +171,7 @@ class L10nDoRncLookup(models.TransientModel):
         
         # Inyectar resultados externos
         if results:
+            _logger.info(f"RNC LOOKUP: Encontrados {len(results)} resultados externos.")
             # Crear registros transitorios reales para que Odoo pueda manejarlos
             # esto es necesario porque Odoo espera IDs válidos en el Many2one
             ids = []
