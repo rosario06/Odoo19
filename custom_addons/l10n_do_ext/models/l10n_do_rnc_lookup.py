@@ -13,6 +13,77 @@ class L10nDoRncLookup(models.TransientModel):
     name = fields.Char('Nombre o Razón Social')
     vat = fields.Char('RNC / Cédula')
     
+    def _search_dgii_by_name(self, name):
+        """
+        Realiza scraping de la página de consulta de la DGII para buscar por razón social.
+        """
+        try:
+            import requests
+            from lxml import html
+            session = requests.Session()
+            url = "https://dgii.gov.do/app/WebApps/ConsultasWeb2/ConsultasWeb/consultas/rnc.aspx"
+            
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Referer': url
+            }
+            
+            # 1. GET inicial para tokens de ASP.NET
+            try:
+                r1 = session.get(url, headers=headers, timeout=4, verify=False)
+            except:
+                return [] # Fallo silencioso si no hay conexión
+                
+            if r1.status_code != 200:
+                return []
+                
+            tree = html.fromstring(r1.content)
+            viewstate = tree.xpath('//input[@id="__VIEWSTATE"]/@value')
+            eventval = tree.xpath('//input[@id="__EVENTVALIDATION"]/@value')
+            viewgen = tree.xpath('//input[@id="__VIEWSTATEGENERATOR"]/@value')
+            
+            if not viewstate or not eventval:
+                return []
+                
+            # 2. POST de búsqueda
+            payload = {
+                '__EVENTTARGET': '',
+                '__EVENTARGUMENT': '',
+                '__VIEWSTATE': viewstate[0],
+                '__VIEWSTATEGENERATOR': viewgen[0] if viewgen else '',
+                '__EVENTVALIDATION': eventval[0],
+                'ctl00$cphMain$txtRazonSocial': name,
+                'ctl00$cphMain$btnBuscarPorRazonSocial': 'BUSCAR',
+                'ctl00$cphMain$hidActiveTab': 'razonsocial'
+            }
+            
+            r2 = session.post(url, data=payload, headers=headers, timeout=6, verify=False)
+            
+            # 3. Extraer tabla de resultados
+            tree2 = html.fromstring(r2.content)
+            # El ID de la tabla según el HTML provisto por el usuario
+            rows = tree2.xpath('//table[@id="cphMain_gvBuscRazonSocial"]/tbody/tr')
+            
+            results = []
+            for row in rows:
+                cols = row.xpath('./td')
+                if len(cols) >= 2:
+                    rnc_val = cols[0].text_content().strip()
+                    name_val = cols[1].text_content().strip()
+                    
+                    if rnc_val and name_val:
+                        results.append({
+                            'name': name_val,
+                            'vat': rnc_val
+                        })
+                        if len(results) >= 8: break
+            
+            return results
+            
+        except Exception as e:
+            _logger.warning(f"DGII Scraping Error: {e}")
+            return []
+
     @api.model
     def web_search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, count_limit=None):
         """
@@ -30,24 +101,28 @@ class L10nDoRncLookup(models.TransientModel):
         results = []
         if search_str and len(search_str) > 3:
             try:
-                # Intentamos búsqueda por RNC primero si parece un número
+                # 1. Si es número: Búsqueda por RNC directa
                 if search_str.isdigit() and len(search_str) in (9, 11):
-                    url = f"https://api.marcos.do/rnc/{search_str}"
-                    response = requests.get(url, timeout=3)
-                    if response.status_code == 200:
-                        data = response.json()
-                        if data.get('name'):
-                            results.append({
-                                'id': -1, # ID virtual
-                                'name': data.get('name'),
-                                'vat': search_str,
-                                'display_name': f"[{search_str}] {data.get('name')}"
-                            })
+                    # Intentar API pública rápida primero
+                    try:
+                        url = f"https://api.marcos.do/rnc/{search_str}"
+                        response = requests.get(url, timeout=2)
+                        if response.status_code == 200:
+                            data = response.json()
+                            if data.get('name'):
+                                results.append({
+                                    'name': data.get('name'),
+                                    'vat': search_str
+                                })
+                    except:
+                        pass # Fallo silencioso en API 1
                 
-                # Búsqueda por nombre (Simulada o vía API si existe)
-                # NOTA: Si no hay API de búsqueda por nombre libre, 
-                # los resultados aquí vendrán de la base de datos local y
-                # opcionalmente de un servicio de scraping si se implementa.
+                # 2. Búsqueda por NOMBRE en DGII Oficial (Scraping)
+                # Solo si no es un número puro o si falló lo anterior
+                if not results:
+                    dgii_results = self._search_dgii_by_name(search_str)
+                    if dgii_results:
+                        results.extend(dgii_results)
                 
             except Exception as e:
                 _logger.warning(f"Error en autocompletado RNC: {e}")
