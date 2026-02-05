@@ -123,71 +123,64 @@ class L10nDoRncLookup(models.TransientModel):
             return []
 
     @api.model
-    def web_search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, count_limit=None):
+    def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
         """
-        Sobrescribe la búsqueda web para inyectar resultados de la API externa
-        cuando el usuario escribe en el campo Many2one.
+        Sobrescribe la búsqueda interna para inyectar resultados de la API externa.
         """
-        # Extraer el término de búsqueda de los dominios
-        search_str = ''
-        for leaf in (domain or []):
-            if isinstance(leaf, (list, tuple)) and leaf[0] == 'name' and leaf[1] == 'ilike':
-                search_str = leaf[2]
-                break
+        domain = domain or []
         
-        # Si hay búsqueda, intentar llamar a la API
-        results = []
-        if search_str and len(search_str) > 3:
-            _logger.info(f"RNC LOOKUP: Buscando término: '{search_str}'")
+        # Si hay término de búsqueda, intentar llamar a la API
+        if name and len(name) > 2:
+            _logger.info(f"RNC LOOKUP: Buscando término: '{name}'")
             try:
+                results = []
                 # 1. Si es número: Búsqueda por RNC directa
-                if search_str.isdigit() and len(search_str) in (9, 11):
-                    # Intentar API pública rápida primero
+                if name.isdigit() and len(name) in (9, 11):
                     try:
-                        url = f"https://api.marcos.do/rnc/{search_str}"
-                        response = requests.get(url, timeout=2)
+                        url = f"https://api.marcos.do/rnc/{name}"
+                        response = requests.get(url, timeout=3)
                         if response.status_code == 200:
                             data = response.json()
                             if data.get('name'):
                                 results.append({
                                     'name': data.get('name'),
-                                    'vat': search_str
+                                    'vat': name
                                 })
                     except:
-                        pass # Fallo silencioso en API 1
+                        pass
                 
                 # 2. Búsqueda por NOMBRE en DGII Oficial (Scraping)
-                # Solo si no es un número puro o si falló lo anterior
                 if not results:
-                    dgii_results = self._search_dgii_by_name(search_str)
+                    dgii_results = self._search_dgii_by_name(name)
                     if dgii_results:
                         results.extend(dgii_results)
                 
+                # Inyectar resultados externos
+                if results:
+                    _logger.info(f"RNC LOOKUP: Encontrados {len(results)} resultados externos.")
+                    # Crear registros transitorios reales
+                    ids = []
+                    for res_data in results:
+                        # Buscar si ya existe temporalmente
+                        # Limpiamos el VAT antes de buscar/crear
+                        vat_clean = res_data['vat'].replace('-', '').replace(' ', '')
+                        
+                        existing = self.search([('vat', '=', vat_clean)], limit=1)
+                        if not existing:
+                            new_rec = self.create({
+                                'name': res_data['name'],
+                                'vat': vat_clean
+                            })
+                            ids.append(new_rec.id)
+                        else:
+                            ids.append(existing.id)
+                    
+                    # Agregar los nuevos IDs al dominio para que aparezcan
+                    if ids:
+                        domain = ['|', ('id', 'in', ids)] + domain
+                        
             except Exception as e:
                 _logger.warning(f"Error en autocompletado RNC: {e}")
 
-        # Ejecutar búsqueda normal en el modelo transitorio (que estará vacío)
-        res = super().web_search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order, count_limit=count_limit)
-        
-        # Inyectar resultados externos
-        if results:
-            _logger.info(f"RNC LOOKUP: Encontrados {len(results)} resultados externos.")
-            # Crear registros transitorios reales para que Odoo pueda manejarlos
-            # esto es necesario porque Odoo espera IDs válidos en el Many2one
-            ids = []
-            for res_data in results:
-                existing = self.search([('vat', '=', res_data['vat'])], limit=1)
-                if not existing:
-                    new_rec = self.create({
-                        'name': res_data['name'],
-                        'vat': res_data['vat']
-                    })
-                    ids.append(new_rec.id)
-                else:
-                    ids.append(existing.id)
-            
-            # Re-leer los registros creados
-            final_res = self.search_read([('id', 'in', ids)], fields=fields)
-            return {'records': final_res, 'length': len(final_res)}
-
-        return res
+        # Ejecutar búsqueda estándar (ahora incluirá los registros recién creados)
+        return super()._name_search(name, domain, operator, limit, order)
