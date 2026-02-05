@@ -184,3 +184,15 @@ class L10nDoRncLookup(models.TransientModel):
 
         # Ejecutar búsqueda estándar (ahora incluirá los registros recién creados)
         return super()._name_search(name, domain, operator, limit, order)
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        """
+        Sobrescribe name_search clásico para asegurar compatibilidad.
+        """
+        _logger.info(f"RNC LOOKUP: name_search llamado con '{name}'")
+        # Forzar la llamada a nuestra lógica interna si hay nombre
+        if name:
+            # Llamamos a _name_search para que haga la magia (él ya hace el log)
+            self._name_search(name, args, operator, limit)
+        return super().name_search(name, args, operator, limit)
