@@ -182,8 +182,15 @@ class L10nDoRncLookup(models.TransientModel):
             except Exception as e:
                 _logger.warning(f"Error en autocompletado RNC: {e}")
 
-        # Ejecutar búsqueda estándar (ahora incluirá los registros recién creados)
-        return super()._name_search(name, domain, operator, limit, order)
+                # Ejecutar búsqueda estándar (ahora incluirá los registros recién creados)
+                # Nota: TransientModel no siempre tiene _name_search en super(), así que usamos search() simple
+                return self.search(domain, limit=limit, order=order).name_get()
+            except Exception as e:
+                _logger.error(f"Error CRITICO en _name_search: {e}")
+                return []
+        
+        # Fallback estándar
+        return self.search(domain, limit=limit, order=order).name_get()
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
