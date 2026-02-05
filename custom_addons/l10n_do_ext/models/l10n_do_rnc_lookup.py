@@ -177,21 +177,27 @@ class L10nDoRncLookup(models.TransientModel):
                     
                     # Agregar los nuevos IDs al dominio para que aparezcan
                     if ids:
-                        domain = ['|', ('id', 'in', ids)] + domain
+                        # Si hay un dominio previo, hacemos un OR entre (nuestros IDs) Y (el dominio original)
+                        # Pero el dominio original puede ser complejo.
+                        # La forma más segura es buscar primero los del dominio original y luego sumar los nuestros.
+                        
+                        # Fix: Evitar manipulación compleja de dominios en listas
+                        # Simplemente buscamos ambos grupos y unimos los resultados al final
+                        pass 
                         
             except Exception as e:
-                _logger.warning(f"Error en autocompletado RNC: {e}")
+                _logger.error(f"Error en autocompletado RNC: {e}")
 
-                # Ejecutar búsqueda estándar (ahora incluirá los registros recién creados)
-                # Nota: TransientModel no siempre tiene _name_search en super(), así que usamos search() simple
-                records = self.search(domain, limit=limit, order=order)
-                return [(rec.id, rec.display_name) for rec in records]
-            except Exception as e:
-                _logger.error(f"Error CRITICO en _name_search: {e}")
-                return []
+        # Ejecutar búsqueda estándar
+        # 1. Buscar registros que coincidan con los IDs que acabamos de crear (si los hay)
+        records_externos = self.browse(ids) if ids else self.browse()
         
-        # Fallback estándar
-        records = self.search(domain, limit=limit, order=order)
+        # 2. Buscar registros que coincidan con el dominio normal de Odoo
+        records_internos = self.search(domain, limit=limit, order=order)
+        
+        # 3. Unir resultados (sin duplicados)
+        records = records_externos | records_internos
+        
         return [(rec.id, rec.display_name) for rec in records]
 
     @api.model
