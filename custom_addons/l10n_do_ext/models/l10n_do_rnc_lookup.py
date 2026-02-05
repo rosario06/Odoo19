@@ -184,13 +184,15 @@ class L10nDoRncLookup(models.TransientModel):
 
                 # Ejecutar búsqueda estándar (ahora incluirá los registros recién creados)
                 # Nota: TransientModel no siempre tiene _name_search en super(), así que usamos search() simple
-                return self.search(domain, limit=limit, order=order).name_get()
+                records = self.search(domain, limit=limit, order=order)
+                return [(rec.id, rec.display_name) for rec in records]
             except Exception as e:
                 _logger.error(f"Error CRITICO en _name_search: {e}")
                 return []
         
         # Fallback estándar
-        return self.search(domain, limit=limit, order=order).name_get()
+        records = self.search(domain, limit=limit, order=order)
+        return [(rec.id, rec.display_name) for rec in records]
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
