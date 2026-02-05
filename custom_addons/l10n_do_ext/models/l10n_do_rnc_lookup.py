@@ -128,6 +128,7 @@ class L10nDoRncLookup(models.TransientModel):
         Sobrescribe la búsqueda interna para inyectar resultados de la API externa.
         """
         domain = domain or []
+        ids = []
         
         # Si hay término de búsqueda, intentar llamar a la API
         if name and len(name) > 2:
@@ -159,7 +160,6 @@ class L10nDoRncLookup(models.TransientModel):
                 if results:
                     _logger.info(f"RNC LOOKUP: Encontrados {len(results)} resultados externos.")
                     # Crear registros transitorios reales
-                    ids = []
                     for res_data in results:
                         # Buscar si ya existe temporalmente
                         # Limpiamos el VAT antes de buscar/crear
